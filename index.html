@@ -13,7 +13,7 @@
   --sp:#1A9E72;--sp-bg:#E0F5EC;--sp-dk:#074D34;
   --wi:#6B63D4;--wi-bg:#ECEAFD;--wi-dk:#342E8A;
   --la:#C97A0C;--la-bg:#FEF2DC;--la-dk:#6B3E04;
-  --de:#E05C8A;--de-bg:#FDEAF2;--de-dk:#7A1A3E;
+  --de:#D44E8A;--de-bg:#FDEAF2;--de-dk:#7A1A3E;
   --a:#1A9E72;--a-bg:#E0F5EC;--a-dk:#074D34;
   --b:#3278D4;--b-bg:#E3EEFB;--b-dk:#0C3E7A;
   --c:#C97A0C;--c-bg:#FEF2DC;--c-dk:#6B3E04;
@@ -23,132 +23,178 @@
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;min-height:100vh}
 
 /* ── ONBOARDING ── */
-#ob{position:fixed;inset:0;background:var(--bg);z-index:1000;overflow-y:auto;display:flex;flex-direction:column}
-.ob-prog-wrap{height:3px;background:var(--sf2)}
-.ob-prog{height:100%;background:var(--tx);transition:width 0.4s}
-.ob-body{max-width:540px;margin:0 auto;padding:2rem 1.5rem 6rem;flex:1}
+#ob{position:fixed;inset:0;background:var(--bg);z-index:1000;overflow-y:auto}
+.ob-pw{height:3px;background:var(--sf2)}.ob-pf{height:100%;background:var(--tx);transition:width .4s}
+.ob-body{max-width:520px;margin:0 auto;padding:2rem 1.5rem 6rem}
 .ob-step{display:none}.ob-step.on{display:block}
-.ob-tag{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:5px}
-.ob-h{font-size:21px;font-weight:500;margin-bottom:5px;line-height:1.3}
-.ob-sub{font-size:13px;color:var(--tx2);margin-bottom:1.5rem;line-height:1.6}
+.ob-tag{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:4px}
+.ob-h{font-size:20px;font-weight:500;margin-bottom:4px;line-height:1.3}
+.ob-sub{font-size:13px;color:var(--tx2);margin-bottom:1.25rem;line-height:1.6}
 .ob-f{margin-bottom:.875rem}
 .ob-f label{display:block;font-size:12px;font-weight:500;margin-bottom:4px;color:var(--tx2)}
 .ob-f input,.ob-f textarea{width:100%;padding:8px 11px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:13px}
 .ob-f textarea{resize:vertical;min-height:55px}
-.ob-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:3px}
-.chip{padding:6px 12px;border-radius:20px;border:1px solid var(--bd2);background:var(--sf);font-size:12px;cursor:pointer;color:var(--tx2);transition:all .15s;user-select:none}
-.chip.on{background:var(--tx);color:#fff;border-color:var(--tx)}
-.ob-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:3px}
+.ch{padding:6px 12px;border-radius:20px;border:1px solid var(--bd2);background:var(--sf);font-size:12px;cursor:pointer;color:var(--tx2);transition:all .15s;user-select:none}
+.ch.on{background:var(--tx);color:#fff;border-color:var(--tx)}
+.ob-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:.875rem}
 .ob-num label{display:block;font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:3px;text-align:center}
 .ob-num input{width:100%;padding:7px;text-align:center;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);font-size:15px;font-family:'DM Mono',monospace;color:var(--tx)}
-.ob-nav{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:1px solid var(--bd);padding:.875rem 1.5rem;display:flex;gap:9px;max-width:540px;margin:0 auto}
-.ob-back{padding:9px 16px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx)}
-.ob-next{flex:1;padding:10px;border-radius:var(--rs);border:none;background:var(--tx);color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.ob-nav{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:1px solid var(--bd);padding:.875rem 1.5rem;display:flex;gap:8px;max-width:520px;margin:0 auto}
+.ob-bk{padding:9px 16px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx)}
+.ob-nx{flex:1;padding:10px;border-radius:var(--rs);border:none;background:var(--tx);color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
 
-/* ── APP ── */
+/* ── APP SHELL ── */
 #app{display:none}
 .topbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:.625rem 1.125rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
-.tb-title{font-size:14px;font-weight:500}
-.tb-date{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace}
+.tb-l .tbt{font-size:14px;font-weight:500}
+.tb-l .tbd{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace}
 .streaks{display:flex;gap:4px}
-.sc{display:flex;align-items:center;gap:3px;font-size:10px;font-weight:500;padding:3px 7px;border-radius:20px;border:.5px solid var(--bd2);font-family:'DM Mono',monospace}
+.sc{font-size:10px;font-weight:500;padding:3px 7px;border-radius:20px;border:.5px solid var(--bd2);font-family:'DM Mono',monospace}
 .sc.sp{background:var(--sp-bg);color:var(--sp-dk);border-color:var(--sp)}
 .sc.wi{background:var(--wi-bg);color:var(--wi-dk);border-color:var(--wi)}
 .sc.la{background:var(--la-bg);color:var(--la-dk);border-color:var(--la)}
 .sc.warn{background:#FFF3CD;color:#7A4F00;border-color:#E8A800;animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
 
-/* ── BOTTOM NAV ── */
 .bnav{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:1px solid var(--bd);display:flex;z-index:100}
-.nb{flex:1;padding:8px 4px 6px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:10px;color:var(--tx3);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:color .15s}
+.nb{flex:1;padding:8px 4px 6px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:10px;color:var(--tx3);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .nb .ni{font-size:18px;line-height:1}
 .nb.on{color:var(--tx);font-weight:500}
 
-/* ── PAGES ── */
 .page{display:none;padding:.875rem 1.125rem 5rem;max-width:700px;margin:0 auto}
 .page.on{display:block}
-.ptitle{font-size:15px;font-weight:500;margin-bottom:2px}
-.psub{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:.875rem;text-transform:uppercase;letter-spacing:.04em}
 
 /* ══════════════════════════════════
-   HEUTE — QUICK-SELECT CARDS
+   STEP-FLOW — the core UI pattern
    ══════════════════════════════════ */
-.today-section{margin-bottom:1rem}
-.ts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
-.ts-label{font-size:11px;font-weight:500;color:var(--tx2);display:flex;align-items:center;gap:6px}
-.ts-done-pill{font-size:10px;padding:2px 8px;border-radius:10px;font-family:'DM Mono',monospace;font-weight:500}
-.ts-done-sp{background:var(--sp-bg);color:var(--sp-dk)}
-.ts-done-wi{background:var(--wi-bg);color:var(--wi-dk)}
-.ts-done-la{background:var(--la-bg);color:var(--la-dk)}
-.ts-done-de{background:var(--de-bg);color:var(--de-dk)}
-.ts-detail-btn{font-size:10px;color:var(--tx3);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;padding:0}
-/* quick-pick: 4 buttons in one row */
-.qpick{display:grid;gap:5px}
-.qpick.sport-row{grid-template-columns:repeat(4,minmax(0,1fr))}
-.qpick.tri-row{grid-template-columns:repeat(3,minmax(0,1fr))}
-.qb{border-radius:var(--rs);border:1px solid var(--bd);padding:.6rem .5rem;cursor:pointer;background:var(--sf);transition:border-color .12s,transform .1s,background .12s;text-align:center;position:relative}
-.qb:hover{border-color:var(--bd2);transform:translateY(-1px)}
-.qb.rec-mark::before{content:'★';position:absolute;top:-7px;right:6px;font-size:9px;color:var(--tx3)}
-.qb.sel-a{border:2px solid var(--a);background:var(--a-bg)}
-.qb.sel-b{border:2px solid var(--b);background:var(--b-bg)}
-.qb.sel-c{border:2px solid var(--c);background:var(--c-bg)}
-.qb.sel-de{border:2px solid var(--de);background:var(--de-bg)}
-.qb.done-lock{opacity:.6;cursor:default;pointer-events:none}
-.qb-key{font-size:9px;font-weight:500;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
-.qb-key-a{color:var(--a-dk)}.qb-key-b{color:var(--b-dk)}.qb-key-c{color:var(--c-dk)}.qb-key-de{color:var(--de-dk)}
-.qb-title{font-size:11px;font-weight:500;line-height:1.3;color:var(--tx)}
-.qb-time{font-size:9px;color:var(--tx3);margin-top:2px;font-family:'DM Mono',monospace}
-.qb-done-icon{font-size:16px;margin-bottom:2px}
-/* confirm strip */
-.confirm-strip{display:flex;gap:6px;margin-top:6px}
-.confirm-btn{flex:1;padding:9px;border-radius:var(--rs);border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .12s}
-.confirm-btn.go{background:var(--tx);color:#fff}
-.confirm-btn.go:hover{background:#333}
-.confirm-btn.undo{background:var(--sf2);color:var(--tx2);border:1px solid var(--bd2)}
-/* daily content preview */
-.dc-preview{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:.75rem;margin-top:6px;font-size:12px;color:var(--tx2);line-height:1.6;white-space:pre-wrap}
-.dc-loading{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--tx3);font-family:'DM Mono',monospace;padding:.5rem 0}
+.flow-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:.75rem;overflow:hidden;transition:border-color .2s}
+.flow-card.active{border-color:var(--bd2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.flow-card.done-sp{border-color:var(--sp);background:var(--sp-bg)}
+.flow-card.done-wi{border-color:var(--wi);background:var(--wi-bg)}
+.flow-card.done-la{border-color:var(--la);background:var(--la-bg)}
+.flow-card.done-de{border-color:var(--de);background:var(--de-bg)}
+.flow-card.locked{opacity:.55;pointer-events:none}
+
+.fc-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem .875rem;cursor:pointer}
+.fc-left{display:flex;align-items:center;gap:8px}
+.fc-icon{font-size:18px;line-height:1}
+.fc-title{font-size:13px;font-weight:500}
+.fc-sub{font-size:11px;color:var(--tx3);margin-top:1px}
+.fc-right{display:flex;align-items:center;gap:6px}
+.fc-done-pill{font-size:10px;padding:2px 8px;border-radius:10px;font-family:'DM Mono',monospace;font-weight:500}
+.fc-done-sp{background:var(--sp-bg);color:var(--sp-dk)}
+.fc-done-wi{background:var(--wi-bg);color:var(--wi-dk)}
+.fc-done-la{background:var(--la-bg);color:var(--la-dk)}
+.fc-done-de{background:var(--de-bg);color:var(--de-dk)}
+.fc-chevron{font-size:11px;color:var(--tx3);transition:transform .2s}
+.fc-chevron.open{transform:rotate(180deg)}
+
+.fc-body{padding:0 .875rem .875rem;display:none}
+.fc-body.open{display:block}
+
+/* Step indicator */
+.step-dots{display:flex;gap:5px;margin-bottom:.875rem}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--sf3)}
+.sdot.done{background:var(--tx)}
+.sdot.active{background:var(--tx);width:18px;border-radius:3px}
+
+/* Type chooser */
+.type-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:.875rem}
+.type-grid.four{grid-template-columns:repeat(4,1fr)}
+.tcard{border-radius:var(--rs);border:1px solid var(--bd);padding:.75rem .5rem;cursor:pointer;background:var(--sf);text-align:center;transition:border-color .15s,background .15s}
+.tcard:hover{border-color:var(--bd2)}
+.tcard.sel{border:2px solid var(--tx);background:var(--sf2)}
+.tcard.sel-sp{border-color:var(--sp);background:var(--sp-bg)}
+.tcard.sel-de{border-color:var(--de);background:var(--de-bg)}
+.tcard.sel-wi{border-color:var(--wi);background:var(--wi-bg)}
+.tcard.sel-la{border-color:var(--la);background:var(--la-bg)}
+.tcard .tc-icon{font-size:20px;margin-bottom:3px}
+.tcard .tc-label{font-size:11px;font-weight:500;color:var(--tx)}
+.tcard .tc-sub{font-size:10px;color:var(--tx3);margin-top:1px}
+
+/* Intensity row */
+.int-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:.875rem}
+.ib{border-radius:var(--rs);border:1px solid var(--bd);padding:.625rem .5rem;cursor:pointer;background:var(--sf);transition:border-color .12s,background .12s;position:relative}
+.ib:hover{border-color:var(--bd2)}
+.ib.sel-a{border:2px solid var(--a);background:var(--a-bg)}
+.ib.sel-b{border:2px solid var(--b);background:var(--b-bg)}
+.ib.sel-c{border:2px solid var(--c);background:var(--c-bg)}
+.ib.rec::before{content:'★ Heute';position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:500;padding:1px 6px;border-radius:7px;white-space:nowrap;font-family:'DM Mono',monospace;border:.5px solid}
+.ib.rec-a::before{background:var(--a-bg);color:var(--a-dk);border-color:var(--a)}
+.ib.rec-b::before{background:var(--b-bg);color:var(--b-dk);border-color:var(--b)}
+.ib.rec-c::before{background:var(--c-bg);color:var(--c-dk);border-color:var(--c)}
+.ib-key{font-size:9px;font-weight:500;font-family:'DM Mono',monospace;text-transform:uppercase;margin-bottom:3px}
+.ib-key-a{color:var(--a-dk)}.ib-key-b{color:var(--b-dk)}.ib-key-c{color:var(--c-dk)}
+.ib-title{font-size:11px;font-weight:500;line-height:1.3}
+.ib-time{font-size:10px;color:var(--tx3);margin-top:3px;font-family:'DM Mono',monospace}
+
+/* Context banner */
+.ctx-banner{border-radius:var(--rs);padding:.625rem .875rem;margin-bottom:.875rem;font-size:12px;line-height:1.5;border:.5px solid var(--bd);background:var(--sf2);color:var(--tx2)}
+.ctx-banner strong{display:block;font-size:10px;font-weight:500;color:var(--tx3);margin-bottom:2px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em}
+.ctx-banner.b-sp{background:var(--sp-bg);border-color:var(--sp);color:var(--sp-dk)}
+.ctx-banner.b-wi{background:var(--wi-bg);border-color:var(--wi);color:var(--wi-dk)}
+.ctx-banner.b-la{background:var(--la-bg);border-color:var(--la);color:var(--la-dk)}
+
+/* Daily content */
+.dc-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:.75rem;margin-bottom:.875rem}
+.dc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.dc-title{font-size:11px;font-weight:500}
+.dc-badge{font-size:9px;padding:2px 7px;border-radius:8px;font-family:'DM Mono',monospace;font-weight:500}
+.dcb-a{background:var(--a-bg);color:var(--a-dk)}.dcb-b{background:var(--b-bg);color:var(--b-dk)}.dcb-c{background:var(--c-bg);color:var(--c-dk)}
+.dc-content{font-size:12px;color:var(--tx2);line-height:1.7;white-space:pre-wrap}
+.dc-loading{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--tx3);font-family:'DM Mono',monospace}
 .spin{width:12px;height:12px;border:1.5px solid var(--bd2);border-top-color:var(--tx);border-radius:50%;animation:sp .7s linear infinite;flex-shrink:0}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* ── DETAIL PAGES (Sport/Wissen/Sprachen) ── */
+/* Confirm button */
+.confirm-btn{width:100%;padding:10px;border-radius:var(--rs);border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:.5rem;transition:opacity .15s}
+.confirm-btn:active{opacity:.8}
+.cbtn-sp{background:var(--sp);color:#fff}
+.cbtn-wi{background:var(--wi);color:#fff}
+.cbtn-la{background:var(--la);color:#fff}
+.cbtn-de{background:var(--de);color:#fff}
+.undo-btn{width:100%;padding:7px;border-radius:var(--rs);border:1px solid var(--bd2);background:none;font-size:12px;color:var(--tx2);cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* ── VORAUSSCHAU ── */
+.forecast-row{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-bottom:.875rem}
+.fday{border-radius:var(--rs);border:.5px solid var(--bd);padding:.5rem .25rem;text-align:center;background:var(--sf)}
+.fday.today-col{border:1.5px solid var(--tx)}
+.fday.past{background:var(--sf2);opacity:.7}
+.fday.rest{background:var(--sf2)}
+.fd-name{font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:2px}
+.fd-icon{font-size:13px;margin-bottom:1px}
+.fd-type{font-size:9px;color:var(--tx2);font-family:'DM Mono',monospace}
+.fd-int{font-size:9px;font-weight:500;font-family:'DM Mono',monospace;margin-top:2px}
+.fd-int-a{color:var(--a-dk)}.fd-int-b{color:var(--b-dk)}.fd-int-c{color:var(--c-dk)}
+.fd-tomorrow{border-color:var(--b);background:var(--b-bg)}
+.forecast-legend{font-size:11px;color:var(--tx2);margin-bottom:.875rem;line-height:1.5}
+.forecast-legend strong{color:var(--tx);font-weight:500}
+
+/* Next-day preview */
+.next-day-box{border-radius:var(--rs);padding:.75rem .875rem;margin-bottom:.875rem;border:.5px solid var(--b);background:var(--b-bg);font-size:12px;color:var(--b-dk);line-height:1.6}
+.next-day-box strong{display:block;font-size:11px;margin-bottom:3px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em;opacity:.7}
+
+/* detail pages common */
 .int-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:.875rem}
-.ic{border-radius:var(--r);border:1px solid var(--bd);padding:.75rem;cursor:pointer;background:var(--sf);transition:border-color .15s,transform .1s;position:relative}
-.ic:hover{border-color:var(--bd2);transform:translateY(-1px)}
-.ic.sel-a{border:2px solid var(--a);background:var(--a-bg)}
-.ic.sel-b{border:2px solid var(--b);background:var(--b-bg)}
-.ic.sel-c{border:2px solid var(--c);background:var(--c-bg)}
-.ic.sel-de{border:2px solid var(--de);background:var(--de-bg)}
+.ic{border-radius:var(--r);border:1px solid var(--bd);padding:.75rem;cursor:pointer;background:var(--sf);transition:border-color .15s;position:relative}
+.ic:hover{border-color:var(--bd2)}
+.ic.sel-a{border:2px solid var(--a);background:var(--a-bg)}.ic.sel-b{border:2px solid var(--b);background:var(--b-bg)}.ic.sel-c{border:2px solid var(--c);background:var(--c-bg)}
 .ic.rec::after{content:'← Heute';position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:500;padding:2px 7px;border-radius:8px;white-space:nowrap;font-family:'DM Mono',monospace;border:.5px solid}
 .ic.rec-a::after{background:var(--a-bg);color:var(--a-dk);border-color:var(--a)}
 .ic.rec-b::after{background:var(--b-bg);color:var(--b-dk);border-color:var(--b)}
 .ic.rec-c::after{background:var(--c-bg);color:var(--c-dk);border-color:var(--c)}
-.ic.rec-de::after{background:var(--de-bg);color:var(--de-dk);border-color:var(--de)}
 .ic-badge{font-size:9px;font-weight:500;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-.ib-a{color:var(--a-dk)}.ib-b{color:var(--b-dk)}.ib-c{color:var(--c-dk)}.ib-de{color:var(--de-dk)}
+.ib-a{color:var(--a-dk)}.ib-b{color:var(--b-dk)}.ib-c{color:var(--c-dk)}
 .ic-title{font-size:12px;font-weight:500;margin-bottom:3px;line-height:1.3}
 .ic-desc{font-size:11px;color:var(--tx2);line-height:1.4}
 .ic-time{font-size:10px;margin-top:5px;font-family:'DM Mono',monospace}
-.it-a{color:var(--a-dk)}.it-b{color:var(--b-dk)}.it-c{color:var(--c-dk)}.it-de{color:var(--de-dk)}
-
-.banner{border-radius:var(--rs);padding:.625rem .875rem;margin-bottom:.875rem;font-size:12px;line-height:1.5;border:.5px solid var(--bd2);background:var(--sf);color:var(--tx2)}
-.banner strong{display:block;font-size:11px;font-weight:500;margin-bottom:1px}
-.b-sp{background:var(--sp-bg);border-color:var(--sp);color:var(--sp-dk)}
-.b-wi{background:var(--wi-bg);border-color:var(--wi);color:var(--wi-dk)}
-.b-la{background:var(--la-bg);border-color:var(--la);color:var(--la-dk)}
+.it-a{color:var(--a-dk)}.it-b{color:var(--b-dk)}.it-c{color:var(--c-dk)}
 
 .done-btn{width:100%;padding:10px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);font-size:13px;font-weight:500;color:var(--tx);cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:.875rem}
-.done-btn:hover{background:var(--sf2)}
-.ok-sp{background:var(--sp-bg);border-color:var(--sp);color:var(--sp-dk)}
-.ok-wi{background:var(--wi-bg);border-color:var(--wi);color:var(--wi-dk)}
-.ok-la{background:var(--la-bg);border-color:var(--la);color:var(--la-dk)}
-
-.daily-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem;margin-bottom:.875rem}
-.db-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.625rem}
-.db-title{font-size:12px;font-weight:500}
-.db-badge{font-size:9px;padding:2px 7px;border-radius:10px;font-family:'DM Mono',monospace;font-weight:500}
-.dbb-a{background:var(--a-bg);color:var(--a-dk)}.dbb-b{background:var(--b-bg);color:var(--b-dk)}.dbb-c{background:var(--c-bg);color:var(--c-dk)}.dbb-de{background:var(--de-bg);color:var(--de-dk)}
-.db-content{font-size:12px;color:var(--tx2);line-height:1.7;white-space:pre-wrap}
+.done-btn.ok-sp{background:var(--sp-bg);border-color:var(--sp);color:var(--sp-dk)}
+.done-btn.ok-wi{background:var(--wi-bg);border-color:var(--wi);color:var(--wi-dk)}
+.done-btn.ok-la{background:var(--la-bg);border-color:var(--la);color:var(--la-dk)}
 
 .pr{display:flex;justify-content:space-between;font-size:10px;color:var(--tx2);margin-bottom:4px;font-family:'DM Mono',monospace}
 .pb{height:4px;background:var(--sf2);border-radius:2px;overflow:hidden;margin-bottom:.875rem}
@@ -159,7 +205,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .wc{aspect-ratio:1;border-radius:var(--rs);border:.5px solid var(--bd);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;font-size:10px;color:var(--tx3);background:var(--sf);font-family:'DM Mono',monospace}
 .wc.done{background:var(--sp-bg);border-color:var(--sp);color:var(--sp-dk)}
 .wc.today{border:1.5px solid var(--tx);color:var(--tx);font-weight:500}
-.wc.rest{background:var(--sf2);color:var(--tx3)}
+.wc.rest{background:var(--sf2)}
 .wc .wt{font-size:8px;opacity:.7}
 
 .lgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:.875rem}
@@ -172,17 +218,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .llog{font-size:10px;padding:4px 7px;border-radius:5px;border:.5px solid var(--bd2);background:var(--sf2);color:var(--tx);cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
 
 .quiz-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem;margin-bottom:.875rem}
-.qsc{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;text-align:right;margin-bottom:5px}
-.qq{font-size:13px;font-weight:500;margin-bottom:.75rem;line-height:1.5}
-.qopts{display:flex;flex-direction:column;gap:5px;margin-bottom:.625rem}
+.qsc{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;text-align:right;margin-bottom:4px}
+.qq{font-size:13px;font-weight:500;margin-bottom:.625rem;line-height:1.5}
+.qopts{display:flex;flex-direction:column;gap:4px;margin-bottom:.625rem}
 .qopt{padding:7px 10px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--bg);font-size:12px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;color:var(--tx)}
 .qopt:hover{background:var(--sf2)}
 .qopt.ok{background:var(--sp-bg);border-color:var(--sp);color:var(--sp-dk)}
 .qopt.bad{background:#FDE8E8;border-color:#C0392B;color:#7A1A1A}
 .qres{font-size:12px;padding:7px 10px;border-radius:var(--rs);margin-bottom:6px;line-height:1.5}
 .qres.ok{background:var(--sp-bg);color:var(--sp-dk)}.qres.bad{background:#FDE8E8;color:#7A1A1A}
-.qnext{font-size:12px;padding:6px 13px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf2);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx)}
-.gen-quiz{width:100%;padding:9px;border-radius:var(--rs);border:.5px solid var(--wi);background:var(--wi-bg);font-size:12px;font-weight:500;color:var(--wi-dk);cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:.875rem}
+.qnext{font-size:12px;padding:6px 12px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf2);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx)}
+.gen-quiz{width:100%;padding:8px;border-radius:var(--rs);border:.5px solid var(--wi);background:var(--wi-bg);font-size:12px;font-weight:500;color:var(--wi-dk);cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:.875rem}
 
 .narea{width:100%;padding:8px 10px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf);font-size:12px;color:var(--tx);font-family:'DM Sans',sans-serif;resize:vertical;min-height:60px;line-height:1.5;margin-bottom:5px}
 .save-note{font-size:11px;padding:5px 11px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf2);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx);margin-bottom:.875rem}
@@ -195,7 +241,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .ex-n{font-size:12px;font-weight:500}
 .ex-inp{font-size:11px;padding:3px 5px;border-radius:4px;border:.5px solid var(--bd2);background:var(--bg);color:var(--tx);font-family:'DM Mono',monospace;text-align:center;width:100%}
 .ex-lbl{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;text-align:center}
-.ex-del{color:var(--tx3);cursor:pointer;border:none;background:none;font-size:13px;padding:0 2px}
+.ex-del{color:var(--tx3);cursor:pointer;border:none;background:none;font-size:13px}
 
 .run-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:.875rem}
 .rf label{display:block;font-size:10px;color:var(--tx3);margin-bottom:3px;font-family:'DM Mono',monospace}
@@ -217,6 +263,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 
 .div{height:.5px;background:var(--bd);margin:.875rem 0}
 .slbl{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.ptitle{font-size:15px;font-weight:500;margin-bottom:2px}
+.psub{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:.875rem;text-transform:uppercase;letter-spacing:.04em}
 
 .toast{position:fixed;top:58px;left:50%;transform:translateX(-50%) translateY(-16px);background:var(--tx);color:#fff;font-size:12px;padding:7px 15px;border-radius:20px;opacity:0;transition:opacity .3s,transform .3s;z-index:999;white-space:nowrap;pointer-events:none}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -228,101 +276,87 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 
 <!-- ═══ ONBOARDING ═══ -->
 <div id="ob">
-  <div class="ob-prog-wrap"><div class="ob-prog" id="ob-p" style="width:0%"></div></div>
+  <div class="ob-pw"><div class="ob-pf" id="ob-p" style="width:0%"></div></div>
   <div class="ob-body">
     <div class="ob-step on" id="ob-0">
-      <div class="ob-tag">Willkommen</div>
-      <div class="ob-h">Dein Routine Coach</div>
-      <div class="ob-sub">Beantworte ein paar Fragen — die App erstellt dann jeden Morgen konkrete Aufgaben für Sport, Wissen und Sprachen, genau auf dich zugeschnitten. Minimal Aufwand, maximaler Fokus.</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:1.25rem">
-        <div style="background:var(--sp-bg);border:1px solid var(--sp);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;margin-bottom:4px">🏋️</div><div style="font-size:11px;font-weight:500;color:var(--sp-dk)">Sport</div></div>
-        <div style="background:var(--wi-bg);border:1px solid var(--wi);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;margin-bottom:4px">📖</div><div style="font-size:11px;font-weight:500;color:var(--wi-dk)">Wissen</div></div>
-        <div style="background:var(--la-bg);border:1px solid var(--la);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;margin-bottom:4px">🗣</div><div style="font-size:11px;font-weight:500;color:var(--la-dk)">Sprachen</div></div>
+      <div class="ob-tag">Willkommen</div><div class="ob-h">Dein Routine Coach</div>
+      <div class="ob-sub">Ein kurzes Setup — die App generiert dann täglich konkrete Aufgaben für Sport, Wissen und Sprachen, mit Vorausschau auf die nächsten Tage.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:1.25rem">
+        <div style="background:var(--sp-bg);border:1px solid var(--sp);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;margin-bottom:3px">🏋️</div><div style="font-size:11px;font-weight:500;color:var(--sp-dk)">Sport</div><div style="font-size:10px;color:var(--sp-dk);margin-top:1px">+ Dehnen</div></div>
+        <div style="background:var(--wi-bg);border:1px solid var(--wi);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;margin-bottom:3px">📖</div><div style="font-size:11px;font-weight:500;color:var(--wi-dk)">Wissen</div><div style="font-size:10px;color:var(--wi-dk);margin-top:1px">30 Themen</div></div>
+        <div style="background:var(--la-bg);border:1px solid var(--la);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;margin-bottom:3px">🗣</div><div style="font-size:11px;font-weight:500;color:var(--la-dk)">Sprachen</div><div style="font-size:10px;color:var(--la-dk);margin-top:1px">ES · FR · SV</div></div>
       </div>
     </div>
     <div class="ob-step" id="ob-1">
-      <div class="ob-tag">Sport 1/3</div><div class="ob-h">Dein Level & Maximalwerte</div>
-      <div class="ob-sub">Wie viele Wiederholungen schaffst du sauber in einem Satz?</div>
-      <div class="ob-f"><label>Fitnesslevel</label>
-        <div class="ob-chips" id="c-level"><div class="chip" onclick="sc(this,'level','beginner')">Anfänger</div><div class="chip" onclick="sc(this,'level','intermediate')">Mittel (6–12 Monate)</div><div class="chip" onclick="sc(this,'level','advanced')">Fortgeschritten (1+ Jahr)</div></div>
-      </div>
+      <div class="ob-tag">Sport 1/2</div><div class="ob-h">Level & Maximalwerte</div>
+      <div class="ob-sub">Wie viele saubere Wiederholungen schaffst du je Übung?</div>
+      <div class="ob-f"><label>Level</label><div class="chips" id="c-lv"><div class="ch" onclick="sc(this,'lv','beginner')">Anfänger</div><div class="ch" onclick="sc(this,'lv','intermediate')">Mittel (6–12 Mo)</div><div class="ch" onclick="sc(this,'lv','advanced')">Fortgeschritten (1+ Jahr)</div></div></div>
       <div class="ob-nums">
-        <div class="ob-num"><label>Pull-ups</label><input type="number" min="0" max="50" id="o-pu" placeholder="0"></div>
-        <div class="ob-num"><label>Dips</label><input type="number" min="0" max="50" id="o-di" placeholder="0"></div>
-        <div class="ob-num"><label>Liegestütze</label><input type="number" min="0" max="100" id="o-ps" placeholder="0"></div>
-        <div class="ob-num"><label>Kniebeugen</label><input type="number" min="0" max="100" id="o-sq" placeholder="0"></div>
-        <div class="ob-num"><label>Burpees/Min</label><input type="number" min="0" max="30" id="o-bu" placeholder="0"></div>
-        <div class="ob-num"><label>Laufziel km</label><input type="number" min="1" max="42" step=".5" id="o-rg" placeholder="5"></div>
+        <div class="ob-num"><label>Pull-ups</label><input type="number" min="0" id="o-pu" placeholder="0"></div>
+        <div class="ob-num"><label>Dips</label><input type="number" min="0" id="o-di" placeholder="0"></div>
+        <div class="ob-num"><label>Liegestütze</label><input type="number" min="0" id="o-ps" placeholder="0"></div>
+        <div class="ob-num"><label>Kniebeugen</label><input type="number" min="0" id="o-sq" placeholder="0"></div>
+        <div class="ob-num"><label>Burpees/Min</label><input type="number" min="0" id="o-bu" placeholder="0"></div>
+        <div class="ob-num"><label>Laufziel km</label><input type="number" min="1" step=".5" id="o-rg" placeholder="5"></div>
       </div>
     </div>
     <div class="ob-step" id="ob-2">
-      <div class="ob-tag">Sport 2/3</div><div class="ob-h">Sportziel & Schwachstelle</div>
-      <div class="ob-f"><label>Was möchtest du in 3 Monaten erreichen?</label><textarea id="o-sg" placeholder="z.B. 10 saubere Pull-ups, 5km unter 25 Min, mehr Ausdauer..."></textarea></div>
-      <div class="ob-f"><label>Schwachstelle</label>
-        <div class="ob-chips" id="c-sw"><div class="chip" onclick="sc(this,'sw','kraft')">Kraft</div><div class="chip" onclick="sc(this,'sw','ausdauer')">Ausdauer</div><div class="chip" onclick="sc(this,'sw','konsistenz')">Konsistenz</div><div class="chip" onclick="sc(this,'sw','mobilitaet')">Mobilität / Dehnen</div></div>
-      </div>
-      <div class="ob-f"><label>Wann dehnst du typischerweise?</label>
-        <div class="ob-chips" id="c-stretchtime"><div class="chip" onclick="sc(this,'stretchtime','morgens')">Morgens (Routine-Start)</div><div class="chip" onclick="sc(this,'stretchtime','nach-sport')">Nach dem Sport</div><div class="chip" onclick="sc(this,'stretchtime','abends')">Abends</div><div class="chip" onclick="sc(this,'stretchtime','nie')">Dehne kaum</div></div>
-      </div>
+      <div class="ob-tag">Sport 2/2</div><div class="ob-h">Ziel & Dehnen</div>
+      <div class="ob-f"><label>Sportziel (3 Monate)</label><textarea id="o-sg" placeholder="z.B. 10 saubere Pull-ups, 5km unter 25 Min..."></textarea></div>
+      <div class="ob-f"><label>Schwachstelle</label><div class="chips" id="c-sw"><div class="ch" onclick="sc(this,'sw','kraft')">Kraft</div><div class="ch" onclick="sc(this,'sw','ausdauer')">Ausdauer</div><div class="ch" onclick="sc(this,'sw','konsistenz')">Konsistenz</div><div class="ch" onclick="sc(this,'sw','mobilitaet')">Mobilität</div></div></div>
+      <div class="ob-f"><label>Wann dehnst du am liebsten?</label><div class="chips" id="c-st"><div class="ch" onclick="sc(this,'st','morgens')">Morgens</div><div class="ch" onclick="sc(this,'st','nach-sport')">Nach Sport</div><div class="ch" onclick="sc(this,'st','abends')">Abends</div><div class="ch" onclick="sc(this,'st','nie')">Selten</div></div></div>
     </div>
     <div class="ob-step" id="ob-3">
-      <div class="ob-tag">Wissen 1/2</div><div class="ob-h">Wissensziele & Interessen</div>
-      <div class="ob-f"><label>Dein Lernziel</label><textarea id="o-wg" placeholder="z.B. Breites Fundament, Weltgeschichte vertiefen, auf Gespräche vorbereitet sein..."></textarea></div>
-      <div class="ob-f"><label>Lieblingsbereiche</label>
-        <div class="ob-chips" id="c-wf"><div class="chip" onclick="tc(this,'wf','Geschichte')">Geschichte</div><div class="chip" onclick="tc(this,'wf','Wissenschaft')">Wissenschaft</div><div class="chip" onclick="tc(this,'wf','Geographie')">Geographie</div><div class="chip" onclick="tc(this,'wf','Kunst & Kultur')">Kunst & Kultur</div><div class="chip" onclick="tc(this,'wf','Wirtschaft')">Wirtschaft</div><div class="chip" onclick="tc(this,'wf','Philosophie')">Philosophie</div><div class="chip" onclick="tc(this,'wf','Technologie')">Technologie</div><div class="chip" onclick="tc(this,'wf','Politik')">Politik</div></div>
-      </div>
-      <div class="ob-f"><label>Lerntiefe</label>
-        <div class="ob-chips" id="c-wd"><div class="chip" onclick="sc(this,'wd','breit')">Breit — viele Themen</div><div class="chip" onclick="sc(this,'wd','ausgewogen')">Ausgewogen</div><div class="chip" onclick="sc(this,'wd','tief')">Tief — wenige, aber gründlich</div></div>
-      </div>
+      <div class="ob-tag">Wissen</div><div class="ob-h">Lernziel & Interessen</div>
+      <div class="ob-f"><label>Wissensziel</label><textarea id="o-wg" placeholder="z.B. Breites Fundament, Weltgeschichte, auf Gespräche vorbereitet..."></textarea></div>
+      <div class="ob-f"><label>Lieblingsbereiche</label><div class="chips" id="c-wf"><div class="ch" onclick="tc(this,'wf','Geschichte')">Geschichte</div><div class="ch" onclick="tc(this,'wf','Wissenschaft')">Wissenschaft</div><div class="ch" onclick="tc(this,'wf','Geographie')">Geographie</div><div class="ch" onclick="tc(this,'wf','Kunst & Kultur')">Kunst & Kultur</div><div class="ch" onclick="tc(this,'wf','Wirtschaft')">Wirtschaft</div><div class="ch" onclick="tc(this,'wf','Philosophie')">Philosophie</div><div class="ch" onclick="tc(this,'wf','Technologie')">Technologie</div><div class="ch" onclick="tc(this,'wf','Politik')">Politik</div></div></div>
+      <div class="ob-f"><label>Tiefe</label><div class="chips" id="c-wd"><div class="ch" onclick="sc(this,'wd','breit')">Breit</div><div class="ch" onclick="sc(this,'wd','ausgewogen')">Ausgewogen</div><div class="ch" onclick="sc(this,'wd','tief')">Tief</div></div></div>
     </div>
     <div class="ob-step" id="ob-4">
-      <div class="ob-tag">Sprachen 1/1</div><div class="ob-h">Niveaus & Ziele</div>
-      <div class="ob-f"><label>Spanisch</label><div class="ob-chips" id="c-es"><div class="chip" onclick="sc(this,'esl','A1')">A1</div><div class="chip on" onclick="sc(this,'esl','A2')">A2</div><div class="chip" onclick="sc(this,'esl','B1')">B1</div><div class="chip" onclick="sc(this,'esl','B2')">B2</div><div class="chip" onclick="sc(this,'esl','C1')">C1</div></div></div>
-      <div class="ob-f"><label>Französisch</label><div class="ob-chips" id="c-fr"><div class="chip on" onclick="sc(this,'frl','A1')">A1</div><div class="chip" onclick="sc(this,'frl','A2')">A2</div><div class="chip" onclick="sc(this,'frl','B1')">B1</div><div class="chip" onclick="sc(this,'frl','B2')">B2</div><div class="chip" onclick="sc(this,'frl','C1')">C1</div></div></div>
-      <div class="ob-f"><label>Schwedisch</label><div class="ob-chips" id="c-sv"><div class="chip" onclick="sc(this,'svl','A1')">A1</div><div class="chip" onclick="sc(this,'svl','A2')">A2</div><div class="chip on" onclick="sc(this,'svl','B1')">B1</div><div class="chip" onclick="sc(this,'svl','B2')">B2</div><div class="chip" onclick="sc(this,'svl','C1')">C1</div></div></div>
-      <div class="ob-f"><label>Sprachziel (kurz)</label><input type="text" id="o-lg" placeholder="z.B. Spanisch B1 bis Ende Jahr, Schwedisch B2..."></div>
-      <div class="ob-f"><label>Größte Schwachstelle</label>
-        <div class="ob-chips" id="c-lw"><div class="chip" onclick="sc(this,'lw','vokabeln')">Vokabeln</div><div class="chip" onclick="sc(this,'lw','grammatik')">Grammatik</div><div class="chip" onclick="sc(this,'lw','sprechen')">Sprechen</div><div class="chip" onclick="sc(this,'lw','hoeren')">Hören</div></div>
-      </div>
+      <div class="ob-tag">Sprachen</div><div class="ob-h">Niveaus & Ziele</div>
+      <div class="ob-f"><label>Spanisch</label><div class="chips" id="c-es"><div class="ch" onclick="sc(this,'esl','A1')">A1</div><div class="ch on" onclick="sc(this,'esl','A2')">A2</div><div class="ch" onclick="sc(this,'esl','B1')">B1</div><div class="ch" onclick="sc(this,'esl','B2')">B2</div></div></div>
+      <div class="ob-f"><label>Französisch</label><div class="chips" id="c-fr"><div class="ch on" onclick="sc(this,'frl','A1')">A1</div><div class="ch" onclick="sc(this,'frl','A2')">A2</div><div class="ch" onclick="sc(this,'frl','B1')">B1</div><div class="ch" onclick="sc(this,'frl','B2')">B2</div></div></div>
+      <div class="ob-f"><label>Schwedisch</label><div class="chips" id="c-sv"><div class="ch" onclick="sc(this,'svl','A1')">A1</div><div class="ch" onclick="sc(this,'svl','A2')">A2</div><div class="ch on" onclick="sc(this,'svl','B1')">B1</div><div class="ch" onclick="sc(this,'svl','B2')">B2</div></div></div>
+      <div class="ob-f"><label>Gesamtziel</label><input type="text" id="o-lg" placeholder="z.B. Spanisch B1 bis Ende Jahr, Schwedisch B2..."></div>
+      <div class="ob-f"><label>Schwachstelle</label><div class="chips" id="c-lw"><div class="ch" onclick="sc(this,'lw','vokabeln')">Vokabeln</div><div class="ch" onclick="sc(this,'lw','grammatik')">Grammatik</div><div class="ch" onclick="sc(this,'lw','sprechen')">Sprechen</div><div class="ch" onclick="sc(this,'lw','hoeren')">Hören</div></div></div>
     </div>
     <div class="ob-step" id="ob-5">
       <div class="ob-tag">Fertig</div><div class="ob-h">Alles eingestellt ✓</div>
-      <div class="ob-sub">Die App kennt jetzt deine Ziele und generiert täglich konkrete Aufgaben — wählbar in drei Intensitätsstufen. Beim ersten Öffnen jeden Tag einfach A, B oder C antippen.</div>
-      <div id="ob-summary" style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem;font-size:12px;color:var(--tx2);line-height:1.8;margin-top:1rem"></div>
+      <div class="ob-sub">Jeden Morgen siehst du einen 3-Schritt-Flow: Sport wählen → Wissensthema → Sprachen. Dazu eine Vorausschau was die nächsten Tage bringt.</div>
+      <div id="ob-sum" style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem;font-size:12px;color:var(--tx2);line-height:1.9;margin-top:1rem"></div>
     </div>
   </div>
   <div class="ob-nav">
-    <button class="ob-back" id="ob-back" onclick="oBack()" style="display:none">← Zurück</button>
-    <button class="ob-next" id="ob-next" onclick="oNext()">Los geht's →</button>
+    <button class="ob-bk" id="ob-bk" onclick="oBk()" style="display:none">← Zurück</button>
+    <button class="ob-nx" id="ob-nx" onclick="oNx()">Los geht's →</button>
   </div>
 </div>
 
 <!-- ═══ APP ═══ -->
 <div id="app">
   <div class="topbar">
-    <div><div class="tb-title" id="greeting">Guten Morgen, Bob</div><div class="tb-date" id="topdate"></div></div>
+    <div class="tb-l"><div class="tbt" id="greeting"></div><div class="tbd" id="topdate"></div></div>
     <div class="streaks"><div class="sc sp" id="cs">🏋 0</div><div class="sc wi" id="cw">📖 0</div><div class="sc la" id="cl">🗣 0</div></div>
   </div>
 
-  <!-- HEUTE (quick-pick) -->
+  <!-- HEUTE -->
   <div id="pg-heute" class="page on">
-    <div id="heute-sport" class="today-section"></div>
-    <div id="heute-dehnen" class="today-section"></div>
-    <div id="heute-wissen" class="today-section"></div>
-    <div id="heute-sprachen" class="today-section"></div>
+    <div id="flow-sport"></div>
+    <div id="flow-wissen"></div>
+    <div id="flow-sprachen"></div>
+    <div id="flow-forecast"></div>
   </div>
 
   <!-- SPORT detail -->
   <div id="pg-sport" class="page">
-    <div class="ptitle">Sport</div><div class="psub" id="sp-daylbl"></div>
-    <div id="sp-banner"></div>
-    <div class="int-grid" id="sp-intgrid"></div>
-    <div id="sp-dehnen-section"></div>
-    <div id="sp-dailybox"></div>
+    <div class="ptitle">Sport</div><div class="psub" id="sp-sub"></div>
+    <div id="sp-ctx"></div>
+    <div class="int-grid" id="sp-ig"></div>
+    <div id="sp-db"></div>
     <button class="done-btn" id="sp-done" onclick="markDone('sport')">✓ Einheit abhaken</button>
     <div id="sp-log">
       <div class="div"></div>
-      <div class="slbl">Log — Sätze & Wiederholungen</div>
+      <div class="slbl">Sätze & Wiederholungen</div>
       <div id="ex-list"></div>
       <div style="display:flex;gap:6px;margin-bottom:.875rem">
         <input type="text" id="ex-inp" placeholder="Übung hinzufügen..." style="flex:1;font-size:12px;padding:6px 9px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf);color:var(--tx);font-family:'DM Sans',sans-serif">
@@ -346,17 +380,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 
   <!-- WISSEN detail -->
   <div id="pg-wissen" class="page">
-    <div class="ptitle">Allgemeinwissen</div><div class="psub" id="wi-topicsub"></div>
-    <div id="wi-banner"></div>
-    <div class="int-grid" id="wi-intgrid"></div>
-    <div id="wi-dailybox"></div>
+    <div class="ptitle">Allgemeinwissen</div><div class="psub" id="wi-sub"></div>
+    <div id="wi-ctx"></div>
+    <div class="int-grid" id="wi-ig"></div>
+    <div id="wi-db"></div>
     <button class="done-btn" id="wi-done" onclick="markDone('wissen')">✓ Lerneinheit abhaken</button>
     <div class="div"></div>
     <button class="gen-quiz" id="gen-quiz" onclick="generateQuiz()">🎯 Quiz generieren</button>
     <div id="quiz-c"></div>
     <div class="div"></div>
     <div class="slbl">Notiz</div>
-    <textarea class="narea" id="wi-notes" placeholder="Notizen, Erkenntnisse, offene Fragen..."></textarea>
+    <textarea class="narea" id="wi-notes" placeholder="Notizen, Erkenntnisse..."></textarea>
     <button class="save-note" onclick="saveNote('wi')">Speichern ✓</button>
     <div class="div"></div>
     <div class="pr"><span>Themenkatalog</span><span id="wi-plbl"></span></div>
@@ -368,9 +402,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
   <!-- SPRACHEN detail -->
   <div id="pg-sprachen" class="page">
     <div class="ptitle">Sprachen</div><div class="psub">Spanisch · Französisch · Schwedisch</div>
-    <div id="la-banner"></div>
-    <div class="int-grid" id="la-intgrid"></div>
-    <div id="la-dailybox"></div>
+    <div id="la-ctx"></div>
+    <div class="int-grid" id="la-ig"></div>
+    <div id="la-db"></div>
     <div class="lgrid" id="la-grid"></div>
     <button class="done-btn" id="la-done" onclick="markDone('sprachen')">✓ Session abhaken</button>
     <div class="div"></div>
@@ -399,127 +433,90 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 </div>
 
 <script>
-const SK='rcv4';
-const DAY=['So','Mo','Di','Mi','Do','Fr','Sa'];
-const STYP={1:'Kraft',2:'Lauf',3:'Kraft',4:'Lauf',5:'Ganzkörper'};
+const SK='rcv5';
+const DAYS=['So','Mo','Di','Mi','Do','Fr','Sa'];
+const DAYSFULL=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+// Sport type per weekday: 1=Kraft,2=Lauf,3=Kraft,4=Lauf,5=Ganzkörper,6/0=Rest
+const STYPE={1:'Kraft',2:'Lauf',3:'Kraft',4:'Lauf',5:'Ganzkörper'};
 const TOPICS=['Astronomie & Weltall','Antike Kulturen','Mittelalter','Aufklärung & Renaissance','Industrialisierung','20. Jahrhundert','Geographie & Kontinente','Biologie & Evolution','Chemie & Elemente','Physik & Kräfte','Mathematik & Logik','Ökonomie & Handel','Philosophie & Ethik','Religionen & Mythen','Kunst & Architektur','Musik & Literatur','Technologie & Erfindungen','Medizin & Körper','Klima & Ökologie','Politische Systeme','Sprache & Linguistik','Psychologie','Soziologie','Sport & Olympia','Ernährung & Gesundheit','Recht & Justiz','Informatik','Militärgeschichte','Wirtschaftsgeschichte','Kulturgeschichte'];
 const LANGS=[{code:'es',name:'Spanisch',goal:{min:15,pts:60}},{code:'fr',name:'Französisch',goal:{min:15,pts:60}},{code:'sv',name:'Schwedisch',goal:{min:10,pts:40}}];
 const DEF_EX=['Pull-ups','Dips','Liegestütze','Burpees','Kniebeugen'];
-const MOTIV=['Stark! Weiter so 💪','Top — Rhythmus gehalten 🎯','Erledigt! Näher am Ziel ✓','Gut gemacht — Konsistenz gewinnt 🏆','Perfekt ⚡','Ausgezeichnet! 🌟'];
+const MOTIV=['Stark! Weiter so 💪','Top — Rhythmus gehalten 🎯','Erledigt! Näher am Ziel ✓','Konsistenz gewinnt 🏆','Perfekt ⚡','Ausgezeichnet! 🌟'];
 
-// ── STRETCH sessions ──
-const STRETCH_PLANS={
-  morning:{
-    a:{t:'Morgen-Mobility',d:'Hüft-Öffner, Brustöffner, Thoraxrotation, Schultern — volle Routine',ex:['Hüftkreisen 10×','Kniebeugen-Stretch 5×30s','Schulteröffner am Rahmen 3×20s','Katze-Kuh 10×','Liegender Brustöffner 2×45s','Seitlicher Hüftstretch 2×30s'],time:'15–20 Min'},
-    b:{t:'Kurze Mobility',d:'Die 3 wichtigsten Bewegungen für den Tag',ex:['Hüftkreisen 8×','Kniebeugen-Stretch 3×20s','Schulteröffner 2×15s'],time:'7–10 Min'},
-    c:{t:'1-Minuten-Wecker',d:'Kurz die wichtigsten Gelenke bewegen',ex:['Kreisen: Schultern, Hüften, Knöchel — je 10×'],time:'1–2 Min'}
-  },
-  after_sport:{
-    a:{t:'Post-Workout Dehnen',d:'Alle beanspruchten Muskeln dehnen — Cooldown',ex:['Brustdehnung an Wand 2×30s','Trizeps-Stretch 2×20s','Hüftbeuger-Stretch 2×30s','Oberschenkel stehend 2×30s','Waden-Stretch 2×30s','Kindshaltung 45s'],time:'12–15 Min'},
-    b:{t:'Kurzer Cooldown',d:'Die 3 wichtigsten Muskeln nach dem Training',ex:['Brustdehnung 2×20s','Hüftbeuger 2×20s','Waden 2×20s'],time:'6–8 Min'},
-    c:{t:'Minimal-Cooldown',d:'1 Stretch für die beanspruchten Muskeln',ex:['Kindshaltung 60s — ganzer Rücken'],time:'1–2 Min'}
-  },
-  evening:{
-    a:{t:'Abend-Entspannung',d:'Tiefes Dehnen für besseren Schlaf — parasympathisch aktivieren',ex:['Liegender Schmetterling 2 Min','Pigeon Pose 2×90s','Liegender Wirbelsäulentwist 2×30s','Beinstreckung liegend 2×30s','Shavasana 3 Min'],time:'15–20 Min'},
-    b:{t:'Abend-Stretch',d:'Hüfte, Rücken und Beine lockern',ex:['Pigeon Pose 2×60s','Liegender Twist 2×20s','Beinstreckung 2×20s'],time:'8–10 Min'},
-    c:{t:'Kurz-Entspannung',d:'2 Minuten runterfahren vor dem Schlafen',ex:['Kindshaltung 90s','Tiefer Atemzug 3×'],time:'2–3 Min'}
-  },
-  general:{
-    a:{t:'Ganzkörper-Dehnen',d:'Systematisches Dehnen aller Muskelgruppen',ex:['Schultern 2×30s','Brust 2×30s','Hüftbeuger 2×30s','Oberschenkel 2×30s','Waden 2×30s','Rücken: Kindshaltung 60s'],time:'12–15 Min'},
-    b:{t:'Fokus-Stretch',d:'Oberkörper oder Unterkörper — je nach Trainingstag',ex:['3 Übungen für den Bereich des heutigen Trainings, je 2×30s'],time:'6–8 Min'},
-    c:{t:'Minimal',d:'1 Übung, sofort umsetzbar',ex:['Kindshaltung 90s oder Hüftbeuger-Stretch 60s pro Seite'],time:'1–2 Min'}
-  }
+// Stretch plans
+const STRETCH={
+  morgens:{a:{t:'Morgen-Mobility',d:'Hüfte, Schultern, Wirbelsäule aktivieren',ex:['Hüftkreisen 10×','Kniebeugen-Stretch 3×30s','Schulteröffner 3×20s','Katze-Kuh 10×','Thoraxrotation 2×10'],time:'15–20'},b:{t:'Kurze Mobility',d:'3 Schlüsselübungen',ex:['Hüftkreisen 8×','Kniebeugen-Stretch 2×20s','Schulteröffner 2×15s'],time:'7–10'},c:{t:'1-Min-Wecker',d:'Gelenke kurz bewegen',ex:['Schulter+Hüfte+Knöchel kreisen, je 8×'],time:'1–2'}},
+  'nach-sport':{a:{t:'Post-Workout Dehnen',d:'Alle beanspruchten Muskeln',ex:['Brustdehnung 2×30s','Trizeps-Stretch 2×20s','Hüftbeuger 2×30s','Oberschenkel 2×30s','Waden 2×30s','Kindshaltung 45s'],time:'12–15'},b:{t:'Kurzer Cooldown',d:'Top 3 nach dem Training',ex:['Brustdehnung 2×20s','Hüftbeuger 2×20s','Waden 2×20s'],time:'6–8'},c:{t:'Minimal-Cooldown',d:'1 Übung',ex:['Kindshaltung 60s'],time:'1–2'}},
+  abends:{a:{t:'Abend-Entspannung',d:'Tief dehnen, Parasympathikus aktivieren',ex:['Liegender Schmetterling 2 Min','Pigeon Pose 2×90s','Wirbelsäulentwist 2×30s','Beinstreckung 2×30s','Shavasana 3 Min'],time:'15–20'},b:{t:'Abend-Stretch',d:'Hüfte, Rücken, Beine',ex:['Pigeon Pose 2×60s','Liegender Twist 2×20s','Beinstreckung 2×20s'],time:'8–10'},c:{t:'2-Min-Entspannung',d:'Herunterfahren',ex:['Kindshaltung 90s + 3 tiefe Atemzüge'],time:'2–3'}},
+  nie:{a:{t:'Ganzkörper-Stretch',d:'Systematisches Dehnen',ex:['Schultern 2×30s','Brust 2×30s','Hüftbeuger 2×30s','Oberschenkel 2×30s','Waden 2×30s','Rücken 60s'],time:'12–15'},b:{t:'Fokus-Stretch',d:'3 wichtigste Übungen',ex:['Hüftbeuger 2×30s','Brustdehnung 2×30s','Kindshaltung 60s'],time:'6–8'},c:{t:'Minimal',d:'1 Übung sofort',ex:['Kindshaltung 90s'],time:'1–2'}}
 };
 
-function getStretchPlan(profile){
-  const st=profile&&profile.stretchtime;
-  if(st==='morgens')return STRETCH_PLANS.morning;
-  if(st==='nach-sport')return STRETCH_PLANS.after_sport;
-  if(st==='abends')return STRETCH_PLANS.evening;
-  return STRETCH_PLANS.general;
-}
-
-// ── helpers ──
+// helpers
 function p2(n){return String(n).padStart(2,'0')}
-function tk(){const d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
-function dk(d){return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
-function ago(n){const d=new Date();d.setDate(d.getDate()-n);return dk(d)}
+function TK(){const d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+function DK(d){return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+function ago(n){const d=new Date();d.setDate(d.getDate()-n);return DK(d)}
+function future(n){const d=new Date();d.setDate(d.getDate()+n);return DK(d)}
 function ld(){try{return JSON.parse(localStorage.getItem(SK))||{}}catch(e){return{}}}
 function sv(s){localStorage.setItem(SK,JSON.stringify(s))}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500)}
 function prof(){const s=ld();return s._profile||null}
-function getDay(s){
-  const k=tk();
-  if(!s[k])s[k]={
-    sport:{done:false,int:null,type:null,exercises:{},run:{dist:'',time:''},dc:null},
+
+function getDay(s,key){
+  key=key||TK();
+  if(!s[key])s[key]={
+    sport:{done:false,int:null,type:null,subtype:null,exercises:{},run:{},dc:null},
     dehnen:{done:false,int:null},
     wissen:{done:false,int:null,topicIdx:topicIdx(s),note:'',dc:null},
     sprachen:{done:false,int:null,langs:{es:{min:0,pts:0},fr:{min:0,pts:0},sv:{min:0,pts:0}},note:'',dc:null}
   };
-  return s[k];
+  return s[key];
 }
 function topicIdx(s){let c=0;Object.keys(s).sort().forEach(k=>{if(k.match(/^\d{4}/)&&s[k]&&s[k].wissen&&s[k].wissen.done)c++});return Math.min(c,TOPICS.length-1)}
 function streak(s,sec){let n=0;for(let i=0;i<90;i++){const k=ago(i);if(i===0&&s[k]&&s[k][sec]&&s[k][sec].done){n++;continue}if(i===0)break;if(s[k]&&s[k][sec]&&s[k][sec].done)n++;else break;}return n}
 function yest(s,sec){const k=ago(1);return s[k]&&s[k][sec]?s[k][sec]:null}
 
 // ── Onboarding ──
-let obStep=0;const OB_N=6;
-const od={level:null,pu:'',di:'',ps:'',sq:'',bu:'',rg:'5',sg:'',sw:null,stretchtime:null,wg:'',wf:[],wd:null,esl:'A2',frl:'A1',svl:'B1',lg:'',lw:null};
-
-function sc(el,key,val){el.closest('.ob-chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');od[key]=val;}
-function tc(el,key,val){el.classList.toggle('on');if(!od[key])od[key]=[];if(el.classList.contains('on'))od[key].push(val);else od[key]=od[key].filter(v=>v!==val);}
-
-function oNext(){
-  collectOb();
-  if(obStep===OB_N-1){finishOb();return}
-  obStep++;updateOb();
+let oStep=0;const ON=6;
+const od={lv:null,pu:'',di:'',ps:'',sq:'',bu:'',rg:'5',sg:'',sw:null,st:null,wg:'',wf:[],wd:null,esl:'A2',frl:'A1',svl:'B1',lg:'',lw:null};
+function sc(el,k,v){el.closest('.chips').querySelectorAll('.ch').forEach(c=>c.classList.remove('on'));el.classList.add('on');od[k]=v;}
+function tc(el,k,v){el.classList.toggle('on');if(!od[k])od[k]=[];if(el.classList.contains('on'))od[k].push(v);else od[k]=od[k].filter(x=>x!==v);}
+function oNx(){collectO();if(oStep===ON-1){finishO();return}oStep++;updateO();}
+function oBk(){if(oStep>0){oStep--;updateO();}}
+function collectO(){
+  if(oStep===1){od.pu=document.getElementById('o-pu').value;od.di=document.getElementById('o-di').value;od.ps=document.getElementById('o-ps').value;od.sq=document.getElementById('o-sq').value;od.bu=document.getElementById('o-bu').value;od.rg=document.getElementById('o-rg').value||'5';}
+  if(oStep===2){od.sg=document.getElementById('o-sg').value;}
+  if(oStep===3){od.wg=document.getElementById('o-wg').value;}
+  if(oStep===4){od.lg=document.getElementById('o-lg').value;}
 }
-function oBack(){if(obStep>0){obStep--;updateOb();}}
-function collectOb(){
-  if(obStep===1){od.pu=document.getElementById('o-pu').value;od.di=document.getElementById('o-di').value;od.ps=document.getElementById('o-ps').value;od.sq=document.getElementById('o-sq').value;od.bu=document.getElementById('o-bu').value;od.rg=document.getElementById('o-rg').value||'5';}
-  if(obStep===2){od.sg=document.getElementById('o-sg').value;}
-  if(obStep===3){od.wg=document.getElementById('o-wg').value;}
-  if(obStep===4){od.lg=document.getElementById('o-lg').value;}
-}
-function updateOb(){
+function updateO(){
   document.querySelectorAll('.ob-step').forEach(s=>s.classList.remove('on'));
-  document.getElementById('ob-'+obStep).classList.add('on');
-  document.getElementById('ob-p').style.width=Math.round(obStep/(OB_N-1)*100)+'%';
-  document.getElementById('ob-back').style.display=obStep>0?'block':'none';
-  document.getElementById('ob-next').textContent=obStep===OB_N-1?'App starten →':'Weiter →';
-  if(obStep===OB_N-1){
-    document.getElementById('ob-summary').innerHTML=`
-      <div>🏋️ <strong>Sport:</strong> ${od.level||'—'} · PU ${od.pu||'?'} · Laufziel ${od.rg} km · Dehnen: ${od.stretchtime||'allgemein'}</div>
-      <div>📖 <strong>Wissen:</strong> ${od.wd||'ausgewogen'} · ${(od.wf||[]).join(', ')||'alle Themen'}</div>
-      <div>🗣 <strong>Sprachen:</strong> ES ${od.esl} · FR ${od.frl} · SV ${od.svl} → ${od.lg||'Ziel offen'}</div>`;
-  }
+  document.getElementById('ob-'+oStep).classList.add('on');
+  document.getElementById('ob-p').style.width=Math.round(oStep/(ON-1)*100)+'%';
+  document.getElementById('ob-bk').style.display=oStep>0?'block':'none';
+  document.getElementById('ob-nx').textContent=oStep===ON-1?'App starten →':'Weiter →';
+  if(oStep===ON-1)document.getElementById('ob-sum').innerHTML=`<div>🏋️ <strong>Sport:</strong> ${od.lv||'—'} · PU ${od.pu||'?'} · Laufziel ${od.rg} km · Dehnen: ${od.st||'allgemein'}</div><div>📖 <strong>Wissen:</strong> ${od.wd||'ausgewogen'} · ${(od.wf||[]).join(', ')||'alle Themen'}</div><div>🗣 <strong>Sprachen:</strong> ES ${od.esl} · FR ${od.frl} · SV ${od.svl}</div>`;
 }
-function finishOb(){
-  collectOb();
-  const s=ld();s._profile={...od,created:tk()};sv(s);
-  document.getElementById('ob').style.display='none';
-  document.getElementById('app').style.display='block';
-  initApp();
-}
+function finishO(){collectO();const s=ld();s._profile={...od,created:TK()};sv(s);document.getElementById('ob').style.display='none';document.getElementById('app').style.display='block';initApp();}
 function resetOb(){if(!confirm('Ziele zurücksetzen?'))return;const s=ld();delete s._profile;sv(s);location.reload();}
 
 // ── Recommendations ──
 function recSport(s,dow){
   const y=yest(s,'sport');const str=streak(s,'sport');
-  if(!STYP[dow])return{int:'a',reason:null};
+  if(!STYPE[dow])return{int:'a',reason:null};
   let ri='a',reason=null;
-  if(y&&y.int==='c'){ri='b';reason={t:'Gestern C – heute B als guter nächster Schritt.',cls:''}}
-  else if(str>=4&&y&&y.int==='a'){ri='b';reason={t:str+'-Tage-Streak – heute B schützt vor Übertraining.',cls:''}}
+  if(y&&y.int==='c'){ri='b';reason={t:'Gestern C – heute B.',cls:''}}
+  else if(str>=4&&y&&y.int==='a'){ri='b';reason={t:str+'-Tage-Streak – heute B verhindert Übertraining.',cls:''}}
   const yt=y?y.type:null;
-  if(dow===2&&yt==='Kraft'){reason={t:'Gestern Kraft – heute Laufen: Muskeln erholen.',cls:'b-sp'}}
-  else if(dow===4&&yt==='Kraft'){reason={t:'Gestern Kraft – heute Laufen & Core.',cls:'b-sp'}}
-  else if((dow===3||dow===5)&&yt==='Lauf'){reason={t:'Gestern Laufen – heute Kraft.',cls:'b-sp'}}
+  if(dow===2&&yt==='Kraft'){reason={t:'Gestern Kraft → heute Laufen: Muskelregeneration + Ausdauer.',cls:'b-sp'}}
+  else if(dow===4&&yt==='Kraft'){reason={t:'Gestern Kraft → heute Laufen & Core: optimale Abwechslung.',cls:'b-sp'}}
+  else if((dow===3||dow===5)&&yt==='Lauf'){reason={t:'Gestern Laufen → heute Kraft: ausgewogene Entwicklung.',cls:'b-sp'}}
   return{int:ri,reason};
 }
 function recWissen(s){
   const y=yest(s,'wissen');const str=streak(s,'wissen');
   let ri='a',reason=null;
-  if(y&&!y.done){ri='b';reason={t:'Gestern keine Einheit – heute B hält den Fortschritt.',cls:'b-wi'}}
+  if(y&&!y.done){ri='b';reason={t:'Gestern keine Einheit – heute B.',cls:'b-wi'}}
   else if(y&&y.int==='c'){ri='b';reason={t:'Gestern C – heute B für echten Fortschritt.',cls:''}}
   else if(str>=5&&y&&y.int==='a'){ri='b';reason={t:str+'-Tage-Streak – heute B genügt.',cls:''}}
   return{int:ri,reason};
@@ -528,441 +525,404 @@ function recLang(s){
   const y=yest(s,'sprachen');const str=streak(s,'sprachen');
   let ri='a',reason=null;
   if(str===0){ri='c';reason={t:'Kein Streak – C zum Aufbauen.',cls:'b-la'}}
-  else if(y&&!y.done){ri='c';reason={t:'Gestern keine Session – C sichert heute den Streak.',cls:'b-la'}}
+  else if(y&&!y.done){ri='c';reason={t:'Gestern keine Session – C sichert Streak.',cls:'b-la'}}
   else if(y&&y.int==='c'){ri='b';reason={t:'Gestern minimal – heute B.',cls:''}}
   if(y&&y.langs){const m=LANGS.filter(l=>y.langs[l.code]&&y.langs[l.code].pts<20).map(l=>l.name);if(m.length&&!reason)reason={t:'Gestern '+m.join(', ')+' unter Ziel.',cls:'b-la'};}
   return{int:ri,reason};
 }
 
+// ── Forecast logic ──
+function forecastWeek(s){
+  const today=getDay(s);const dow=new Date().getDay();
+  const result=[];
+  for(let offset=-1;offset<=5;offset++){
+    const d=new Date();d.setDate(d.getDate()+offset);
+    const k=DK(d);const wd=d.getDay();
+    const isPast=offset<0;const isToday=offset===0;
+    const isTomorrow=offset===1;
+    const isRest=wd===0||wd===6;
+    const entry=s[k];
+    const done=entry&&entry.sport&&entry.sport.done;
+    const int=entry&&entry.sport&&entry.sport.int;
+    const type=done?entry.sport.type:(!isRest?STYPE[wd]:null);
+    // Suggest intensity for future days based on today's choice
+    let suggestedInt=null;
+    if(!isPast&&!isToday&&!isRest){
+      const todayInt=today.sport.int;
+      if(isToday)suggestedInt=null;
+      else if(todayInt==='a')suggestedInt='b';
+      else if(todayInt==='c')suggestedInt='b';
+      else suggestedInt='a';
+    }
+    result.push({offset,d,k,wd,isPast,isToday,isTomorrow,isRest,done,int,type,suggestedInt});
+  }
+  return result;
+}
+
+function nextDayPreview(s){
+  const todayInt=getDay(s).sport.int||'a';
+  const todayType=STYPE[new Date().getDay()]||null;
+  const tmrDow=(new Date().getDay()+1)%7;
+  const tmrType=STYPE[tmrDow]||null;
+  const isRest=tmrDow===0||tmrDow===6;
+  if(isRest)return{text:'Morgen ist Ruhetag. Du kannst trotzdem dehnen.',type:null,suggestedInt:null};
+  let suggestedInt=todayInt==='a'?'b':todayInt==='c'?'b':'a';
+  let reason='';
+  if(todayType&&tmrType&&todayType!==tmrType){reason=`Heute ${todayType} → Morgen ${tmrType}: optimale Abwechslung.`;}
+  else if(todayInt==='a'){reason=`Du hast heute Vollgas gegeben (A) → morgen B empfohlen zur Erholung.`;}
+  else if(todayInt==='c'){reason=`Heute Erhalt (C) → morgen B um wieder Fahrt aufzunehmen.`;}
+  else{reason=`Heute B → morgen A für vollen Trainingseffekt.`;}
+  return{text:reason,type:tmrType,suggestedInt,dow:tmrDow};
+}
+
 // ── KI Content ──
-async function getContent(section){
-  const s=ld();const today=getDay(s);const p=prof();
-  if(!p)return null;
-  if(today[section]&&today[section].dc)return today[section].dc;
-  const dow=new Date().getDay();
-  const dn=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'][dow];
+async function getContent(section,subtype){
+  const s=ld();const today=getDay(s);const p=prof();if(!p)return null;
+  const cacheKey=section+(subtype||'');
+  if(today[section]&&today[section].dc&&today[section].dcKey===cacheKey)return today[section].dc;
+  const dow=new Date().getDay();const dn=DAYSFULL[dow];
   let prompt='';
   if(section==='sport'){
-    const st=STYP[dow]||'Ruhetag';
-    prompt=`Du bist Trainer. Tagesplan für ${dn} (${st}). Profil: Level ${p.level||'mittel'}, Pull-ups ${p.pu||'?'}, Dips ${p.di||'?'}, Liegestütze ${p.ps||'?'}, Kniebeugen ${p.sq||'?'}, Burpees/Min ${p.bu||'?'}, Laufziel ${p.rg} km, Ziel: ${p.sg||'Fitness'}, Schwachstelle: ${p.sw||'keine'}.
-Erstelle 3 Varianten:
-A: (~60 Min) detaillierter Plan mit exakten Sätzen × Reps
-B: (~30 Min) wichtigste Übungen
-C: (~15 Min) Minimalprogramm
-Überschriften: A:, B:, C:. Kein Markdown. Präzise.`;
+    const st=subtype||STYPE[dow]||'Training';
+    prompt=`Du bist Trainer. Konkreter Tagesplan ${dn}, Typ: ${st}. Profil: Level ${p.lv||'mittel'}, Pull-ups ${p.pu||'?'}, Dips ${p.di||'?'}, Liegestütze ${p.ps||'?'}, Kniebeugen ${p.sq||'?'}, Burpees/Min ${p.bu||'?'}, Laufziel ${p.rg}km, Ziel: ${p.sg||'Fitness'}.
+Drei Varianten:
+A (~60 Min): exakte Sätze×Reps, alle Übungen
+B (~30 Min): Fokus auf 3 Hauptübungen
+C (~15 Min): Minimal zum Streak-Halten
+Überschriften A:, B:, C: — kein Markdown, präzise.`;
   } else if(section==='dehnen'){
-    const sp=getStretchPlan(p);
-    const when=p.stretchtime==='morgens'?'Morgens':p.stretchtime==='nach-sport'?'nach dem Sport':p.stretchtime==='abends'?'Abends':'flexibel';
-    prompt=`Du bist Mobility-Coach. Dehn- und Mobilisationsplan für ${when} (${dn}). Profil: Level ${p.level||'mittel'}, Schwachstelle: ${p.sw||'keine'}.
-Erstelle 3 Varianten:
-A: (~15 Min) vollständige Mobility-Routine mit konkreten Übungen und Sekunden
-B: (~8 Min) 3-4 wichtigste Übungen
-C: (~2 Min) 1 Übung, sofort umsetzbar
-Überschriften: A:, B:, C:. Kein Markdown. Direkt umsetzbar.`;
+    const sp=STRETCH[p.st||'nie'];const when=p.st||'allgemein';
+    prompt=`Du bist Mobility-Coach. Dehnplan ${when}. Level ${p.lv||'mittel'}, Schwachstelle ${p.sw||'keine'}.
+Drei Varianten:
+A (~15 Min): vollständige Routine mit Übungen und Sekunden
+B (~8 Min): 4 wichtigste Übungen
+C (~2 Min): 1 Übung sofort umsetzbar
+Überschriften A:, B:, C: — kein Markdown.`;
   } else if(section==='wissen'){
     const ti=today.wissen.topicIdx;const topic=TOPICS[ti];
-    prompt=`Du bist Lerncoach. Lernaufgaben für "${topic}". Profil: Tiefe ${p.wd||'ausgewogen'}, Interessen: ${(p.wf||[]).join(',')||'alle'}, Ziel: ${p.wg||'Allgemeinwissen'}.
-Erstelle 3 Varianten:
-A: (~45 Min) tiefe Aufgaben mit spezifischen Fragen zum Recherchieren
-B: (~25 Min) fokussierte Aufgabe mit 3 Kernfragen
-C: (~10 Min) eine Mini-Aufgabe
-Überschriften: A:, B:, C:. Kein Markdown.`;
+    prompt=`Du bist Lerncoach. Lernaufgaben für "${topic}". Tiefe: ${p.wd||'ausgewogen'}, Interessen: ${(p.wf||[]).join(',')||'alle'}, Ziel: ${p.wg||'Allgemeinwissen'}.
+Drei Varianten:
+A (~45 Min): tiefe Aufgaben mit konkreten Recherchefragen
+B (~25 Min): 3 Kernfragen
+C (~10 Min): eine Mini-Aufgabe
+Überschriften A:, B:, C: — kein Markdown.`;
   } else if(section==='sprachen'){
-    prompt=`Du bist Sprachlehrer. Sprachlernaufgaben für heute. Profil: ES ${p.esl||'A2'}, FR ${p.frl||'A1'}, SV ${p.svl||'B1'}, Ziel: ${p.lg||'Fortschritt'}, Schwachstelle: ${p.lw||'allgemein'}.
-Erstelle 3 Varianten:
-A: (~40 Min) konkrete Aufgaben pro Sprache mit Grammatikthema/Vokabelset
-B: (~20 Min) Fokus ES+FR, konkrete Aufgaben
-C: (~15 Min) je 1 Mini-Aufgabe pro Sprache
-Überschriften: A:, B:, C:. Kein Markdown. Heute direkt umsetzbar.`;
+    const focus=subtype||'alle';
+    prompt=`Du bist Sprachlehrer. Sprachlernaufgaben für heute. ES ${p.esl||'A2'}, FR ${p.frl||'A1'}, SV ${p.svl||'B1'}, Ziel: ${p.lg||'Fortschritt'}, Schwachstelle: ${p.lw||'allgemein'}, Fokus heute: ${focus}.
+Drei Varianten:
+A (~40 Min): konkrete Aufgaben pro Sprache
+B (~20 Min): Fokus auf die 2 schwächeren Sprachen
+C (~15 Min): je 1 Mini-Aufgabe pro Sprache
+Überschriften A:, B:, C: — kein Markdown.`;
   }
   try{
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,messages:[{role:'user',content:prompt}]})});
     const d=await r.json();const text=d.content[0].text;
-    if(today[section])today[section].dc=text;
-    sv(s);return text;
+    today[section].dc=text;today[section].dcKey=cacheKey;sv(s);return text;
   }catch(e){return null;}
 }
-
 function parseSection(text,key){
-  if(!text)return null;
-  const K=key.toUpperCase()+':';const keys=['A:','B:','C:'];
+  if(!text)return null;const K=key.toUpperCase()+':';
   const i=text.indexOf(K);if(i===-1)return text.slice(0,400);
   const rest=text.slice(i+K.length);
-  const nextI=Math.min(...keys.filter(k=>k!==K).map(k=>rest.indexOf(k)).filter(x=>x>0).concat([rest.length]));
-  return rest.slice(0,nextI).trim();
+  const nxt=Math.min(...['A:','B:','C:'].filter(k=>k!==K).map(k=>rest.indexOf(k)).filter(x=>x>0).concat([rest.length]));
+  return rest.slice(0,nxt).trim();
 }
 
-// ══ HEUTE — quick-pick rendering ══
+// ══════════════════════════════════════
+// HEUTE FLOW — 3-step accordion
+// ══════════════════════════════════════
 function renderHeute(){
-  const s=ld();const dow=new Date().getDay();const today=getDay(s);
+  const s=ld();const today=getDay(s);const dow=new Date().getDay();
   const p=prof()||{};
-  const rSp=recSport(s,dow);const rWi=recWissen(s);const rLa=recLang(s);
-  const isRest=dow===0||dow===6;
-
-  // ── Sport ──
-  const spDone=today.sport.done;
-  const spPlan={1:{a:{t:'Vollständiges Training',time:'55–70'},b:{t:'Fokus-Satz',time:'25–35'},c:{t:'Minimal-Erhalt',time:'15'}},2:{a:{t:'Lauf Zone 2',time:'40–50'},b:{t:'Intervall-Lauf',time:'25–30'},c:{t:'Kurzer Lauf',time:'15'}},3:{a:{t:'Vollständiges Training',time:'55–65'},b:{t:'Unterkörper-Fokus',time:'25–30'},c:{t:'Minimal-Erhalt',time:'15'}},4:{a:{t:'Lauf + Core',time:'45–55'},b:{t:'Core-Fokus',time:'20–25'},c:{t:'Kurz-Core',time:'10'}},5:{a:{t:'Ganzkörper',time:'55–65'},b:{t:'Kompakt',time:'30–35'},c:{t:'Minimalfinish',time:'15'}}}[dow];
-  const ri_sp=rSp.int;const spSel=today.sport.int;
-  let spHtml=`<div class="ts-header"><div class="ts-label">🏋️ Sport${isRest?' — Ruhetag':spDone?'':''}</div>${spDone?'<span class="ts-done-pill ts-done-sp">✓ Erledigt</span>':'<button class="ts-detail-btn" onclick="nav(\'sport\',document.getElementById(\'n-sport\'))">Details →</button>'}</div>`;
-  if(isRest){
-    spHtml+=`<div style="font-size:12px;color:var(--tx2);padding:.5rem 0">🌿 Ruhetag. Dehnen empfohlen.</div>`;
-  } else if(spDone){
-    spHtml+=`<div class="qpick sport-row">${['a','b','c'].map(k=>`<div class="qb sel-${k} done-lock"><div class="qb-key qb-key-${k}">${k.toUpperCase()}</div><div class="qb-title">${spPlan[k].t}</div></div>`).join('')}<div class="qb done-lock" style="border-color:var(--de)"><div class="qb-key" style="color:var(--de-dk)">Dehnen</div><div class="qb-title" style="font-size:10px;color:var(--tx2)">${today.dehnen.done?'✓ Erledigt':'Optional'}</div></div></div>`;
-  } else {
-    spHtml+=`<div class="qpick sport-row" id="qp-sport">`;
-    ['a','b','c'].forEach(k=>{
-      const isRec=!spSel&&k===ri_sp;
-      spHtml+=`<div class="qb ${spSel===k?'sel-'+k:''} ${isRec?'rec-mark':''}" onclick="quickPick('sport','${k}')">
-        <div class="qb-key qb-key-${k}">${k==='a'?'A – Perfekt':k==='b'?'B – OK':'C – Erhalt'}</div>
-        <div class="qb-title">${spPlan[k].t}</div>
-        <div class="qb-time">⏱ ${spPlan[k].time} Min</div></div>`;
-    });
-    spHtml+=`<div class="qb ${today.dehnen.int==='a'||today.dehnen.int==='b'||today.dehnen.int==='c'?'sel-de':''}" onclick="quickPickDehnen()" style="border-color:var(--de)">
-      <div class="qb-key qb-key-de">🧘 Dehnen</div>
-      <div class="qb-title" style="font-size:10px">${today.dehnen.done?'✓':today.dehnen.int?today.dehnen.int.toUpperCase()+' gewählt':'täglich'}</div></div>`;
-    spHtml+='</div>';
-    if(spSel)spHtml+=`<div class="confirm-strip"><button class="confirm-btn go" onclick="confirmDone('sport')">✓ Als erledigt markieren</button><button class="confirm-btn undo" onclick="undoPick('sport')">Undo</button></div>`;
-    if(spSel){
-      spHtml+=`<div id="dc-sport"><div class="dc-loading"><div class="spin"></div> Plan wird geladen...</div></div>`;
-    }
-  }
-  document.getElementById('heute-sport').innerHTML=spHtml;
-  if(spSel&&!spDone)loadDCPreview('sport',spSel,'dc-sport');
-
-  // ── Dehnen (standalone row) ──
-  const deDone=today.dehnen.done;const deSel=today.dehnen.int;
-  const sp2=getStretchPlan(p);
-  let deHtml=`<div class="ts-header"><div class="ts-label">🧘 Dehnen</div>${deDone?'<span class="ts-done-pill ts-done-de">✓ Erledigt</span>':''}</div>`;
-  if(deDone){
-    deHtml+=`<div style="font-size:11px;color:var(--de-dk)">✓ ${sp2[deSel||'b'].t}</div>`;
-  } else {
-    deHtml+=`<div class="qpick tri-row">`;
-    ['a','b','c'].forEach(k=>{
-      deHtml+=`<div class="qb ${deSel===k?'sel-de':''}" onclick="quickPickStretch('${k}')" style="${deSel===k?'border-color:var(--de);background:var(--de-bg)':''}">
-        <div class="qb-key qb-key-de">${k==='a'?'A – Voll':k==='b'?'B – Kurz':'C – 2 Min'}</div>
-        <div class="qb-title">${sp2[k].t}</div>
-        <div class="qb-time">⏱ ${sp2[k].time}</div></div>`;
-    });
-    deHtml+='</div>';
-    if(deSel){
-      const exList=sp2[deSel].ex.map(e=>`• ${e}`).join('\n');
-      deHtml+=`<div class="dc-preview">${exList}</div>`;
-      deHtml+=`<div class="confirm-strip"><button class="confirm-btn go" onclick="confirmDone('dehnen')" style="background:var(--de)">✓ Dehnen abgehakt</button><button class="confirm-btn undo" onclick="undoPick('dehnen')">Undo</button></div>`;
-    }
-  }
-  document.getElementById('heute-dehnen').innerHTML=deHtml;
-
-  // ── Wissen ──
-  const wiDone=today.wissen.done;const wiSel=today.wissen.int;const ri_wi=rWi.int;
-  const ti=today.wissen.topicIdx;
-  let wiHtml=`<div class="ts-header"><div class="ts-label">📖 Wissen — ${TOPICS[ti]}</div>${wiDone?'<span class="ts-done-pill ts-done-wi">✓ Erledigt</span>':'<button class="ts-detail-btn" onclick="nav(\'wissen\',document.getElementById(\'n-wissen\'))">Details →</button>'}</div>`;
-  if(wiDone){
-    wiHtml+=`<div style="font-size:11px;color:var(--wi-dk)">✓ ${wiSel?wiSel.toUpperCase()+' – abgehakt':'Erledigt'}</div>`;
-  } else {
-    wiHtml+=`<div class="qpick tri-row">`;
-    [{k:'a',t:'Tiefes Lernen',time:'45–60'},{k:'b',t:'Fokus-Einheit',time:'20–30'},{k:'c',t:'Kurz-Review',time:'10–15'}].forEach(({k,t,time})=>{
-      const isRec=!wiSel&&k===ri_wi;
-      wiHtml+=`<div class="qb ${wiSel===k?'sel-'+k:''} ${isRec?'rec-mark':''}" onclick="quickPick('wissen','${k}')">
-        <div class="qb-key qb-key-${k}">${k==='a'?'A – Perfekt':k==='b'?'B – OK':'C – Erhalt'}</div>
-        <div class="qb-title">${t}</div><div class="qb-time">⏱ ${time} Min</div></div>`;
-    });
-    wiHtml+='</div>';
-    if(wiSel)wiHtml+=`<div class="confirm-strip"><button class="confirm-btn go" onclick="confirmDone('wissen')" style="background:var(--wi)">✓ Als erledigt markieren</button><button class="confirm-btn undo" onclick="undoPick('wissen')">Undo</button></div><div id="dc-wissen"><div class="dc-loading"><div class="spin"></div> Aufgaben werden geladen...</div></div>`;
-  }
-  document.getElementById('heute-wissen').innerHTML=wiHtml;
-  if(wiSel&&!wiDone)loadDCPreview('wissen',wiSel,'dc-wissen');
-
-  // ── Sprachen ──
-  const laDone=today.sprachen.done;const laSel=today.sprachen.int;const ri_la=recLang(s).int;
-  let laHtml=`<div class="ts-header"><div class="ts-label">🗣 Sprachen — ES · FR · SV</div>${laDone?'<span class="ts-done-pill ts-done-la">✓ Erledigt</span>':'<button class="ts-detail-btn" onclick="nav(\'sprachen\',document.getElementById(\'n-sprachen\'))">Details →</button>'}</div>`;
-  if(laDone){
-    laHtml+=`<div style="font-size:11px;color:var(--la-dk)">✓ ${laSel?laSel.toUpperCase()+' – abgehakt':'Erledigt'}</div>`;
-  } else {
-    laHtml+=`<div class="qpick tri-row">`;
-    [{k:'a',t:'Volle Session',time:'40–45'},{k:'b',t:'2 Sprachen',time:'20–25'},{k:'c',t:'Minimal-Streak',time:'15'}].forEach(({k,t,time})=>{
-      const isRec=!laSel&&k===ri_la;
-      laHtml+=`<div class="qb ${laSel===k?'sel-'+k:''} ${isRec?'rec-mark':''}" onclick="quickPick('sprachen','${k}')">
-        <div class="qb-key qb-key-${k}">${k==='a'?'A – Perfekt':k==='b'?'B – OK':'C – Erhalt'}</div>
-        <div class="qb-title">${t}</div><div class="qb-time">⏱ ${time} Min</div></div>`;
-    });
-    laHtml+='</div>';
-    if(laSel)laHtml+=`<div class="confirm-strip"><button class="confirm-btn go" onclick="confirmDone('sprachen')" style="background:var(--la)">✓ Als erledigt markieren</button><button class="confirm-btn undo" onclick="undoPick('sprachen')">Undo</button></div><div id="dc-sprachen"><div class="dc-loading"><div class="spin"></div> Aufgaben werden geladen...</div></div>`;
-  }
-  document.getElementById('heute-sprachen').innerHTML=laHtml;
-  if(laSel&&!laDone)loadDCPreview('sprachen',laSel,'dc-sprachen');
+  renderFlowSport(s,today,dow,p);
+  renderFlowWissen(s,today,p);
+  renderFlowSprachen(s,today,p);
+  renderForecast(s,today,dow);
 }
 
-async function loadDCPreview(section,intensity,containerId){
-  const content=await getContent(section);
-  const el=document.getElementById(containerId);
-  if(!el)return;
+// ── SPORT FLOW ──
+function renderFlowSport(s,today,dow,p){
+  const isRest=dow===0||dow===6;
+  const spDone=today.sport.done;const deDone=today.dehnen.done;
+  const rec=recSport(s,dow);
+  const yt=yest(s,'sport');
+  const stretchPlan=STRETCH[p.st||'nie'];
+
+  let html=`<div class="flow-card ${spDone&&deDone?'done-sp':''} active" id="fc-sport">`;
+  html+=`<div class="fc-header" onclick="toggleFC('sport')">
+    <div class="fc-left">
+      <span class="fc-icon">🏋️</span>
+      <div><div class="fc-title">Sport${isRest?' — Ruhetag':''}</div>
+      <div class="fc-sub">${isRest?'Dehnen trotzdem möglich':spDone?'Einheit erledigt':'Schritt 1 von 3'}</div></div>
+    </div>
+    <div class="fc-right">
+      ${spDone?'<span class="fc-done-pill fc-done-sp">✓</span>':''}
+      ${deDone?'<span class="fc-done-pill fc-done-de">🧘✓</span>':''}
+      <span class="fc-chevron ${!spDone?'open':''}" id="chev-sport">▾</span>
+    </div>
+  </div>`;
+  html+=`<div class="fc-body ${!spDone?'open':''}" id="fcb-sport">`;
+
+  if(!isRest){
+    // context from yesterday
+    if(rec.reason){html+=`<div class="ctx-banner ${rec.reason.cls||''}"><strong>Kontext</strong>${rec.reason.t}</div>`;}
+    else if(yt&&yt.done){html+=`<div class="ctx-banner"><strong>Gestern</strong>${yt.type||'Training'} · Intensität ${(yt.int||'?').toUpperCase()} — heute baut darauf auf.</div>`;}
+
+    if(!spDone){
+      // Step dots
+      const hasSub=today.sport.subtype;const hasInt=today.sport.int;
+      html+=`<div class="step-dots"><div class="sdot ${hasSub?'done':'active'}"></div><div class="sdot ${hasInt?'done':hasSub?'active':''}"></div><div class="sdot ${hasInt?'active':''}"></div></div>`;
+
+      // Step 1: choose type
+      if(!hasSub){
+        html+=`<div class="slbl" style="margin-bottom:6px">Was machst du heute?</div>`;
+        const types=[{k:'Kraft',icon:'💪',sub:'Pull-ups, Dips, Kniebeugen...'},{k:'Lauf',icon:'🏃',sub:p.rg+'km Zone 2 oder Intervall'},{k:'Ganzkörper',icon:'🔥',sub:'Alle Übungen kombiniert'},{k:'Dehnen',icon:'🧘',sub:'Nur Mobility heute'}];
+        html+=`<div class="type-grid four">`;
+        types.forEach(t=>{html+=`<div class="tcard ${today.sport.subtype===t.k?'sel-sp':''}" onclick="chooseSportType('${t.k}')"><div class="tc-icon">${t.icon}</div><div class="tc-label">${t.k}</div><div class="tc-sub">${t.sub}</div></div>`;});
+        html+='</div>';
+      } else {
+        // Step 2: choose intensity
+        const isSub=today.sport.subtype;
+        html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.625rem">📍 <strong style="color:var(--tx)">${isSub}</strong> gewählt — <span style="cursor:pointer;color:var(--b-dk);text-decoration:underline" onclick="resetSportType()">ändern</span></div>`;
+        if(!hasInt){
+          html+=`<div class="slbl" style="margin-bottom:6px">Wie viel Zeit hast du?</div>`;
+          const spPlans={Kraft:{a:{t:'Vollständig',d:'4 Übungen, max Sätze',time:'55–70'},b:{t:'Fokus-Satz',d:'Top 3, je 3 Sätze',time:'25–35'},c:{t:'Erhalt',d:'Je 2×10',time:'15'}},Lauf:{a:{t:'Zone-2-Lauf',d:'Steady state, Nasenatemung',time:'40–50'},b:{t:'Intervall',d:'5×3 Min, je 2 Min Pause',time:'25–30'},c:{t:'Kurzer Lauf',d:'15 Min locker',time:'15'}},Ganzkörper:{a:{t:'5 Runden AMRAP',d:'Alle Übungen',time:'55–65'},b:{t:'Kompakt',d:'PU+Dips+Kniebeugen, 3R',time:'30–35'},c:{t:'Minimal',d:'Burpees 3×10, Liegestütze 2×10',time:'15'}},Dehnen:null};
+          const plan=spPlans[isSub];
+          if(plan){
+            html+=`<div class="int-row">`;
+            ['a','b','c'].forEach(k=>{
+              const isRec=!hasInt&&k===rec.int;
+              html+=`<div class="ib ${hasInt===k?'sel-'+k:''} ${isRec?'rec rec-'+k:''}" onclick="chooseSportInt('${k}')">
+                <div class="ib-key ib-key-${k}">${k.toUpperCase()} ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div>
+                <div class="ib-title">${plan[k].t}</div>
+                <div class="ib-time">⏱ ${plan[k].time} Min</div></div>`;
+            });
+            html+='</div>';
+          }
+        } else {
+          // Step 3: confirm
+          html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.625rem">📍 ${isSub} · ${hasInt.toUpperCase()} gewählt — <span style="cursor:pointer;color:var(--b-dk);text-decoration:underline" onclick="resetSportInt()">ändern</span></div>`;
+          html+=`<div id="dc-sport"><div class="dc-loading"><div class="spin"></div> Plan wird generiert...</div></div>`;
+          html+=`<button class="confirm-btn cbtn-sp" onclick="confirmDone('sport')">✓ Als erledigt markieren</button>`;
+          html+=`<button class="undo-btn" onclick="resetSportInt()">Intensität ändern</button>`;
+        }
+      }
+    } else {
+      html+=`<div style="font-size:12px;color:var(--sp-dk)">✓ ${today.sport.subtype} · ${(today.sport.int||'').toUpperCase()} erledigt</div>`;
+    }
+  } else {
+    html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.875rem">🌿 Ruhetag. Keine Pflicht, aber Dehnen kann trotzdem helfen.</div>`;
+  }
+
+  // Dehnen section — always shown
+  html+=`<div class="div"></div>`;
+  html+=`<div class="slbl" style="margin-bottom:6px">🧘 Dehnen — täglich</div>`;
+  if(deDone){
+    html+=`<div style="font-size:11px;color:var(--de-dk)">✓ ${stretchPlan[today.dehnen.int||'b'].t} erledigt</div>`;
+  } else {
+    html+=`<div class="int-row">`;
+    ['a','b','c'].forEach(k=>{
+      html+=`<div class="ib ${today.dehnen.int===k?'sel-de':''}" onclick="chooseDehnen('${k}')" style="${today.dehnen.int===k?'border-color:var(--de);background:var(--de-bg)':''}">
+        <div class="ib-key" style="color:var(--de-dk)">${k==='a'?'A Voll':k==='b'?'B Kurz':'C 2 Min'}</div>
+        <div class="ib-title">${stretchPlan[k].t}</div>
+        <div class="ib-time" style="color:var(--de-dk)">⏱ ${stretchPlan[k].time} Min</div></div>`;
+    });
+    html+='</div>';
+    if(today.dehnen.int){
+      const ex=stretchPlan[today.dehnen.int].ex;
+      html+=`<div class="dc-box" style="border-color:var(--de);background:var(--de-bg)"><div class="dc-content" style="color:var(--de-dk)">${ex.map(e=>'• '+e).join('\n')}</div></div>`;
+      html+=`<button class="confirm-btn cbtn-de" onclick="confirmDone('dehnen')">✓ Dehnen erledigt</button>`;
+    }
+  }
+  html+='</div></div>';
+  document.getElementById('flow-sport').innerHTML=html;
+  if(today.sport.int&&!today.sport.done)loadDCInto('dc-sport','sport',today.sport.int,today.sport.subtype);
+}
+
+// ── WISSEN FLOW ──
+function renderFlowWissen(s,today,p){
+  const wiDone=today.wissen.done;
+  const rec=recWissen(s);const yw=yest(s,'wissen');
+  const ti=today.wissen.topicIdx;const topic=TOPICS[ti];
+  const isLocked=!today.sport.done&&!today.dehnen.done;
+
+  let html=`<div class="flow-card ${wiDone?'done-wi':''} ${isLocked?'locked':''}" id="fc-wissen">`;
+  html+=`<div class="fc-header" onclick="toggleFC('wissen')">
+    <div class="fc-left">
+      <span class="fc-icon">📖</span>
+      <div><div class="fc-title">Allgemeinwissen</div>
+      <div class="fc-sub">${wiDone?'Lerneinheit erledigt':isLocked?'Nach Sport verfügbar':'Schritt 2 von 3'}</div></div>
+    </div>
+    <div class="fc-right">
+      ${wiDone?'<span class="fc-done-pill fc-done-wi">✓</span>':''}
+      <span class="fc-chevron ${wiDone||isLocked?'':'open'}" id="chev-wissen">▾</span>
+    </div>
+  </div>`;
+  html+=`<div class="fc-body ${wiDone||isLocked?'':'open'}" id="fcb-wissen">`;
+
+  if(rec.reason){html+=`<div class="ctx-banner ${rec.reason.cls||''}"><strong>Kontext</strong>${rec.reason.t}</div>`;}
+
+  if(!wiDone){
+    // Topic confirm
+    html+=`<div class="slbl" style="margin-bottom:5px">Heutiges Thema</div>`;
+    html+=`<div style="display:flex;align-items:center;justify-content:space-between;background:var(--wi-bg);border:1px solid var(--wi);border-radius:var(--rs);padding:.625rem .875rem;margin-bottom:.875rem">
+      <div><div style="font-size:13px;font-weight:500;color:var(--wi-dk)">${topic}</div><div style="font-size:10px;color:var(--wi-dk);opacity:.7;margin-top:1px;font-family:'DM Mono',monospace">Thema ${ti+1} / ${TOPICS.length}</div></div>
+      <button onclick="openTopicPicker()" style="font-size:11px;padding:4px 10px;border-radius:var(--rs);border:.5px solid var(--wi);background:var(--sf);color:var(--wi-dk);cursor:pointer;font-family:'DM Sans',sans-serif">Wechseln</button>
+    </div>`;
+    if(!today.wissen.int){
+      html+=`<div class="slbl" style="margin-bottom:6px">Wie tief möchtest du heute gehen?</div>`;
+      html+=`<div class="int-row">`;
+      ['a','b','c'].forEach(k=>{
+        const isRec=k===rec.int;
+        const info={a:{t:'Tief lernen',time:'45–60'},b:{t:'Fokus-Einheit',time:'20–30'},c:{t:'Kurz-Review',time:'10–15'}}[k];
+        html+=`<div class="ib ${today.wissen.int===k?'sel-'+k:''} ${isRec&&!today.wissen.int?'rec rec-'+k:''}" onclick="chooseWissenInt('${k}')">
+          <div class="ib-key ib-key-${k}">${k.toUpperCase()} ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div>
+          <div class="ib-title">${info.t}</div><div class="ib-time">⏱ ${info.time} Min</div></div>`;
+      });
+      html+='</div>';
+    } else {
+      html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.625rem">${today.wissen.int.toUpperCase()} gewählt — <span style="cursor:pointer;color:var(--b-dk);text-decoration:underline" onclick="resetWissenInt()">ändern</span></div>`;
+      html+=`<div id="dc-wissen"><div class="dc-loading"><div class="spin"></div> Aufgaben werden geladen...</div></div>`;
+      html+=`<button class="confirm-btn cbtn-wi" onclick="confirmDone('wissen')">✓ Lerneinheit abhaken</button>`;
+      html+=`<button class="undo-btn" onclick="resetWissenInt()">Intensität ändern</button>`;
+    }
+  } else {
+    html+=`<div style="font-size:12px;color:var(--wi-dk)">✓ ${topic} · ${(today.wissen.int||'').toUpperCase()} erledigt</div>`;
+  }
+  html+='</div></div>';
+  document.getElementById('flow-wissen').innerHTML=html;
+  if(today.wissen.int&&!today.wissen.done)loadDCInto('dc-wissen','wissen',today.wissen.int,null);
+}
+
+// ── SPRACHEN FLOW ──
+function renderFlowSprachen(s,today,p){
+  const laDone=today.sprachen.done;
+  const rec=recLang(s);
+  const isLocked=!today.wissen.done;
+
+  let html=`<div class="flow-card ${laDone?'done-la':''} ${isLocked?'locked':''}" id="fc-sprachen">`;
+  html+=`<div class="fc-header" onclick="toggleFC('sprachen')">
+    <div class="fc-left">
+      <span class="fc-icon">🗣</span>
+      <div><div class="fc-title">Sprachen</div>
+      <div class="fc-sub">${laDone?'Session erledigt':isLocked?'Nach Wissen verfügbar':'Schritt 3 von 3'}</div></div>
+    </div>
+    <div class="fc-right">
+      ${laDone?'<span class="fc-done-pill fc-done-la">✓</span>':''}
+      <span class="fc-chevron ${laDone||isLocked?'':'open'}" id="chev-sprachen">▾</span>
+    </div>
+  </div>`;
+  html+=`<div class="fc-body ${laDone||isLocked?'':'open'}" id="fcb-sprachen">`;
+
+  if(rec.reason){html+=`<div class="ctx-banner ${rec.reason.cls||''}"><strong>Kontext</strong>${rec.reason.t}</div>`;}
+
+  if(!laDone){
+    // Focus language selection
+    if(!today.sprachen.focus){
+      html+=`<div class="slbl" style="margin-bottom:6px">Worauf liegt heute der Fokus?</div>`;
+      html+=`<div class="type-grid" style="grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:.875rem">`;
+      [{k:'Alle drei',icon:'🌍'},{k:'Spanisch',icon:'🇪🇸'},{k:'Französisch',icon:'🇫🇷'},{k:'Schwedisch',icon:'🇸🇪'}].forEach(l=>{
+        html+=`<div class="tcard ${today.sprachen.focus===l.k?'sel-la':''}" onclick="chooseLangFocus('${l.k}')"><div class="tc-icon">${l.icon}</div><div class="tc-label" style="font-size:10px">${l.k}</div></div>`;
+      });
+      html+='</div>';
+    } else {
+      html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.625rem">📍 Fokus: <strong>${today.sprachen.focus}</strong> — <span style="cursor:pointer;color:var(--b-dk);text-decoration:underline" onclick="resetLangFocus()">ändern</span></div>`;
+      if(!today.sprachen.int){
+        html+=`<div class="slbl" style="margin-bottom:6px">Wie viel Zeit hast du?</div>`;
+        html+=`<div class="int-row">`;
+        ['a','b','c'].forEach(k=>{
+          const isRec=k===rec.int;
+          const info={a:{t:'Volle Session',time:'40–45'},b:{t:'2 Sprachen',time:'20–25'},c:{t:'Minimal-Streak',time:'15'}}[k];
+          html+=`<div class="ib ${today.sprachen.int===k?'sel-'+k:''} ${isRec&&!today.sprachen.int?'rec rec-'+k:''}" onclick="chooseLangInt('${k}')">
+            <div class="ib-key ib-key-${k}">${k.toUpperCase()} ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div>
+            <div class="ib-title">${info.t}</div><div class="ib-time">⏱ ${info.time} Min</div></div>`;
+        });
+        html+='</div>';
+      } else {
+        html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.625rem">${today.sprachen.int.toUpperCase()} gewählt — <span style="cursor:pointer;color:var(--b-dk);text-decoration:underline" onclick="resetLangInt()">ändern</span></div>`;
+        html+=`<div id="dc-sprachen"><div class="dc-loading"><div class="spin"></div> Aufgaben werden geladen...</div></div>`;
+        html+=`<button class="confirm-btn cbtn-la" onclick="confirmDone('sprachen')">✓ Sprachsession abhaken</button>`;
+        html+=`<button class="undo-btn" onclick="resetLangInt()">Intensität ändern</button>`;
+      }
+    }
+  } else {
+    html+=`<div style="font-size:12px;color:var(--la-dk)">✓ ${today.sprachen.focus||'Alle'} · ${(today.sprachen.int||'').toUpperCase()} erledigt</div>`;
+  }
+  html+='</div></div>';
+  document.getElementById('flow-sprachen').innerHTML=html;
+  if(today.sprachen.int&&today.sprachen.focus&&!today.sprachen.done)loadDCInto('dc-sprachen','sprachen',today.sprachen.int,today.sprachen.focus);
+}
+
+// ── FORECAST ──
+function renderForecast(s,today,dow){
+  const fc=forecastWeek(s);
+  const nd=nextDayPreview(s);
+  const todayInt=today.sport.int;
+  const typeIcon={Kraft:'💪',Lauf:'🏃',Ganzkörper:'🔥',null:'🌿'};
+
+  let html='';
+  // Next day preview (only show when sport is done or selected)
+  if(todayInt||today.sport.done){
+    html+=`<div class="next-day-box"><strong>Morgen — Vorausschau</strong>${nd.text}${nd.suggestedInt?` Empfehlung: <strong>${nd.suggestedInt.toUpperCase()}</strong>${nd.type?' ('+nd.type+')':''}.`:''}</div>`;
+  }
+
+  // 7-day forecast grid
+  html+=`<div class="slbl" style="margin-bottom:6px">7-Tage-Übersicht</div>`;
+  html+=`<div class="forecast-row">`;
+  fc.forEach(day=>{
+    const icon=day.isRest?'🌿':(typeIcon[day.type]||'🏋');
+    const intLabel=day.done?day.int:day.isToday?todayInt:day.isPast?null:day.suggestedInt;
+    html+=`<div class="fday ${day.isToday?'today-col':''} ${day.isPast?'past':''} ${day.isRest?'rest':''} ${day.isTomorrow&&!day.isRest?'fd-tomorrow':''}">
+      <div class="fd-name">${DAYS[day.wd]}</div>
+      <div class="fd-icon">${icon}</div>
+      <div class="fd-type">${day.type||''}</div>
+      ${intLabel?`<div class="fd-int fd-int-${intLabel}">${intLabel.toUpperCase()}</div>`:''}
+    </div>`;
+  });
+  html+='</div>';
+  html+=`<div class="forecast-legend">★ = heute empfohlen &nbsp;·&nbsp; <strong>blau</strong> = morgen &nbsp;·&nbsp; abgeblasst = vergangen</div>`;
+  document.getElementById('flow-forecast').innerHTML=html;
+}
+
+// ── Flow actions ──
+function toggleFC(id){
+  const body=document.getElementById('fcb-'+id);const chev=document.getElementById('chev-'+id);
+  if(body)body.classList.toggle('open');if(chev)chev.classList.toggle('open');
+}
+function chooseSportType(type){
+  const s=ld();const today=getDay(s);today.sport.subtype=type;today.sport.dc=null;sv(s);
+  if(type==='Dehnen'){today.sport.int='a';sv(s);}
+  renderHeute();
+}
+function resetSportType(){const s=ld();const t=getDay(s);t.sport.subtype=null;t.sport.int=null;t.sport.dc=null;sv(s);renderHeute();}
+function chooseSportInt(key){const s=ld();const t=getDay(s);t.sport.int=key;t.sport.dc=null;sv(s);renderHeute();}
+function resetSportInt(){const s=ld();const t=getDay(s);t.sport.int=null;t.sport.dc=null;sv(s);renderHeute();}
+function chooseDehnen(key){const s=ld();const t=getDay(s);t.dehnen.int=key;sv(s);renderHeute();}
+function chooseWissenInt(key){const s=ld();const t=getDay(s);t.wissen.int=key;t.wissen.dc=null;sv(s);renderHeute();}
+function resetWissenInt(){const s=ld();const t=getDay(s);t.wissen.int=null;t.wissen.dc=null;sv(s);renderHeute();}
+function chooseLangFocus(focus){const s=ld();const t=getDay(s);t.sprachen.focus=focus;t.sprachen.dc=null;sv(s);renderHeute();}
+function resetLangFocus(){const s=ld();const t=getDay(s);t.sprachen.focus=null;t.sprachen.int=null;t.sprachen.dc=null;sv(s);renderHeute();}
+function chooseLangInt(key){const s=ld();const t=getDay(s);t.sprachen.int=key;t.sprachen.dc=null;sv(s);renderHeute();}
+function resetLangInt(){const s=ld();const t=getDay(s);t.sprachen.int=null;t.sprachen.dc=null;sv(s);renderHeute();}
+
+async function loadDCInto(elId,section,intensity,subtype){
+  const el=document.getElementById(elId);if(!el)return;
+  const content=await getContent(section,subtype);
+  if(!el||!document.getElementById(elId))return;
   if(content){
     const parsed=parseSection(content,intensity);
-    el.innerHTML=`<div class="dc-preview">${parsed||''}</div>`;
-  } else el.innerHTML='';
+    document.getElementById(elId).innerHTML=`<div class="dc-box"><div class="dc-head"><div class="dc-title">Dein Plan</div><div class="dc-badge dcb-${intensity}">${intensity.toUpperCase()}</div></div><div class="dc-content">${parsed||''}</div></div>`;
+  } else document.getElementById(elId)&&(document.getElementById(elId).innerHTML='');
 }
 
-function quickPick(section,key){
-  const s=ld();const today=getDay(s);
-  const k2={sport:'sport',wissen:'wissen',sprachen:'sprachen'}[section];
-  today[k2].int=key;sv(s);
-  renderHeute();
-}
-function quickPickDehnen(){nav('sport',document.getElementById('n-sport'));}
-function quickPickStretch(key){
-  const s=ld();const today=getDay(s);
-  today.dehnen.int=key;sv(s);
-  renderHeute();
-}
 function confirmDone(section){
   const s=ld();const today=getDay(s);const dow=new Date().getDay();
-  if(section==='sport'){today.sport.done=true;today.sport.type=STYP[dow]||null;}
+  if(section==='sport'){today.sport.done=true;today.sport.type=today.sport.subtype||STYPE[dow]||null;}
   else if(section==='dehnen')today.dehnen.done=true;
   else if(section==='wissen')today.wissen.done=true;
   else if(section==='sprachen')today.sprachen.done=true;
   sv(s);toast(MOTIV[Math.floor(Math.random()*MOTIV.length)]);
   renderHeute();renderTopBar();
 }
-function undoPick(section){
-  const s=ld();const today=getDay(s);
-  if(section==='sport')today.sport.int=null;
-  else if(section==='dehnen')today.dehnen.int=null;
-  else if(section==='wissen')today.wissen.int=null;
-  else if(section==='sprachen')today.sprachen.int=null;
-  sv(s);renderHeute();
-}
-
-// ── Top bar ──
-function renderTopBar(){
-  const now=new Date();const h=now.getHours();
-  document.getElementById('greeting').textContent=(h<12?'Guten Morgen':h<18?'Guten Tag':'Guten Abend')+', Bob';
-  document.getElementById('topdate').textContent=now.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'});
-  const s=ld();
-  const ss=streak(s,'sport'),ws=streak(s,'wissen'),ls=streak(s,'sprachen');
-  const t=s[tk()];const dow=new Date().getDay();const isRest=dow===0||dow===6;const h2=now.getHours();
-  const sw=!isRest&&t&&!t.sport.done&&ss>0&&h2>=18;
-  const ww=t&&!t.wissen.done&&ws>0&&h2>=19;
-  const lw=t&&!t.sprachen.done&&ls>0&&h2>=19;
-  document.getElementById('cs').className='sc '+(sw?'warn':'sp');document.getElementById('cs').textContent='🏋 '+ss;
-  document.getElementById('cw').className='sc '+(ww?'warn':'wi');document.getElementById('cw').textContent='📖 '+ws;
-  document.getElementById('cl').className='sc '+(lw?'warn':'la');document.getElementById('cl').textContent='🗣 '+ls;
-}
-
-// ── Detail pages ──
-function renderSport(){
-  const s=ld();const dow=new Date().getDay();const today=getDay(s);
-  const rec=recSport(s,dow);const p=prof()||{};
-  const isRest=dow===0||dow===6;
-  const planMap={1:{l:'Mo – Kraft',a:{t:'Vollständig',d:'4 Übungen, maximale Runden',time:'55–70'},b:{t:'Fokus-Satz',d:'Top 3 Übungen, je 3 Sätze',time:'25–35'},c:{t:'Erhalt',d:'Je 2×10',time:'15'}},2:{l:'Di – Laufen',a:{t:'Zone-2-Lauf',d:'Steady state, Nasenatemung',time:'40–50'},b:{t:'Intervall',d:'5×3 Min intensiv, 2 Min Pause',time:'25–30'},c:{t:'Kurzer Lauf',d:'15 Min locker',time:'15'}},3:{l:'Mi – Kraft',a:{t:'Vollständig',d:'Alle 5 Übungen',time:'55–65'},b:{t:'Unterkörper',d:'Kniebeugen + Burpees, 3R',time:'25–30'},c:{t:'Erhalt',d:'Burpees 3×10, Kniebeugen 3×15',time:'15'}},4:{l:'Do – Lauf & Core',a:{t:'Lauf + Core',d:'25 Min Lauf + Core-Circuit',time:'45–55'},b:{t:'Core-Fokus',d:'Plank, Hollow hold, 3R',time:'20–25'},c:{t:'Kurz-Core',d:'Plank 2×45s, Liegestütze 2×10',time:'10'}},5:{l:'Fr – Ganzkörper',a:{t:'5 Runden',d:'Alle Übungen, AMRAP-Finisher',time:'55–65'},b:{t:'Kompakt',d:'PU + Dips + Kniebeugen, 3R',time:'30–35'},c:{t:'Minimal',d:'Burpees 3×10, Liegestütze 2×10',time:'15'}}}[dow];
-  document.getElementById('sp-daylbl').textContent=planMap?planMap.l:(DAY[dow]+' – Ruhetag');
-  document.getElementById('sp-log').style.display=isRest?'none':'block';
-  if(rec.reason)document.getElementById('sp-banner').innerHTML=`<div class="banner ${rec.reason.cls||''}"><strong>Empfehlung</strong>${rec.reason.t}</div>`;
-  else document.getElementById('sp-banner').innerHTML='';
-  if(!isRest&&planMap){
-    const ri=rec.int;const sel=today.sport.int;
-    document.getElementById('sp-intgrid').innerHTML=['a','b','c'].map(k=>{
-      const d=planMap[k];const isRec=!sel&&k===ri;
-      return`<div class="ic ${sel===k?'sel-'+k:''} ${isRec?'rec rec-'+k:''}" onclick="detailSelInt('sport','${k}')">
-        <div class="ic-badge ib-${k}">${k.toUpperCase()} – ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div>
-        <div class="ic-title">${d.t}</div><div class="ic-desc">${d.d}</div>
-        <div class="ic-time it-${k}">⏱ ${d.time} Min</div></div>`;
-    }).join('');
-    // Dehnen section in sport detail
-    const sp2=getStretchPlan(p);const deSel=today.dehnen.int;
-    document.getElementById('sp-dehnen-section').innerHTML=`<div style="margin-bottom:.875rem">
-      <div class="slbl" style="margin-bottom:6px">🧘 Dehnen / Mobility — täglich</div>
-      <div class="int-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
-        ${['a','b','c'].map(k=>`<div class="ic ${deSel===k?'sel-de':''}" onclick="detailSelDehnen('${k}')" style="${deSel===k?'border-color:var(--de);background:var(--de-bg)':''}">
-          <div class="ic-badge ib-de">${k==='a'?'A – Voll':k==='b'?'B – Kurz':'C – 2 Min'}</div>
-          <div class="ic-title">${sp2[k].t}</div>
-          <div class="ic-desc">${sp2[k].ex.slice(0,2).join(', ')}${sp2[k].ex.length>2?'...':''}</div>
-          <div class="ic-time it-de">⏱ ${sp2[k].time}</div></div>`).join('')}
-      </div>
-      ${deSel?`<div style="background:var(--de-bg);border:1px solid var(--de);border-radius:var(--rs);padding:.75rem;font-size:12px;color:var(--de-dk);line-height:1.7">${sp2[deSel].ex.map(e=>'• '+e).join('\n')}</div><button class="done-btn" style="margin-top:6px;${today.dehnen.done?'background:var(--de-bg);border-color:var(--de);color:var(--de-dk)':''}" onclick="confirmDone('dehnen')">${today.dehnen.done?'✓ Dehnen erledigt':'✓ Dehnen abhaken'}</button>`:''}
-    </div>`;
-    renderExList(today);
-    const showRun=dow===2||dow===4;
-    document.getElementById('run-sec').style.display=showRun?'block':'none';
-    if(showRun){const r=today.sport.run||{};document.getElementById('r-dist').value=r.dist||'';document.getElementById('r-time').value=r.time||'';updatePace();}
-  } else{document.getElementById('sp-intgrid').innerHTML='';document.getElementById('sp-dehnen-section').innerHTML='';}
-  const btn=document.getElementById('sp-done');
-  if(today.sport.done){btn.textContent='✓ Erledigt!';btn.className='done-btn ok-sp';}else{btn.textContent='✓ Einheit abhaken';btn.className='done-btn';}
-  renderWkGrid(s,dow);
-  if(!today.sport.dc)loadDailyBox('sport',today.sport.int||rec.int,'sp-dailybox');
-  else renderDailyBox('sp-dailybox',today.sport.dc,today.sport.int||rec.int);
-  const tips={1:'Beim Pull-up: volle Streckung unten, Kinn über Stange.',2:'Nasenatemung hält dich in Zone 2.',3:'Kniebeugen: Knie und Fußspitze in einer Linie.',4:'Core zuerst aktivieren, dann laufen — bessere Haltung.',5:'Burpees als Finisher: volles Tempo, volle Streckung.',6:'Foam Rolling heute verbessert die Erholung.',0:'Morgen-Stretch statt Sport heute.'};
-  document.getElementById('sp-tip').textContent=tips[dow]||tips[1];
-}
-
-function detailSelInt(sec,key){
-  const s=ld();const today=getDay(s);today[sec].int=key;sv(s);
-  if(sec==='sport'){renderSport();loadDailyBox('sport',key,'sp-dailybox');}
-}
-function detailSelDehnen(key){
-  const s=ld();const today=getDay(s);today.dehnen.int=key;sv(s);renderSport();
-}
-
-async function loadDailyBox(section,intensity,containerId){
-  const el=document.getElementById(containerId);if(!el)return;
-  el.innerHTML=`<div class="daily-box"><div class="dc-loading"><div class="spin"></div> Plan wird generiert...</div></div>`;
-  const c=await getContent(section);
-  if(c)renderDailyBox(containerId,c,intensity||'b');
-  else el.innerHTML='';
-}
-function renderDailyBox(cid,text,int){
-  const el=document.getElementById(cid);if(!el)return;
-  const parsed=parseSection(text,int||'b');
-  const labels={a:'A – Perfekt',b:'B – OK',c:'C – Erhalt',de:'Dehnen'};
-  el.innerHTML=`<div class="daily-box"><div class="db-header"><div class="db-title">Heutiger Plan</div><div class="db-badge dbb-${int||'b'}">${labels[int||'b']}</div></div><div class="db-content">${parsed||''}</div></div>`;
-}
-
-function renderExList(today){
-  const ex=today.sport.exercises||{};
-  const names=[...DEF_EX,...(today.sport.customEx||[])];
-  document.getElementById('ex-list').innerHTML=names.map((n,i)=>{const e=ex[n]||{};return`<div class="ex-row"><span class="ex-n">${n}</span><input class="ex-inp" type="number" min="0" value="${e.sets||''}" placeholder="Sätze" oninput="logEx('${n}','sets',this.value)"><span class="ex-lbl">×</span><input class="ex-inp" type="number" min="0" value="${e.reps||''}" placeholder="Reps" oninput="logEx('${n}','reps',this.value)">${i>=DEF_EX.length?`<button class="ex-del" onclick="delEx('${n}')">×</button>`:'<span style="width:14px"></span>'}</div>`;}).join('');
-}
-function logEx(n,f,v){const s=ld();const t=getDay(s);if(!t.sport.exercises)t.sport.exercises={};if(!t.sport.exercises[n])t.sport.exercises[n]={};t.sport.exercises[n][f]=v;sv(s);}
-function addEx(){const i=document.getElementById('ex-inp');if(!i.value.trim())return;const s=ld();const t=getDay(s);if(!t.sport.customEx)t.sport.customEx=[];t.sport.customEx.push(i.value.trim());i.value='';sv(s);renderExList(t);}
-function delEx(n){const s=ld();const t=getDay(s);t.sport.customEx=(t.sport.customEx||[]).filter(e=>e!==n);sv(s);renderExList(t);}
-function saveRun(){const s=ld();const t=getDay(s);t.sport.run={dist:document.getElementById('r-dist').value,time:document.getElementById('r-time').value};sv(s);updatePace();}
-function updatePace(){const d=parseFloat(document.getElementById('r-dist').value);const t=parseFloat(document.getElementById('r-time').value);const el=document.getElementById('r-pace');if(el&&d>0&&t>0){const p=t/d;el.value=Math.floor(p)+':'+(Math.round((p%1)*60)).toString().padStart(2,'0');}else if(el)el.value='—';}
-function renderWkGrid(s,dow){
-  const now=new Date();const TK=tk();const mon=new Date(now);mon.setDate(now.getDate()-(dow===0?6:dow-1));
-  let dc=0;
-  document.getElementById('sp-wkgrid').innerHTML=['Mo','Di','Mi','Do','Fr','Sa','So'].map((d,i)=>{const day=new Date(mon);day.setDate(mon.getDate()+i);const k=dk(day);const isR=i>=5;const isT=k===TK;const isDone=!isR&&s[k]&&s[k].sport&&s[k].sport.done;const wt=isDone&&s[k].sport.type?s[k].sport.type.charAt(0):'';if(isDone)dc++;return`<div class="wc ${isR?'rest':''} ${isT?'today':''} ${isDone?'done':''}"><span>${d}</span>${isDone?`<span class="wt">${wt}</span>`:''}</div>`;}).join('');
-  document.getElementById('sp-wkc').textContent=dc+' / 5';
-  document.getElementById('sp-wkbar').style.width=Math.round(dc/5*100)+'%';
-}
-
-function renderWissen(){
-  const s=ld();const today=getDay(s);const rec=recWissen(s);const ti=today.wissen.topicIdx;
-  document.getElementById('wi-topicsub').textContent='Thema '+(ti+1)+'/'+TOPICS.length+' — '+TOPICS[ti];
-  if(rec.reason)document.getElementById('wi-banner').innerHTML=`<div class="banner ${rec.reason.cls||''}"><strong>Empfehlung</strong>${rec.reason.t}</div>`;
-  else document.getElementById('wi-banner').innerHTML='';
-  const ri=rec.int;const sel=today.wissen.int;
-  document.getElementById('wi-intgrid').innerHTML=['a','b','c'].map(k=>{
-    const isRec=!sel&&k===ri;const info={a:{t:'Tiefes Lernen',d:'Artikel + Video + Notizen',time:'45–60'},b:{t:'Fokus-Einheit',d:'Artikel + 5 Kernpunkte',time:'20–30'},c:{t:'Kurz-Review',d:'Zusammenfassung / Podcast',time:'10–15'}}[k];
-    return`<div class="ic ${sel===k?'sel-'+k:''} ${isRec?'rec rec-'+k:''}" onclick="detailSelInt('wissen','${k}')"><div class="ic-badge ib-${k}">${k.toUpperCase()} – ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div><div class="ic-title">${info.t}</div><div class="ic-desc">${info.d}</div><div class="ic-time it-${k}">⏱ ${info.time} Min</div></div>`;
-  }).join('');
-  document.getElementById('wi-plbl').textContent=(ti+1)+' / '+TOPICS.length;
-  document.getElementById('wi-pbar').style.width=Math.round((ti+1)/TOPICS.length*100)+'%';
-  document.getElementById('topic-chips').innerHTML=TOPICS.map((t,i)=>`<span class="tchip ${i===ti?'cur':''} ${i<ti?'done':''}" onclick="setTopic(${i})">${i<ti?'✓ ':''} ${t}</span>`).join('');
-  document.getElementById('wi-notes').value=today.wissen.note||'';
-  const btn=document.getElementById('wi-done');
-  if(today.wissen.done){btn.textContent='✓ Erledigt!';btn.className='done-btn ok-wi';}else{btn.textContent='✓ Lerneinheit abhaken';btn.className='done-btn';}
-  const wtips=['Erkläre das Thema laut in 2 Min — Lücken werden sofort sichtbar.','3 Kernfakten aufschreiben nach dem Lesen verdoppelt die Behaltensrate.','Neues mit Bekanntem verknüpfen — Assoziationen stärken das Gedächtnis.','NotebookLM Podcast ideal für C-Tage — passives Lernen.','Letztes Thema kurz wiederholen bevor du das neue beginnst.'];
-  document.getElementById('wi-tip').textContent=wtips[new Date().getDate()%wtips.length];
-  if(!today.wissen.dc)loadDailyBox('wissen',today.wissen.int||ri,'wi-dailybox');
-  else renderDailyBox('wi-dailybox',today.wissen.dc,today.wissen.int||ri);
-}
-function setTopic(i){const s=ld();const t=getDay(s);t.wissen.topicIdx=i;t.wissen.dc=null;sv(s);renderWissen();}
-function saveNote(sec){const s=ld();const t=getDay(s);if(sec==='wi')t.wissen.note=document.getElementById('wi-notes').value;if(sec==='la')t.sprachen.note=document.getElementById('la-notes').value;sv(s);toast('Notiz gespeichert ✓');}
-
-let qD=null,qI=0,qSc={ok:0,total:0},qA=false;
-async function generateQuiz(){
-  const s=ld();const t=getDay(s);const topic=TOPICS[t.wissen.topicIdx];
-  const btn=document.getElementById('gen-quiz');btn.textContent='⏳ Generiert...';btn.disabled=true;
-  document.getElementById('quiz-c').innerHTML=`<div class="quiz-box"><div class="dc-loading"><div class="spin"></div> Quiz für "${topic}"...</div></div>`;
-  try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,messages:[{role:'user',content:`4 Multiple-Choice-Quizfragen über "${topic}". Nur JSON:\n[{"q":"?","opts":["A","B","C","D"],"ans":0,"exp":"Erklärung"}]`}]})});
-    const d=await r.json();qD=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
-    qI=0;qSc={ok:0,total:0};qA=false;renderQuiz();
-    btn.textContent='🔄 Neues Quiz';btn.disabled=false;
-  }catch(e){document.getElementById('quiz-c').innerHTML='<div style="font-size:12px;color:var(--tx3);padding:.5rem">Fehler — nochmal versuchen.</div>';btn.textContent='🎯 Quiz generieren';btn.disabled=false;}
-}
-function renderQuiz(){if(!qD||qI>=qD.length){document.getElementById('quiz-c').innerHTML=`<div class="quiz-box"><div class="qq">${qSc.ok}/${qSc.total} richtig 🎯</div></div>`;return;}const q=qD[qI];document.getElementById('quiz-c').innerHTML=`<div class="quiz-box"><div class="qsc">Frage ${qI+1}/${qD.length} · ${qSc.ok}/${qSc.total} ✓</div><div class="qq">${q.q}</div><div class="qopts" id="qopts">${q.opts.map((o,i)=>`<button class="qopt" onclick="answerQ(${i})">${String.fromCharCode(65+i)}) ${o}</button>`).join('')}</div><div id="qres"></div></div>`;qA=false;}
-function answerQ(i){if(qA)return;qA=true;const q=qD[qI];document.querySelectorAll('.qopt').forEach((o,j)=>{o.disabled=true;if(j===q.ans)o.className='qopt ok';else if(j===i&&j!==q.ans)o.className='qopt bad';});const ok=i===q.ans;qSc.total++;if(ok)qSc.ok++;document.getElementById('qres').innerHTML=`<div class="qres ${ok?'ok':'bad'}">${ok?'✓ Richtig!':'✗ Falsch — '}${q.exp}</div><button class="qnext" onclick="nextQ()">${qI+1<qD.length?'Weiter →':'Ergebnis'}</button>`;}
-function nextQ(){qI++;renderQuiz();}
-
-function renderLang(){
-  const s=ld();const today=getDay(s);const rec=recLang(s);const p=prof()||{};
-  if(rec.reason)document.getElementById('la-banner').innerHTML=`<div class="banner ${rec.reason.cls||''}"><strong>Empfehlung</strong>${rec.reason.t}</div>`;
-  else document.getElementById('la-banner').innerHTML='';
-  const ri=rec.int;const sel=today.sprachen.int;
-  document.getElementById('la-intgrid').innerHTML=['a','b','c'].map(k=>{
-    const isRec=!sel&&k===ri;const info={a:{t:'Volle Session',d:'Je 15 Min ES+FR, 10 Min SV + Clozemaster',time:'40–45'},b:{t:'2-Sprachen-Fokus',d:'ES + FR je 10 Min, SV optional',time:'20–25'},c:{t:'Minimal-Streak',d:'Je 5 Min pro Sprache',time:'15'}}[k];
-    return`<div class="ic ${sel===k?'sel-'+k:''} ${isRec?'rec rec-'+k:''}" onclick="detailSelInt('sprachen','${k}')"><div class="ic-badge ib-${k}">${k.toUpperCase()} – ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div><div class="ic-title">${info.t}</div><div class="ic-desc">${info.d}</div><div class="ic-time it-${k}">⏱ ${info.time} Min</div></div>`;
-  }).join('');
-  document.getElementById('la-grid').innerHTML=LANGS.map(l=>{
-    const lm={es:p.esl||'A2',fr:p.frl||'A1',sv:p.svl||'B1'};
-    const d=today.sprachen.langs[l.code]||{min:0,pts:0};
-    const pm=Math.min(100,Math.round((d.min||0)/l.goal.min*100));const pp=Math.min(100,Math.round((d.pts||0)/l.goal.pts*100));
-    return`<div class="lcard"><div class="lname">${l.name}</div><div class="llvl">${lm[l.code]}</div>
-      <div class="lstat"><span>Min</span><span>${d.min||0}/${l.goal.min}</span></div><div class="pb"><div class="pf pf-la" style="width:${pm}%"></div></div>
-      <div class="lstat"><span>Pts</span><span>${d.pts||0}/${l.goal.pts}</span></div><div class="pb"><div class="pf pf-la" style="width:${pp}%"></div></div>
-      <div class="linp"><input type="number" min="0" placeholder="Min" id="lm-${l.code}"><input type="number" min="0" placeholder="Pts" id="lp-${l.code}"><button class="llog" onclick="logL('${l.code}')">+Log</button></div></div>`;
-  }).join('');
-  const btn=document.getElementById('la-done');
-  if(today.sprachen.done){btn.textContent='✓ Erledigt!';btn.className='done-btn ok-la';}else{btn.textContent='✓ Session abhaken';btn.className='done-btn';}
-  document.getElementById('la-notes').value=today.sprachen.note||'';
-  const ltips=['Spanisch A2→B1: 5 Min Audio täglich trainiert das Ohr schneller als Grammatik.','Französisch A1: 200 häufigste Wörter = 80% aller Texte. Diese zuerst.','Schwedisch B1: Heute 10 Min schwedisches Radio — du wirst mehr verstehen als du denkst.','Clozemaster-Sätze laut aussprechen verankert Schrift + Klang.','15 Min täglich > 2 Std einmal pro Woche.'];
-  document.getElementById('la-tip').textContent=ltips[new Date().getDate()%ltips.length];
-  if(!today.sprachen.dc)loadDailyBox('sprachen',today.sprachen.int||ri,'la-dailybox');
-  else renderDailyBox('la-dailybox',today.sprachen.dc,today.sprachen.int||ri);
-}
-function logL(code){const s=ld();const t=getDay(s);const l=LANGS.find(x=>x.code===code);const m=parseInt(document.getElementById('lm-'+code).value)||0;const p=parseInt(document.getElementById('lp-'+code).value)||0;if(!t.sprachen.langs[code])t.sprachen.langs[code]={min:0,pts:0};t.sprachen.langs[code].min=Math.min(l.goal.min,(t.sprachen.langs[code].min||0)+m);t.sprachen.langs[code].pts=Math.min(l.goal.pts,(t.sprachen.langs[code].pts||0)+p);sv(s);renderLang();}
-
-function markDone(sec){
-  const s=ld();const today=getDay(s);const dow=new Date().getDay();
-  if(sec==='sport'){today.sport.done=true;today.sport.type=STYP[dow]||null;}
-  else if(sec==='wissen')today.wissen.done=true;
-  else if(sec==='sprachen')today.sprachen.done=true;
-  sv(s);toast(MOTIV[Math.floor(Math.random()*MOTIV.length)]);
-  if(sec==='sport')renderSport();if(sec==='wissen')renderWissen();if(sec==='sprachen')renderLang();
-  renderHeute();renderTopBar();
-}
-
-// ── Verlauf ──
-function renderVerlauf(mode){
-  const s=ld();const n=mode==='week'?7:30;
-  if(mode==='stats'){
-    let sc=0,wc=0,lc=0,sa=0,sb=0,scc=0;
-    for(let i=1;i<90;i++){const k=ago(i);if(!s[k])continue;if(s[k].sport&&s[k].sport.done){sc++;const ii=s[k].sport.int;if(ii==='a')sa++;else if(ii==='b')sb++;else scc++;}if(s[k].wissen&&s[k].wissen.done)wc++;if(s[k].sprachen&&s[k].sprachen.done)lc++;}
-    document.getElementById('v-content').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:.875rem">
-      <div style="background:var(--sp-bg);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;font-weight:500;color:var(--sp-dk)">${sc}</div><div style="font-size:10px;color:var(--sp-dk);font-family:'DM Mono',monospace;margin-top:2px">Sport</div></div>
-      <div style="background:var(--wi-bg);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;font-weight:500;color:var(--wi-dk)">${wc}</div><div style="font-size:10px;color:var(--wi-dk);font-family:'DM Mono',monospace;margin-top:2px">Wissen</div></div>
-      <div style="background:var(--la-bg);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;font-weight:500;color:var(--la-dk)">${lc}</div><div style="font-size:10px;color:var(--la-dk);font-family:'DM Mono',monospace;margin-top:2px">Sprachen</div></div>
-    </div>`;
-    return;
-  }
-  const rows=[];
-  for(let i=1;i<=n;i++){const k=ago(i);const d=new Date();d.setDate(d.getDate()-i);const e=s[k];if(!e)continue;
-    const sb2=e.sport&&e.sport.done?`<span class="hb hb-${e.sport.int||'a'}">🏋 ${(e.sport.int||'?').toUpperCase()}</span>`:'<span class="hb hb-x">🏋</span>';
-    const wb=e.wissen&&e.wissen.done?`<span class="hb hb-${e.wissen.int||'a'}">📖 ${(e.wissen.int||'?').toUpperCase()}</span>`:'<span class="hb hb-x">📖</span>';
-    const lb=e.sprachen&&e.sprachen.done?`<span class="hb hb-${e.sprachen.int||'a'}">🗣 ${(e.sprachen.int||'?').toUpperCase()}</span>`:'<span class="hb hb-x">🗣</span>';
-    const db=e.dehnen&&e.dehnen.done?`<span class="hb" style="background:var(--de-bg);color:var(--de-dk)">🧘</span>`:'';
-    rows.push(`<div class="hrow"><span class="hdate">${DAY[d.getDay()]} ${p2(d.getDate())}.${p2(d.getMonth()+1)}.</span><div class="hbadges">${sb2}${wb}${lb}${db}</div></div>`);
-  }
-  document.getElementById('v-content').innerHTML=rows.length?rows.join(''):'<div style="color:var(--tx3);font-size:12px;padding:1rem 0">Noch keine Einträge.</div>';
-}
-function switchV(m,el){document.querySelectorAll('.vtab').forEach(t=>t.classList.remove('on'));el.classList.add('on');renderVerlauf(m);}
-
-// ── Navigation ──
-function nav(id,navEl){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
-  document.getElementById('pg-'+id).classList.add('on');
-  if(navEl)navEl.classList.add('on');
-  const s=ld();const dow=new Date().getDay();
-  if(id==='heute')renderHeute();
-  if(id==='sport')renderSport();
-  if(id==='wissen')renderWissen();
-  if(id==='sprachen')renderLang();
-  if(id==='verlauf')renderVerlauf('week');
-  window.scrollTo(0,0);
-}
-
-function initApp(){
-  const s=ld();getDay(s);sv(s);
-  renderTopBar();renderHeute();
-}
-
-function init(){
-  const p=prof();
-  if(p){document.getElementById('ob').style.display='none';document.getElementById('app').style.display='block';initApp();}
-  else{od.esl='A2';od.frl='A1';od.svl='B1';}
-}
-init();
-</script>
-</body>
-</html>
+</script></body></html>

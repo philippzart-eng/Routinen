@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Routine Coach v2</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F4F0;
+  --surface: #FFFFFF;
+  --surface2: #EEEDE8;
+  --surface3: #E6E4DE;
+  --border: rgba(0,0,0,0.07);
+  --border2: rgba(0,0,0,0.13);
+  --text: #18170F;
+  --text2: #6A6860;
+  --text3: #A8A69E;
+  --sport: #1A9E72;
+  --sport-bg: #E0F5EC;
+  --sport-dark: #074D34;
+  --wissen: #6B63D4;
+  --wissen-bg: #ECEAFD;
+  --wissen-dark: #342E8A;
+  --lang: #C97A0C;
+  --lang-bg: #FEF2DC;
+  --lang-dark: #6B3E04;
+  --a: #1A9E72; --a-bg: #E0F5EC; --a-dark: #074D34;
+  --b: #3278D4; --b-bg: #E3EEFB; --b-dark: #0C3E7A;
+  --c: #C97A0C; --c-bg: #FEF2DC; --c-dark: #6B3E04;
+  --r: 10px; --r-sm: 7px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+.mono{font-family:'DM Mono',monospace}
+
+/* Layout */
+.app{max-width:720px;margin:0 auto;padding:0 0 5rem}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0.75rem 1.25rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
+.topbar-left{display:flex;flex-direction:column;gap:1px}
+.topbar-title{font-size:15px;font-weight:500}
+.topbar-date{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+.streak-row{display:flex;gap:6px}
+.s-chip{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:4px 9px;border-radius:20px;border:0.5px solid var(--border2);white-space:nowrap;font-family:'DM Mono',monospace}
+.s-chip.sp{background:var(--sport-bg);color:var(--sport-dark);border-color:var(--sport)}
+.s-chip.wi{background:var(--wissen-bg);color:var(--wissen-dark);border-color:var(--wissen)}
+.s-chip.la{background:var(--lang-bg);color:var(--lang-dark);border-color:var(--lang)}
+.s-chip.warn{background:#FFF3CD;color:#7A4F00;border-color:#E8A800;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+
+/* Nav */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:100}
+.nav-btn{flex:1;padding:10px 4px 8px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:10px;color:var(--text3);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color 0.15s}
+.nav-btn .nav-icon{font-size:20px;line-height:1}
+.nav-btn.active{color:var(--text)}
+.nav-btn.active .nav-ico-sport{color:var(--sport)}
+.nav-btn.active .nav-ico-wissen{color:var(--wissen)}
+.nav-btn.active .nav-ico-lang{color:var(--lang)}
+
+/* Sections */
+.section{display:none;padding:1rem 1.25rem}
+.section.active{display:block}
+
+/* Overview */
+.overview-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1rem}
+.ov-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:0.875rem;cursor:pointer;transition:border-color 0.15s,transform 0.1s}
+.ov-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.ov-card.done-sport{border-color:var(--sport);background:var(--sport-bg)}
+.ov-card.done-wissen{border-color:var(--wissen);background:var(--wissen-bg)}
+.ov-card.done-lang{border-color:var(--lang);background:var(--lang-bg)}
+.ov-icon{font-size:22px;margin-bottom:6px}
+.ov-label{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px}
+.ov-rec{font-size:12px;font-weight:500;line-height:1.3}
+.ov-time{font-size:10px;color:var(--text3);margin-top:4px;font-family:'DM Mono',monospace}
+.ov-done-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;margin-top:4px;font-weight:500}
+.ov-done-sport{background:var(--sport-bg);color:var(--sport-dark)}
+.ov-done-wissen{background:var(--wissen-bg);color:var(--wissen-dark)}
+.ov-done-lang{background:var(--lang-bg);color:var(--lang-dark)}
+
+.today-tip{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:0.875rem;margin-bottom:1rem;font-size:13px;color:var(--text2);line-height:1.6}
+.today-tip strong{color:var(--text);font-weight:500;font-size:12px;display:block;margin-bottom:3px}
+
+/* Section headers */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.875rem}
+.sec-title{font-size:15px;font-weight:500}
+.sec-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+
+/* Intensity cards */
+.int-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:0.875rem}
+.int-card{border-radius:var(--r);border:1px solid var(--border);padding:0.75rem;cursor:pointer;background:var(--surface);transition:border-color 0.15s,transform 0.1s;position:relative}
+.int-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.int-card.sel-a{border:2px solid var(--a);background:var(--a-bg)}
+.int-card.sel-b{border:2px solid var(--b);background:var(--b-bg)}
+.int-card.sel-c{border:2px solid var(--c);background:var(--c-bg)}
+.int-card.rec-mark::after{content:'← Heute';position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:500;padding:2px 7px;border-radius:8px;white-space:nowrap;font-family:'DM Mono',monospace;border:0.5px solid}
+.int-card.rec-a::after{background:var(--a-bg);color:var(--a-dark);border-color:var(--a)}
+.int-card.rec-b::after{background:var(--b-bg);color:var(--b-dark);border-color:var(--b)}
+.int-card.rec-c::after{background:var(--c-bg);color:var(--c-dark);border-color:var(--c)}
+.int-badge{font-size:9px;font-weight:500;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+.int-badge-a{color:var(--a-dark)} .int-badge-b{color:var(--b-dark)} .int-badge-c{color:var(--c-dark)}
+.int-title{font-size:12px;font-weight:500;margin-bottom:3px;line-height:1.3}
+.int-desc{font-size:11px;color:var(--text2);line-height:1.4}
+.int-time{font-size:10px;margin-top:6px;font-family:'DM Mono',monospace}
+.int-time-a{color:var(--a-dark)} .int-time-b{color:var(--b-dark)} .int-time-c{color:var(--c-dark)}
+
+/* Banner */
+.rec-banner{border-radius:var(--r-sm);padding:0.7rem 0.875rem;margin-bottom:0.875rem;font-size:12px;line-height:1.5;border:0.5px solid var(--border2);background:var(--surface);color:var(--text2)}
+.rec-banner strong{display:block;font-size:11px;font-weight:500;margin-bottom:2px}
+.rec-banner.b-sport{background:var(--sport-bg);border-color:var(--sport);color:var(--sport-dark)}
+.rec-banner.b-wissen{background:var(--wissen-bg);border-color:var(--wissen);color:var(--wissen-dark)}
+.rec-banner.b-lang{background:var(--lang-bg);border-color:var(--lang);color:var(--lang-dark)}
+
+/* Done button */
+.done-btn{width:100%;padding:10px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--surface);font-size:13px;font-weight:500;color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.15s;margin-bottom:0.875rem}
+.done-btn:hover{background:var(--surface2)}
+.done-btn.ok-sport{background:var(--sport-bg);border-color:var(--sport);color:var(--sport-dark)}
+.done-btn.ok-wissen{background:var(--wissen-bg);border-color:var(--wissen);color:var(--wissen-dark)}
+.done-btn.ok-lang{background:var(--lang-bg);border-color:var(--lang);color:var(--lang-dark)}
+
+/* Motivation toast */
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--text);color:#fff;font-size:13px;padding:9px 18px;border-radius:20px;opacity:0;transition:opacity 0.3s,transform 0.3s;z-index:999;white-space:nowrap;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Progress */
+.prog-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:4px;font-family:'DM Mono',monospace}
+.prog-bg{height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;margin-bottom:0.875rem}
+.prog-fill{height:100%;border-radius:2px;transition:width 0.5s}
+.pf-sport{background:var(--sport)} .pf-wissen{background:var(--wissen)} .pf-lang{background:var(--lang)}
+
+/* Week grid */
+.week-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-bottom:0.875rem}
+.wc{aspect-ratio:1;border-radius:var(--r-sm);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;font-size:10px;color:var(--text3);background:var(--surface);font-family:'DM Mono',monospace}
+.wc.done{background:var(--sport-bg);border-color:var(--sport);color:var(--sport-dark)}
+.wc.today{border:1.5px solid var(--text);color:var(--text);font-weight:500}
+.wc.rest{background:var(--surface2);color:var(--text3)}
+.wc .wtype{font-size:8px;opacity:0.7}
+
+/* Exercise logger */
+.ex-section{margin-bottom:0.875rem}
+.ex-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.ex-title{font-size:12px;font-weight:500}
+.add-btn{font-size:11px;padding:3px 10px;border-radius:20px;border:0.5px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif}
+.add-btn:hover{background:var(--surface2)}
+.ex-list{display:flex;flex-direction:column;gap:5px}
+.ex-row{display:grid;grid-template-columns:1fr auto auto auto;gap:6px;align-items:center;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:7px 10px}
+.ex-name{font-size:12px;font-weight:500}
+.ex-input{width:48px;font-size:11px;padding:3px 6px;border-radius:5px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;text-align:center}
+.ex-label{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace}
+.ex-del{font-size:14px;color:var(--text3);cursor:pointer;border:none;background:none;padding:0 2px;line-height:1}
+
+/* Run logger */
+.run-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:0.875rem}
+.run-field label{display:block;font-size:10px;color:var(--text3);margin-bottom:3px;font-family:'DM Mono',monospace}
+.run-field input{width:100%;font-size:12px;padding:6px 8px;border-radius:var(--r-sm);border:0.5px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Mono',monospace}
+
+/* Lang cards */
+.lang-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:0.875rem}
+.lang-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:0.75rem}
+.lang-name{font-size:12px;font-weight:500;margin-bottom:2px}
+.lang-level{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:7px}
+.lang-stat{display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-bottom:3px;font-family:'DM Mono',monospace}
+.lang-inp-row{display:flex;gap:4px;margin-top:7px}
+.lang-inp-row input{flex:1;min-width:0;font-size:11px;padding:4px 6px;border-radius:5px;border:0.5px solid var(--border2);background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;text-align:center}
+.lang-log-btn{font-size:10px;padding:4px 8px;border-radius:5px;border:0.5px solid var(--border2);background:var(--surface2);color:var(--text);cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif}
+
+/* Quiz */
+.quiz-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem;margin-bottom:0.875rem}
+.quiz-q{font-size:13px;font-weight:500;margin-bottom:0.875rem;line-height:1.5}
+.quiz-opts{display:flex;flex-direction:column;gap:6px;margin-bottom:0.875rem}
+.quiz-opt{padding:8px 12px;border-radius:var(--r-sm);border:0.5px solid var(--border2);background:var(--bg);font-size:12px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;transition:background 0.12s;color:var(--text)}
+.quiz-opt:hover{background:var(--surface2)}
+.quiz-opt.correct{background:#E0F5EC;border-color:var(--sport);color:var(--sport-dark)}
+.quiz-opt.wrong{background:#FDE8E8;border-color:#C0392B;color:#7A1A1A}
+.quiz-result{font-size:12px;padding:8px 12px;border-radius:var(--r-sm);margin-bottom:8px;line-height:1.5}
+.quiz-result.ok{background:var(--sport-bg);color:var(--sport-dark)}
+.quiz-result.nok{background:#FDE8E8;color:#7A1A1A}
+.quiz-next{font-size:12px;padding:7px 16px;border-radius:var(--r-sm);border:0.5px solid var(--border2);background:var(--surface2);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text)}
+.quiz-score{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;text-align:right;margin-bottom:6px}
+.quiz-loading{font-size:12px;color:var(--text2);padding:1rem;text-align:center}
+.gen-quiz-btn{width:100%;padding:9px;border-radius:var(--r-sm);border:0.5px solid var(--wissen);background:var(--wissen-bg);font-size:12px;font-weight:500;color:var(--wissen-dark);cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:0.875rem}
+.gen-quiz-btn:hover{background:#DDD9FC}
+
+/* Notes */
+.notes-area{width:100%;padding:8px 10px;border-radius:var(--r-sm);border:0.5px solid var(--border2);background:var(--surface);font-size:12px;color:var(--text);font-family:'DM Sans',sans-serif;resize:vertical;min-height:70px;line-height:1.5;margin-bottom:0.875rem}
+.save-note-btn{font-size:11px;padding:5px 12px;border-radius:var(--r-sm);border:0.5px solid var(--border2);background:var(--surface2);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text)}
+
+/* Topic chips */
+.topic-area{margin-bottom:0.875rem}
+.topic-chip{display:inline-block;font-size:11px;padding:3px 9px;border-radius:20px;margin:2px 2px 2px 0;border:0.5px solid var(--border);color:var(--text2);background:var(--surface);cursor:pointer}
+.topic-chip:hover{border-color:var(--border2)}
+.topic-chip.cur{background:var(--wissen-bg);border-color:var(--wissen);color:var(--wissen-dark);font-weight:500}
+.topic-chip.done{background:var(--surface2);color:var(--text3)}
+
+/* Custom goals */
+.custom-section{margin-bottom:0.875rem}
+.custom-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);margin-bottom:5px;font-size:12px}
+.custom-check{width:16px;height:16px;cursor:pointer;accent-color:var(--sport)}
+.custom-label{flex:1}
+.custom-del{color:var(--text3);cursor:pointer;border:none;background:none;font-size:14px;padding:0}
+.custom-add-row{display:flex;gap:6px}
+.custom-add-row input{flex:1;font-size:12px;padding:6px 9px;border-radius:var(--r-sm);border:0.5px solid var(--border2);background:var(--surface);color:var(--text);font-family:'DM Sans',sans-serif}
+.custom-add-btn{font-size:11px;padding:6px 12px;border-radius:var(--r-sm);border:0.5px solid var(--border2);background:var(--surface2);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text);white-space:nowrap}
+
+/* Verlauf */
+.verlauf-tabs{display:flex;gap:6px;margin-bottom:0.875rem}
+.v-tab{padding:5px 12px;border-radius:20px;font-size:12px;border:0.5px solid var(--border2);background:var(--surface);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text2)}
+.v-tab.active{background:var(--text);color:#fff;border-color:var(--text)}
+.hist-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:0.5px solid var(--border);font-size:11px}
+.hist-row:last-child{border-bottom:none}
+.hist-date{color:var(--text2);font-family:'DM Mono',monospace;min-width:70px}
+.hist-badges{display:flex;gap:4px;flex-wrap:wrap}
+.hbadge{font-size:9px;padding:2px 6px;border-radius:8px;font-family:'DM Mono',monospace;font-weight:500}
+.hb-a{background:var(--a-bg);color:var(--a-dark)}
+.hb-b{background:var(--b-bg);color:var(--b-dark)}
+.hb-c{background:var(--c-bg);color:var(--c-dark)}
+.hb-x{background:var(--surface2);color:var(--text3)}
+
+/* Divider */
+.div{height:0.5px;background:var(--border);margin:0.875rem 0}
+
+/* Settings */
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid var(--border)}
+.setting-row:last-child{border-bottom:none}
+.setting-label{font-size:13px}
+.setting-sub{font-size:11px;color:var(--text3)}
+.setting-val{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-title" id="greeting">Guten Morgen, Bob</div>
+    <div class="topbar-date mono" id="topdate"></div>
+  </div>
+  <div class="streak-row">
+    <div class="s-chip sp" id="chip-s">🏋 0</div>
+    <div class="s-chip wi" id="chip-w">📖 0</div>
+    <div class="s-chip la" id="chip-l">🗣 0</div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div id="sec-overview" class="section active">
+  <div style="margin-bottom:0.875rem;margin-top:0.25rem">
+    <div class="sec-title" style="margin-bottom:6px">Heute</div>
+    <div class="overview-grid" id="ov-grid"></div>
+    <div id="ov-tip" class="today-tip"></div>
+    <div id="ov-warnings"></div>
+  </div>
+</div>
+
+<!-- SPORT -->
+<div id="sec-sport" class="section">
+  <div class="sec-header">
+    <div>
+      <div class="sec-title">Sport</div>
+      <div class="sec-sub" id="sport-daylabel"></div>
+    </div>
+  </div>
+  <div id="sport-banner"></div>
+  <div class="int-grid" id="sport-int-grid"></div>
+  <button class="done-btn" id="sport-done-btn" onclick="markDone('sport')">✓ Einheit abhaken</button>
+
+  <div id="sport-rest-msg" style="display:none;text-align:center;padding:1.5rem;color:var(--text2);font-size:13px;background:var(--surface);border-radius:var(--r);border:1px solid var(--border);margin-bottom:0.875rem">
+    🌿 Ruhetag — Erholung ist Teil des Trainings.
+  </div>
+
+  <!-- Exercise Logger -->
+  <div id="sport-workout-section">
+    <div class="div"></div>
+    <div class="ex-section" id="calisthenics-section">
+      <div class="ex-header">
+        <div class="ex-title">Calisthenics — Sätze & Wiederholungen</div>
+        <button class="add-btn" onclick="addCustomExercise()">+ Übung</button>
+      </div>
+      <div class="ex-list" id="ex-list"></div>
+    </div>
+    <div id="run-section" style="display:none">
+      <div class="ex-title" style="margin-bottom:6px">Lauf-Log</div>
+      <div class="run-row">
+        <div class="run-field"><label>Distanz (km)</label><input type="number" step="0.1" id="run-dist" placeholder="0.0" onchange="saveRunData()"></div>
+        <div class="run-field"><label>Zeit (min)</label><input type="number" id="run-time" placeholder="0" onchange="saveRunData()"></div>
+        <div class="run-field"><label>Pace (min/km)</label><input type="text" id="run-pace" placeholder="—" readonly style="background:var(--surface2)"></div>
+      </div>
+    </div>
+    <div class="div"></div>
+    <div class="sec-sub" style="margin-bottom:6px">Eigene Ziele für heute</div>
+    <div class="custom-section" id="sport-custom"></div>
+    <div class="custom-add-row">
+      <input type="text" id="sport-custom-input" placeholder="Ziel hinzufügen..." onkeydown="if(event.key==='Enter')addCustomGoal('sport')">
+      <button class="custom-add-btn" onclick="addCustomGoal('sport')">+ Hinzufügen</button>
+    </div>
+  </div>
+
+  <div class="div"></div>
+  <div class="prog-row"><span>Diese Woche</span><span id="sport-wk-count">0 / 5</span></div>
+  <div class="prog-bg"><div class="prog-fill pf-sport" id="sport-wk-bar" style="width:0%"></div></div>
+  <div class="week-grid" id="sport-wk-grid"></div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:0.75rem;margin-bottom:0.875rem">
+    <div style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">💡 Tipp</div>
+    <div style="font-size:12px;color:var(--text2)" id="sport-tip"></div>
+  </div>
+</div>
+
+<!-- WISSEN -->
+<div id="sec-wissen" class="section">
+  <div class="sec-header">
+    <div>
+      <div class="sec-title">Allgemeinwissen</div>
+      <div class="sec-sub" id="wissen-topicsub"></div>
+    </div>
+  </div>
+  <div id="wissen-banner"></div>
+  <div class="int-grid" id="wissen-int-grid"></div>
+  <button class="done-btn" id="wissen-done-btn" onclick="markDone('wissen')">✓ Lerneinheit abhaken</button>
+
+  <div class="div"></div>
+  <div class="gen-quiz-btn" onclick="generateQuiz()" id="gen-quiz-btn">🎯 Quiz für dieses Thema generieren</div>
+  <div id="quiz-container"></div>
+
+  <div class="div"></div>
+  <div class="sec-sub" style="margin-bottom:6px">Themennotiz</div>
+  <textarea class="notes-area" id="wissen-notes" placeholder="Notizen, Schlüsselerkenntnisse, offene Fragen..."></textarea>
+  <button class="save-note-btn" onclick="saveNote()">Speichern</button>
+
+  <div class="div"></div>
+  <div class="sec-sub" style="margin-bottom:6px">Themenkatalog (30 Themen)</div>
+  <div class="prog-row"><span>Fortschritt</span><span id="wissen-prog-label"></span></div>
+  <div class="prog-bg" style="margin-bottom:6px"><div class="prog-fill pf-wissen" id="wissen-prog-bar" style="width:0%"></div></div>
+  <div class="topic-area" id="topic-chips"></div>
+
+  <div class="div"></div>
+  <div class="sec-sub" style="margin-bottom:6px">Eigene Lernziele</div>
+  <div class="custom-section" id="wissen-custom"></div>
+  <div class="custom-add-row">
+    <input type="text" id="wissen-custom-input" placeholder="Lernziel hinzufügen..." onkeydown="if(event.key==='Enter')addCustomGoal('wissen')">
+    <button class="custom-add-btn" onclick="addCustomGoal('wissen')">+ Hinzufügen</button>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:0.75rem;margin-top:0.875rem">
+    <div style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">💡 Lerntipp</div>
+    <div style="font-size:12px;color:var(--text2)" id="wissen-tip"></div>
+  </div>
+</div>
+
+<!-- SPRACHEN -->
+<div id="sec-sprachen" class="section">
+  <div class="sec-header">
+    <div><div class="sec-title">Sprachen</div><div class="sec-sub">Spanisch · Französisch · Schwedisch</div></div>
+  </div>
+  <div id="lang-banner"></div>
+  <div class="int-grid" id="lang-int-grid"></div>
+  <div class="lang-grid" id="lang-grid"></div>
+  <button class="done-btn" id="sprachen-done-btn" onclick="markDone('sprachen')">✓ Sprachsession abhaken</button>
+
+  <div class="div"></div>
+  <div class="sec-sub" style="margin-bottom:6px">Eigene Ziele & Notizen</div>
+  <div class="custom-section" id="lang-custom"></div>
+  <div class="custom-add-row">
+    <input type="text" id="lang-custom-input" placeholder="Sprachziel hinzufügen..." onkeydown="if(event.key==='Enter')addCustomGoal('lang')">
+    <button class="custom-add-btn" onclick="addCustomGoal('lang')">+ Hinzufügen</button>
+  </div>
+  <textarea class="notes-area" id="lang-notes" placeholder="Vokabeln, Grammatiknotizen, Lernpunkte..." style="margin-top:0.875rem"></textarea>
+  <button class="save-note-btn" onclick="saveLangNote()">Speichern</button>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:0.75rem;margin-top:0.875rem">
+    <div style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px">💡 Tipp</div>
+    <div style="font-size:12px;color:var(--text2)" id="lang-tip"></div>
+  </div>
+</div>
+
+<!-- VERLAUF -->
+<div id="sec-verlauf" class="section">
+  <div class="sec-header"><div class="sec-title">Verlauf</div></div>
+  <div class="verlauf-tabs">
+    <button class="v-tab active" onclick="switchVerlauf('week',this)">Diese Woche</button>
+    <button class="v-tab" onclick="switchVerlauf('month',this)">30 Tage</button>
+    <button class="v-tab" onclick="switchVerlauf('stats',this)">Statistik</button>
+  </div>
+  <div id="verlauf-content"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-btn active" onclick="switchSection('overview',this)" id="nav-overview">
+    <span class="nav-icon">☀️</span><span>Heute</span>
+  </button>
+  <button class="nav-btn" onclick="switchSection('sport',this)" id="nav-sport">
+    <span class="nav-icon nav-ico-sport">🏋️</span><span>Sport</span>
+  </button>
+  <button class="nav-btn" onclick="switchSection('wissen',this)" id="nav-wissen">
+    <span class="nav-icon nav-ico-wissen">📖</span><span>Wissen</span>
+  </button>
+  <button class="nav-btn" onclick="switchSection('sprachen',this)" id="nav-sprachen">
+    <span class="nav-icon nav-ico-lang">🗣</span><span>Sprachen</span>
+  </button>
+  <button class="nav-btn" onclick="switchSection('verlauf',this)" id="nav-verlauf">
+    <span class="nav-icon">📊</span><span>Verlauf</span>
+  </button>
+</div>
+
+<script>
+const SK = 'rcv2';
+const DAYS = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const SPORT_TYPE = {1:'Kraft',2:'Ausdauer',3:'Kraft',4:'Ausdauer',5:'Ganzkörper'};
+const SPORT_PLAN = {
+  1:{label:'Mo – Kraft',
+    a:{t:'Vollständig',d:'Pull-ups, Dips, Liegestütze, Kniebeugen — 4×max',time:'50–60 Min'},
+    b:{t:'Fokus-Satz',d:'Je 3×max bei den 3 stärksten Übungen',time:'25–30 Min'},
+    c:{t:'Erhalt',d:'Je 2×10 Pull-ups, Dips, Liegestütze',time:'15 Min'}},
+  2:{label:'Di – Laufen',
+    a:{t:'Lauf Zone 2',d:'30–45 Min steady state, Nasenatemung, entspanntes Tempo',time:'40–50 Min'},
+    b:{t:'Intervall-Lauf',d:'5×3 Min bei 75–80% HFmax, je 2 Min Pause',time:'25–30 Min'},
+    c:{t:'Kurzer Lauf',d:'15 Min locker, Hauptsache raus',time:'15–20 Min'}},
+  3:{label:'Mi – Kraft',
+    a:{t:'Vollständig',d:'Burpees, Kniebeugen, Pull-ups, Dips — 4×max',time:'50–60 Min'},
+    b:{t:'Unterkörper-Fokus',d:'Kniebeugen + Burpees, 3 Runden',time:'25–30 Min'},
+    c:{t:'Erhalt',d:'Burpees 3×10, Kniebeugen 3×15',time:'15 Min'}},
+  4:{label:'Do – Laufen & Core',
+    a:{t:'Lauf + Core',d:'25 Min Lauf + 15 Min Core-Circuit (Plank, Hollow hold)',time:'45–50 Min'},
+    b:{t:'Core-Fokus',d:'Plank 3×45s, Hollow hold, Bicycle crunches — 3 Runden',time:'20–25 Min'},
+    c:{t:'Kurz-Core',d:'Plank 2×45s, Liegestütze 2×10',time:'10 Min'}},
+  5:{label:'Fr – Ganzkörper',
+    a:{t:'Ganzkörper-Finish',d:'Pull-ups, Dips, Liegestütze, Burpees, Kniebeugen — 5 Runden',time:'55–65 Min'},
+    b:{t:'Kompakt',d:'Pull-ups + Dips + Kniebeugen, je 3×max',time:'30–35 Min'},
+    c:{t:'Minimalfinish',d:'Burpees 3×10, Liegestütze 2×10',time:'15 Min'}}
+};
+const DEFAULT_EXERCISES = ['Pull-ups','Dips','Liegestütze','Burpees','Kniebeugen'];
+const TOPICS = ['Astronomie & Weltall','Antike Kulturen','Mittelalter','Aufklärung & Renaissance','Industrialisierung','20. Jahrhundert','Geographie & Kontinente','Biologie & Evolution','Chemie & Elemente','Physik & Kräfte','Mathematik & Logik','Ökonomie & Handel','Philosophie & Ethik','Religionen & Mythen','Kunst & Architektur','Musik & Literatur','Technologie & Erfindungen','Medizin & Körper','Klima & Ökologie','Politische Systeme','Sprache & Linguistik','Psychologie','Soziologie','Sport & Olympia','Ernährung & Gesundheit','Recht & Justiz','Informatik','Militärgeschichte','Wirtschaftsgeschichte','Kulturgeschichte'];
+const LANGS = [{code:'es',name:'Spanisch',level:'A2',goal:{min:15,pts:60}},{code:'fr',name:'Französisch',level:'A1',goal:{min:15,pts:60}},{code:'sv',name:'Schwedisch',level:'B1',goal:{min:10,pts:40}}];
+const MOTIV = ['Stark! Weiter so 💪','Top — du hältst deinen Rhythmus 🎯','Erledigt! Ein Tag näher am Ziel ✓','Gut gemacht — Konsistenz gewinnt 🏆','Perfekt — du bist auf Kurs ⚡'];
+
+function todayKey(){const d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+function dateKey(d){return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+function daysAgo(n){const d=new Date();d.setDate(d.getDate()-n);return dateKey(d)}
+function p2(n){return String(n).padStart(2,'0')}
+function load(){try{return JSON.parse(localStorage.getItem(SK))||{}}catch(e){return{}}}
+function save(s){localStorage.setItem(SK,JSON.stringify(s))}
+
+function getToday(s){
+  const k=todayKey();
+  if(!s[k])s[k]={
+    sport:{done:false,int:null,type:null,exercises:{},run:{dist:'',time:''},customGoals:[]},
+    wissen:{done:false,int:null,topicIdx:getTopicIdx(s),note:'',customGoals:[]},
+    sprachen:{done:false,int:null,langs:{es:{min:0,pts:0},fr:{min:0,pts:0},sv:{min:0,pts:0}},note:'',customGoals:[]}
+  };
+  return s[k];
+}
+
+function getTopicIdx(s){
+  let c=0;
+  Object.keys(s).sort().forEach(k=>{if(s[k]&&s[k].wissen&&s[k].wissen.done)c++});
+  return Math.min(c,TOPICS.length-1);
+}
+
+function calcStreak(s,sec){
+  let streak=0;
+  for(let i=0;i<90;i++){
+    const k=daysAgo(i);
+    if(i===0&&s[k]&&s[k][sec]&&s[k][sec].done){streak++;continue}
+    if(i===0)break;
+    if(s[k]&&s[k][sec]&&s[k][sec].done)streak++;
+    else break;
+  }
+  return streak;
+}
+
+function getYest(s,sec){const k=daysAgo(1);return s[k]&&s[k][sec]?s[k][sec]:null}
+
+function recSport(s,dow){
+  const y=getYest(s,'sport');
+  const streak=calcStreak(s,'sport');
+  const plan=SPORT_PLAN[dow];
+  if(!plan)return{int:'a',reason:null};
+  let ri='a',reason=null;
+  if(y&&y.int==='c'){ri='b';reason={t:'Gestern war ein leichter Tag (C) – heute B als guter Schritt vorwärts.',cls:''}}
+  else if(streak>=4&&y&&y.int==='a'){ri='b';reason={t:streak+'-Tage-Streak – heute B für Erholung ohne Pause einzulegen.',cls:''}}
+  const ytype=y?y.type:null;
+  if(dow===2&&ytype==='Kraft'){reason={t:'Gestern Kraft – heute Laufen: lass die Muskeln erholen, trainiere Ausdauer.',cls:'b-sport'}}
+  else if(dow===4&&ytype==='Kraft'){reason={t:'Gestern Kraft – heute Laufen & Core ideal: andere Systeme, bessere Erholung.',cls:'b-sport'}}
+  else if(dow===3&&ytype==='Ausdauer'){reason={t:'Gestern Laufen – heute Kraft: optimale Abwechslung für ausgewogene Entwicklung.',cls:'b-sport'}}
+  else if(dow===5&&ytype==='Ausdauer'){reason={t:'Gestern Laufen – heute Ganzkörper-Kraft zum Abschluss der Woche.',cls:'b-sport'}}
+  return{int:ri,reason};
+}
+
+function recWissen(s){
+  const y=getYest(s,'wissen');
+  const streak=calcStreak(s,'wissen');
+  let ri='a',reason=null;
+  if(y&&!y.done){ri='b';reason={t:'Gestern keine Lerneinheit – heute B hält den Fortschritt am Laufen.',cls:'b-wissen'}}
+  else if(y&&y.int==='c'){ri='b';reason={t:'Gestern nur Kurzreview – heute B für echten Fortschritt.',cls:''}}
+  else if(streak>=5&&y&&y.int==='a'){ri='b';reason={t:streak+'-Tage-Streak! Heute B reicht um den Schwung zu halten.',cls:''}}
+  return{int:ri,reason};
+}
+
+function recLang(s){
+  const y=getYest(s,'sprachen');
+  const streak=calcStreak(s,'sprachen');
+  let ri='a',reason=null;
+  if(streak===0){ri='c';reason={t:'Kein aktiver Streak – starte heute mit C um den Rhythmus neu aufzubauen.',cls:'b-lang'}}
+  else if(y&&!y.done){ri='c';reason={t:'Gestern keine Session – C sichert den Streak.',cls:'b-lang'}}
+  else if(y&&y.int==='c'){ri='b';reason={t:'Gestern Minimal-Session – heute B für alle drei Sprachen.',cls:''}}
+  if(y&&y.langs){
+    const missed=LANGS.filter(l=>y.langs[l.code]&&y.langs[l.code].pts<20).map(l=>l.name);
+    if(missed.length&&!reason)reason={t:'Gestern '+missed.join(', ')+' unter Ziel – diese Sprachen heute priorisieren.',cls:'b-lang'};
+  }
+  return{int:ri,reason};
+}
+
+function renderTopBar(){
+  const now=new Date();
+  const h=now.getHours();
+  document.getElementById('greeting').textContent=(h<12?'Guten Morgen':h<18?'Guten Tag':'Guten Abend')+', Bob';
+  document.getElementById('topdate').textContent=now.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'});
+  const s=load();
+  const ss=calcStreak(s,'sport'),ws=calcStreak(s,'wissen'),ls=calcStreak(s,'sprachen');
+  const today=load()[todayKey()];
+  const sportDone=today&&today.sport&&today.sport.done;
+  const wissenDone=today&&today.wissen&&today.wissen.done;
+  const langDone=today&&today.sprachen&&today.sprachen.done;
+  const dow=now.getDay();
+  const isRest=dow===0||dow===6;
+  const sportWarn=!sportDone&&!isRest&&ss>0&&new Date().getHours()>=18;
+  const wissenWarn=!wissenDone&&ws>0&&new Date().getHours()>=19;
+  const langWarn=!langDone&&ls>0&&new Date().getHours()>=19;
+  document.getElementById('chip-s').className='s-chip '+(sportWarn?'warn':'sp');
+  document.getElementById('chip-s').textContent='🏋 '+ss;
+  document.getElementById('chip-w').className='s-chip '+(wissenWarn?'warn':'wi');
+  document.getElementById('chip-w').textContent='📖 '+ws;
+  document.getElementById('chip-l').className='s-chip '+(langWarn?'warn':'la');
+  document.getElementById('chip-l').textContent='🗣 '+ls;
+}
+
+function renderOverview(){
+  const s=load();
+  const dow=new Date().getDay();
+  const today=getToday(s);
+  const recs={sport:recSport(s,dow),wissen:recWissen(s),lang:recLang(s)};
+  const isRest=dow===0||dow===6;
+  const planS=SPORT_PLAN[dow];
+  const intLabels={a:'A – Perfekt',b:'B – OK',c:'C – Erhalt'};
+  const timeS=planS?planS[recs.sport.int]?.time:'—';
+  const timeW={a:'45–60',b:'20–30',c:'10–15'}[recs.wissen.int];
+  const timeL={a:'40–45',b:'20–25',c:'15'}[recs.lang.int];
+
+  document.getElementById('ov-grid').innerHTML=`
+    <div class="ov-card ${today.sport.done?'done-sport':''}" onclick="switchSection('sport',document.getElementById('nav-sport'))">
+      <div class="ov-icon">🏋️</div>
+      <div class="ov-label">Sport</div>
+      ${isRest?'<div class="ov-rec">Ruhetag</div>':today.sport.done?'<div class="ov-done-badge ov-done-sport">✓ Erledigt</div>':'<div class="ov-rec">'+(intLabels[recs.sport.int]||'A – Perfekt')+'</div><div class="ov-time">⏱ '+timeS+'</div>'}
+    </div>
+    <div class="ov-card ${today.wissen.done?'done-wissen':''}" onclick="switchSection('wissen',document.getElementById('nav-wissen'))">
+      <div class="ov-icon">📖</div>
+      <div class="ov-label">Wissen</div>
+      ${today.wissen.done?'<div class="ov-done-badge ov-done-wissen">✓ Erledigt</div>':'<div class="ov-rec">'+(intLabels[recs.wissen.int]||'A – Perfekt')+'</div><div class="ov-time">⏱ '+timeW+' Min</div>'}
+    </div>
+    <div class="ov-card ${today.sprachen.done?'done-lang':''}" onclick="switchSection('sprachen',document.getElementById('nav-sprachen'))">
+      <div class="ov-icon">🗣</div>
+      <div class="ov-label">Sprachen</div>
+      ${today.sprachen.done?'<div class="ov-done-badge ov-done-lang">✓ Erledigt</div>':'<div class="ov-rec">'+(intLabels[recs.lang.int]||'A – Perfekt')+'</div><div class="ov-time">⏱ '+timeL+' Min</div>'}
+    </div>`;
+
+  const tips=[
+    'Heute Kraft + Laufen ist dein Duo der Woche — Abwechslung bringt den besten Fortschritt.',
+    'Sprachen lernt man durch Konsistenz, nicht durch Intensität. 15 Min täglich schlagen 2 Std einmal pro Woche.',
+    'Das Gehirn verankert Wissen am besten mit Pausen — lass das Gelernte heute Nacht sacken.',
+    'Burpees sind Kraft + Ausdauer in einer Übung. 3×10 sind besser als gar nichts.',
+    'A2 auf B1 in Spanisch: Der Schlüssel ist täglicher Kontakt, nicht Grammatik pauken.',
+    'Schwedisch B1 bedeutet du kannst schon viel — heute 10 Min hören und mitdenken genügt.',
+    'Calisthenics funktioniert mit Progressionen: mehr Reps oder langsamere Exzentrik.'
+  ];
+  document.getElementById('ov-tip').innerHTML='<strong>Heutiger Impuls</strong>'+tips[new Date().getDay()%tips.length];
+
+  const warns=[];
+  if(!today.sport.done&&!isRest&&calcStreak(s,'sport')>2)warns.push({icon:'🏋️',text:'Sport-Streak ('+calcStreak(s,'sport')+' Tage) noch nicht gesichert',sec:'sport'});
+  if(!today.wissen.done&&calcStreak(s,'wissen')>2)warns.push({icon:'📖',text:'Wissen-Streak ('+calcStreak(s,'wissen')+' Tage) noch offen',sec:'wissen'});
+  if(!today.sprachen.done&&calcStreak(s,'sprachen')>2)warns.push({icon:'🗣',text:'Sprachen-Streak ('+calcStreak(s,'sprachen')+' Tage) noch nicht gesichert',sec:'sprachen'});
+  document.getElementById('ov-warnings').innerHTML=warns.map(w=>`<div class="rec-banner" style="cursor:pointer;margin-bottom:5px" onclick="switchSection('${w.sec}',document.getElementById('nav-${w.sec}'))">${w.icon} <strong style="display:inline;font-size:12px">Streak-Warnung</strong> ${w.text} — jetzt abhaken →</div>`).join('');
+}
+
+function renderSport(){
+  const s=load();
+  const dow=new Date().getDay();
+  const today=getToday(s);
+  const plan=SPORT_PLAN[dow];
+  const rec=recSport(s,dow);
+  const isRest=dow===0||dow===6;
+  document.getElementById('sport-daylabel').textContent=plan?plan.label:(dow===0||dow===6?DAYS[dow]+' – Ruhetag':'');
+  document.getElementById('sport-rest-msg').style.display=isRest?'block':'none';
+  document.getElementById('sport-workout-section').style.display=isRest?'none':'block';
+  if(rec.reason)document.getElementById('sport-banner').innerHTML=`<div class="rec-banner ${rec.reason.cls||''}"><strong>Empfehlung</strong>${rec.reason.t}</div>`;
+  else document.getElementById('sport-banner').innerHTML='';
+  if(!isRest&&plan){
+    const ri=rec.int;
+    const sel=today.sport.int;
+    document.getElementById('sport-int-grid').innerHTML=['a','b','c'].map(k=>{
+      const d=plan[k];
+      const isRec=!sel&&k===ri;
+      return`<div class="int-card ${sel===k?'sel-'+k:''} ${isRec?'rec-mark rec-'+k:''}" onclick="selInt('sport','${k}')">
+        <div class="int-badge int-badge-${k}">${k.toUpperCase()} – ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div>
+        <div class="int-title">${d.t}</div>
+        <div class="int-desc">${d.d}</div>
+        <div class="int-time int-time-${k}">⏱ ${d.time}</div>
+      </div>`;
+    }).join('');
+    renderExList(today);
+    renderRunSection(dow);
+  } else{
+    document.getElementById('sport-int-grid').innerHTML='';
+  }
+  const btn=document.getElementById('sport-done-btn');
+  if(today.sport.done){btn.textContent='✓ Erledigt!';btn.className='done-btn ok-sport';}
+  else{btn.textContent='✓ Einheit abhaken';btn.className='done-btn';}
+  renderWeekGrid(s,dow);
+  renderCustomGoals('sport',today.sport.customGoals||[]);
+  const tips={1:'Beim Pull-up: volle Streckung unten, Kinn über die Stange – keine halben Reps.',2:'Laufen: 180 Schritte/Min ist die optimale Kadenz – kurze, schnelle Schritte.',3:'Dips: Ellbogen nah am Körper für Trizeps-Fokus, weiter weg für Brust.',4:'Core vor dem Laufen aktiviert die Muskeln und verbessert die Laufhaltung.',5:'Burpees als Finisher: 5 Runden AMRAP mit 1 Min Pause — volle Intensität.',6:'Ruhetag: Foam Rolling 10 Min verbessert die Erholung spürbar.',0:'Ruhetag: Leichtes Dehnen hält dich für Mo bereit.'};
+  document.getElementById('sport-tip').textContent=tips[dow]||tips[1];
+}
+
+function renderExList(today){
+  const exercises=today.sport.exercises||{};
+  const list=document.getElementById('ex-list');
+  const names=[...DEFAULT_EXERCISES,...(today.sport.customEx||[])];
+  list.innerHTML=names.map((n,i)=>{
+    const ex=exercises[n]||{sets:'',reps:''};
+    return`<div class="ex-row">
+      <span class="ex-name">${n}</span>
+      <input class="ex-input" type="number" min="0" value="${ex.sets||''}" placeholder="Sätze" onchange="logEx('${n}','sets',this.value)">
+      <span class="ex-label">×</span>
+      <input class="ex-input" type="number" min="0" value="${ex.reps||''}" placeholder="Reps" onchange="logEx('${n}','reps',this.value)">
+      ${i>=DEFAULT_EXERCISES.length?`<button class="ex-del" onclick="delCustomEx('${n}')">×</button>`:'<span style="width:18px"></span>'}
+    </div>`;
+  }).join('');
+}
+
+function renderRunSection(dow){
+  const showRun=dow===2||dow===4;
+  document.getElementById('run-section').style.display=showRun?'block':'none';
+  if(showRun){
+    const s=load();const today=getToday(s);
+    const run=today.sport.run||{};
+    document.getElementById('run-dist').value=run.dist||'';
+    document.getElementById('run-time').value=run.time||'';
+    updatePace();
+  }
+}
+
+function logEx(name,field,val){
+  const s=load();const today=getToday(s);
+  if(!today.sport.exercises)today.sport.exercises={};
+  if(!today.sport.exercises[name])today.sport.exercises[name]={sets:'',reps:''};
+  today.sport.exercises[name][field]=val;
+  save(s);
+}
+
+function saveRunData(){
+  const s=load();const today=getToday(s);
+  today.sport.run={dist:document.getElementById('run-dist').value,time:document.getElementById('run-time').value};
+  save(s);updatePace();
+}
+
+function updatePace(){
+  const dist=parseFloat(document.getElementById('run-dist').value);
+  const time=parseFloat(document.getElementById('run-time').value);
+  const el=document.getElementById('run-pace');
+  if(el&&dist>0&&time>0){const p=time/dist;el.value=Math.floor(p)+':'+(Math.round((p%1)*60)).toString().padStart(2,'0');}
+  else if(el)el.value='—';
+}
+
+function addCustomExercise(){
+  const name=prompt('Name der Übung:');
+  if(!name||!name.trim())return;
+  const s=load();const today=getToday(s);
+  if(!today.sport.customEx)today.sport.customEx=[];
+  today.sport.customEx.push(name.trim());
+  save(s);renderExList(today);
+}
+
+function delCustomEx(name){
+  const s=load();const today=getToday(s);
+  today.sport.customEx=(today.sport.customEx||[]).filter(e=>e!==name);
+  save(s);renderExList(today);
+}
+
+function renderWissen(){
+  const s=load();const today=getToday(s);
+  const rec=recWissen(s);const sel=today.wissen.int;const ti=today.wissen.topicIdx;
+  document.getElementById('wissen-topicsub').textContent='Thema '+(ti+1)+'/'+TOPICS.length+' — '+TOPICS[ti];
+  if(rec.reason)document.getElementById('wissen-banner').innerHTML=`<div class="rec-banner ${rec.reason.cls||''}"><strong>Empfehlung</strong>${rec.reason.t}</div>`;
+  else document.getElementById('wissen-banner').innerHTML='';
+  document.getElementById('wissen-int-grid').innerHTML=['a','b','c'].map(k=>{
+    const isRec=!sel&&k===rec.int;
+    const info={a:{t:'Tiefes Lernen',d:'Artikel + Video + Notizen, Zusammenfassung schreiben',time:'45–60 Min'},b:{t:'Fokus-Einheit',d:'Artikel lesen, 5 Kerninformationen festhalten',time:'20–30 Min'},c:{t:'Kurz-Review',d:'Zusammenfassung oder NotebookLM-Podcast',time:'10–15 Min'}}[k];
+    return`<div class="int-card ${sel===k?'sel-'+k:''} ${isRec?'rec-mark rec-'+k:''}" onclick="selInt('wissen','${k}')">
+      <div class="int-badge int-badge-${k}">${k.toUpperCase()} – ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div>
+      <div class="int-title">${info.t}</div>
+      <div class="int-desc">${info.d}</div>
+      <div class="int-time int-time-${k}">⏱ ${info.time}</div>
+    </div>`;
+  }).join('');
+  const btn=document.getElementById('wissen-done-btn');
+  if(today.wissen.done){btn.textContent='✓ Erledigt!';btn.className='done-btn ok-wissen';}
+  else{btn.textContent='✓ Lerneinheit abhaken';btn.className='done-btn';}
+  document.getElementById('wissen-prog-label').textContent=(ti+1)+' / '+TOPICS.length;
+  document.getElementById('wissen-prog-bar').style.width=Math.round((ti+1)/TOPICS.length*100)+'%';
+  document.getElementById('topic-chips').innerHTML=TOPICS.map((t,i)=>`<span class="topic-chip ${i===ti?'cur':''} ${i<ti?'done':''}" onclick="setTopic(${i})">${i<ti?'✓ ':''} ${t}</span>`).join('');
+  document.getElementById('wissen-notes').value=today.wissen.note||'';
+  renderCustomGoals('wissen',today.wissen.customGoals||[]);
+  const wtips=['Erkläre das heutige Thema laut in 2 Minuten — Lücken werden sofort sichtbar.','Schreibe 3 Kernfakten auf nach dem Lesen — Abruf verankert besser als Wiederholung.','Verknüpfe das neue Thema mit einem bekannten: Was haben sie gemeinsam?','NotebookLM Podcast eignet sich ideal für C-Tage — passives Lernen beim Spaziergang.','Spaced repetition: Wiederhole das letzte Thema kurz bevor du das neue beginnt.'];
+  document.getElementById('wissen-tip').textContent=wtips[new Date().getDate()%wtips.length];
+}
+
+function setTopic(idx){
+  const s=load();const today=getToday(s);
+  today.wissen.topicIdx=idx;save(s);renderWissen();
+}
+
+function saveNote(){
+  const s=load();const today=getToday(s);
+  today.wissen.note=document.getElementById('wissen-notes').value;
+  save(s);showToast('Notiz gespeichert ✓');
+}
+
+function saveLangNote(){
+  const s=load();const today=getToday(s);
+  today.sprachen.note=document.getElementById('lang-notes').value;
+  save(s);showToast('Notiz gespeichert ✓');
+}
+
+function renderLang(){
+  const s=load();const today=getToday(s);
+  const rec=recLang(s);const sel=today.sprachen.int;
+  if(rec.reason)document.getElementById('lang-banner').innerHTML=`<div class="rec-banner ${rec.reason.cls||''}"><strong>Empfehlung</strong>${rec.reason.t}</div>`;
+  else document.getElementById('lang-banner').innerHTML='';
+  document.getElementById('lang-int-grid').innerHTML=['a','b','c'].map(k=>{
+    const isRec=!sel&&k===rec.int;
+    const info={a:{t:'Volle Session',d:'Je 15 Min ES+FR, 10 Min SV + Clozemaster-Zielrunden',time:'40–45 Min'},b:{t:'2-Sprachen-Fokus',d:'ES + FR je 10 Min, SV optional',time:'20–25 Min'},c:{t:'Minimal-Streak',d:'Je 5 Min pro Sprache — Streak sichern',time:'15 Min'}}[k];
+    return`<div class="int-card ${sel===k?'sel-'+k:''} ${isRec?'rec-mark rec-'+k:''}" onclick="selInt('sprachen','${k}')">
+      <div class="int-badge int-badge-${k}">${k.toUpperCase()} – ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div>
+      <div class="int-title">${info.t}</div>
+      <div class="int-desc">${info.d}</div>
+      <div class="int-time int-time-${k}">⏱ ${info.time}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('lang-grid').innerHTML=LANGS.map(l=>{
+    const d=today.sprachen.langs[l.code]||{min:0,pts:0};
+    const pMin=Math.min(100,Math.round((d.min||0)/l.goal.min*100));
+    const pPts=Math.min(100,Math.round((d.pts||0)/l.goal.pts*100));
+    return`<div class="lang-card">
+      <div class="lang-name">${l.name}</div>
+      <div class="lang-level">${l.level}</div>
+      <div class="lang-stat"><span>Minuten</span><span>${d.min||0}/${l.goal.min}</span></div>
+      <div class="prog-bg"><div class="prog-fill pf-lang" style="width:${pMin}%"></div></div>
+      <div class="lang-stat" style="margin-top:4px"><span>Punkte</span><span>${d.pts||0}/${l.goal.pts}</span></div>
+      <div class="prog-bg"><div class="prog-fill pf-lang" style="width:${pPts}%"></div></div>
+      <div class="lang-inp-row">
+        <input type="number" min="0" placeholder="Min" id="lmin-${l.code}">
+        <input type="number" min="0" placeholder="Pts" id="lpts-${l.code}">
+        <button class="lang-log-btn" onclick="logLang('${l.code}')">+Log</button>
+      </div>
+    </div>`;
+  }).join('');
+  const btn=document.getElementById('sprachen-done-btn');
+  if(today.sprachen.done){btn.textContent='✓ Erledigt!';btn.className='done-btn ok-lang';}
+  else{btn.textContent='✓ Sprachsession abhaken';btn.className='done-btn';}
+  document.getElementById('lang-notes').value=today.sprachen.note||'';
+  renderCustomGoals('lang',today.sprachen.customGoals||[]);
+  const ltips=['Spanisch A2→B1: Hör jeden Tag 5 Min spanisches Audio — dein Ohr wird vor dem Mund besser.','Französisch A1: Lerne zuerst die 100 häufigsten Wörter — sie decken 50% aller Texte ab.','Schwedisch B1: Du kannst schon viel — heute 10 Min schwedisches Radio hören und mitdenken.','Alle drei: Clozemaster-Sätze laut aussprechen verankert Schrift und Klang gleichzeitig.','Sprachen brauchen täglichen Kontakt — 15 Min täglich ist besser als 2 Std einmal die Woche.'];
+  document.getElementById('lang-tip').textContent=ltips[new Date().getDate()%ltips.length];
+}
+
+function logLang(code){
+  const s=load();const today=getToday(s);
+  const l=LANGS.find(x=>x.code===code);
+  const m=parseInt(document.getElementById('lmin-'+code).value)||0;
+  const p=parseInt(document.getElementById('lpts-'+code).value)||0;
+  if(!today.sprachen.langs[code])today.sprachen.langs[code]={min:0,pts:0};
+  today.sprachen.langs[code].min=Math.min(l.goal.min,(today.sprachen.langs[code].min||0)+m);
+  today.sprachen.langs[code].pts=Math.min(l.goal.pts,(today.sprachen.langs[code].pts||0)+p);
+  save(s);renderLang();
+}
+
+function renderCustomGoals(section,goals){
+  const ids={sport:'sport-custom',wissen:'wissen-custom',lang:'lang-custom'};
+  const el=document.getElementById(ids[section]);
+  if(!el)return;
+  el.innerHTML=goals.map((g,i)=>`<div class="custom-item">
+    <input type="checkbox" class="custom-check" ${g.done?'checked':''} onchange="toggleCustomGoal('${section}',${i},this.checked)">
+    <span class="custom-label" style="${g.done?'text-decoration:line-through;color:var(--text3)':''}">${g.text}</span>
+    <button class="custom-del" onclick="delCustomGoal('${section}',${i})">×</button>
+  </div>`).join('');
+}
+
+function addCustomGoal(section){
+  const ids={sport:'sport-custom-input',wissen:'wissen-custom-input',lang:'lang-custom-input'};
+  const input=document.getElementById(ids[section]);
+  if(!input||!input.value.trim())return;
+  const s=load();const today=getToday(s);
+  const key={sport:'sport',wissen:'wissen',lang:'sprachen'}[section];
+  if(!today[key].customGoals)today[key].customGoals=[];
+  today[key].customGoals.push({text:input.value.trim(),done:false});
+  input.value='';save(s);
+  renderCustomGoals(section,today[key].customGoals);
+}
+
+function toggleCustomGoal(section,idx,val){
+  const s=load();const today=getToday(s);
+  const key={sport:'sport',wissen:'wissen',lang:'sprachen'}[section];
+  today[key].customGoals[idx].done=val;save(s);
+  renderCustomGoals(section,today[key].customGoals);
+}
+
+function delCustomGoal(section,idx){
+  const s=load();const today=getToday(s);
+  const key={sport:'sport',wissen:'wissen',lang:'sprachen'}[section];
+  today[key].customGoals.splice(idx,1);save(s);
+  renderCustomGoals(section,today[key].customGoals);
+}
+
+function renderWeekGrid(s,dow){
+  const now=new Date();
+  const todayK=todayKey();
+  const monday=new Date(now);
+  monday.setDate(now.getDate()-(dow===0?6:dow-1));
+  let doneCount=0;
+  document.getElementById('sport-wk-grid').innerHTML=['Mo','Di','Mi','Do','Fr','Sa','So'].map((d,i)=>{
+    const day=new Date(monday);day.setDate(monday.getDate()+i);
+    const k=dateKey(day);
+    const isRest=i>=5;const isToday=k===todayK;
+    const isDone=!isRest&&s[k]&&s[k].sport&&s[k].sport.done;
+    const wtype=isDone&&s[k].sport.type?s[k].sport.type.charAt(0):'';
+    if(isDone)doneCount++;
+    return`<div class="wc ${isRest?'rest':''} ${isToday?'today':''} ${isDone?'done':''}">
+      <span>${d}</span>${isDone?`<span class="wtype">${wtype}</span>`:''}
+    </div>`;
+  }).join('');
+  document.getElementById('sport-wk-count').textContent=doneCount+' / 5';
+  document.getElementById('sport-wk-bar').style.width=Math.round(doneCount/5*100)+'%';
+}
+
+let quizData=null;let quizIdx=0;let quizScore={ok:0,total:0};let quizAnswered=false;
+
+async function generateQuiz(){
+  const s=load();const today=getToday(s);
+  const topic=TOPICS[today.wissen.topicIdx];
+  const btn=document.getElementById('gen-quiz-btn');
+  btn.textContent='⏳ Quiz wird generiert...';btn.disabled=true;
+  document.getElementById('quiz-container').innerHTML=`<div class="quiz-loading">Quizfragen für "${topic}" werden generiert...</div>`;
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:`Erstelle 4 Multiple-Choice-Quizfragen zum Thema "${topic}" für einen erwachsenen Lernenden mit breitem Allgemeinwissensinteresse. Antworte NUR mit JSON ohne Markdown, in diesem Format:
+[{"q":"Frage?","opts":["A","B","C","D"],"ans":0,"exp":"Kurze Erklärung"}]
+ans ist der Index der richtigen Antwort (0-3). Die Fragen sollen interessant und nicht trivial sein.`}]
+      })
+    });
+    const data=await resp.json();
+    const text=data.content[0].text.replace(/```json|```/g,'').trim();
+    quizData=JSON.parse(text);
+    quizIdx=0;quizScore={ok:0,total:0};quizAnswered=false;
+    renderQuiz();
+    btn.textContent='🔄 Neues Quiz generieren';btn.disabled=false;
+  }catch(e){
+    document.getElementById('quiz-container').innerHTML=`<div class="quiz-loading" style="color:var(--text2)">Fehler beim Generieren. Bitte nochmal versuchen.</div>`;
+    btn.textContent='🎯 Quiz für dieses Thema generieren';btn.disabled=false;
+  }
+}
+
+function renderQuiz(){
+  if(!quizData||quizIdx>=quizData.length){
+    document.getElementById('quiz-container').innerHTML=`<div class="quiz-box"><div class="quiz-q">Quiz abgeschlossen — ${quizScore.ok} von ${quizScore.total} richtig 🎯</div></div>`;
+    return;
+  }
+  const q=quizData[quizIdx];
+  document.getElementById('quiz-container').innerHTML=`<div class="quiz-box">
+    <div class="quiz-score">Frage ${quizIdx+1}/${quizData.length} · ${quizScore.ok}/${quizScore.total} richtig</div>
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-opts" id="quiz-opts">${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="answerQuiz(${i})">${String.fromCharCode(65+i)}) ${o}</button>`).join('')}</div>
+    <div id="quiz-result"></div>
+  </div>`;
+  quizAnswered=false;
+}
+
+function answerQuiz(idx){
+  if(quizAnswered)return;
+  quizAnswered=true;
+  const q=quizData[quizIdx];
+  const opts=document.querySelectorAll('.quiz-opt');
+  opts.forEach((o,i)=>{o.disabled=true;if(i===q.ans)o.className='quiz-opt correct';else if(i===idx&&i!==q.ans)o.className='quiz-opt wrong';});
+  const correct=idx===q.ans;
+  quizScore.total++;if(correct)quizScore.ok++;
+  document.getElementById('quiz-result').innerHTML=`<div class="quiz-result ${correct?'ok':'nok'}">${correct?'✓ Richtig!':'✗ Falsch — '} ${q.exp}</div><button class="quiz-next" onclick="nextQuiz()">${quizIdx+1<quizData.length?'Nächste Frage →':'Ergebnis anzeigen'}</button>`;
+}
+
+function nextQuiz(){quizIdx++;renderQuiz();}
+
+function selInt(section,key){
+  const s=load();const today=getToday(s);
+  const k={sport:'sport',wissen:'wissen',sprachen:'sprachen'}[section];
+  today[k].int=key;save(s);
+  if(section==='sport')renderSport();
+  if(section==='wissen')renderWissen();
+  if(section==='sprachen')renderLang();
+}
+
+function markDone(section){
+  const s=load();const today=getToday(s);
+  const dow=new Date().getDay();
+  if(section==='sport'){today.sport.done=true;today.sport.type=SPORT_TYPE[dow]||null;}
+  if(section==='wissen')today.wissen.done=true;
+  if(section==='sprachen')today.sprachen.done=true;
+  save(s);
+  const msgs=MOTIV;showToast(msgs[Math.floor(Math.random()*msgs.length)]);
+  if(section==='sport')renderSport();
+  if(section==='wissen')renderWissen();
+  if(section==='sprachen')renderLang();
+  renderTopBar();renderOverview();
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function renderVerlauf(mode){
+  const s=load();const n=mode==='week'?7:30;
+  if(mode==='stats'){
+    let sc=0,wc=0,lc=0,sa=0,sb=0,scc=0;
+    for(let i=0;i<90;i++){const k=daysAgo(i);if(!s[k])continue;if(s[k].sport&&s[k].sport.done){sc++;const ii=s[k].sport.int;if(ii==='a')sa++;else if(ii==='b')sb++;else scc++;}if(s[k].wissen&&s[k].wissen.done)wc++;if(s[k].sprachen&&s[k].sprachen.done)lc++;}
+    document.getElementById('verlauf-content').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:1rem">
+      <div style="background:var(--sport-bg);border-radius:var(--r);padding:0.75rem;text-align:center"><div style="font-size:22px;font-weight:500;color:var(--sport-dark)">${sc}</div><div style="font-size:11px;color:var(--sport-dark);font-family:'DM Mono',monospace">Sport-Tage</div></div>
+      <div style="background:var(--wissen-bg);border-radius:var(--r);padding:0.75rem;text-align:center"><div style="font-size:22px;font-weight:500;color:var(--wissen-dark)">${wc}</div><div style="font-size:11px;color:var(--wissen-dark);font-family:'DM Mono',monospace">Lerntage</div></div>
+      <div style="background:var(--lang-bg);border-radius:var(--r);padding:0.75rem;text-align:center"><div style="font-size:22px;font-weight:500;color:var(--lang-dark)">${lc}</div><div style="font-size:11px;color:var(--lang-dark);font-family:'DM Mono',monospace">Sprach-Tage</div></div>
+    </div>
+    <div style="background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:0.875rem">
+      <div style="font-size:12px;font-weight:500;margin-bottom:8px">Sport-Intensitätsverteilung (90 Tage)</div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px">
+        <div style="width:${Math.round(sa/(sc||1)*100)}%;height:8px;background:var(--a);border-radius:4px;min-width:${sa?8:0}px"></div>
+        <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--a-dark)">${sa}× A</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px">
+        <div style="width:${Math.round(sb/(sc||1)*100)}%;height:8px;background:var(--b);border-radius:4px;min-width:${sb?8:0}px"></div>
+        <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--b-dark)">${sb}× B</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="width:${Math.round(scc/(sc||1)*100)}%;height:8px;background:var(--c);border-radius:4px;min-width:${scc?8:0}px"></div>
+        <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--c-dark)">${scc}× C</span>
+      </div>
+    </div>`;
+    return;
+  }
+  const rows=[];
+  for(let i=1;i<=n;i++){
+    const k=daysAgo(i);const d=new Date();d.setDate(d.getDate()-i);
+    const e=s[k];if(!e)continue;
+    const sb=e.sport&&e.sport.done?`<span class="hbadge hb-${e.sport.int||'a'}">🏋 ${(e.sport.int||'?').toUpperCase()}${e.sport.type?' '+e.sport.type.charAt(0):''}</span>`:'<span class="hbadge hb-x">🏋 –</span>';
+    const wb=e.wissen&&e.wissen.done?`<span class="hbadge hb-${e.wissen.int||'a'}">📖 ${(e.wissen.int||'?').toUpperCase()}</span>`:'<span class="hbadge hb-x">📖 –</span>';
+    const lb=e.sprachen&&e.sprachen.done?`<span class="hbadge hb-${e.sprachen.int||'a'}">🗣 ${(e.sprachen.int||'?').toUpperCase()}</span>`:'<span class="hbadge hb-x">🗣 –</span>';
+    rows.push(`<div class="hist-row"><span class="hist-date">${DAYS[d.getDay()]} ${p2(d.getDate())}.${p2(d.getMonth()+1)}.</span><div class="hist-badges">${sb}${wb}${lb}</div></div>`);
+  }
+  document.getElementById('verlauf-content').innerHTML=rows.length?rows.join(''):'<div style="color:var(--text3);font-size:12px;padding:1rem 0">Noch keine Einträge.</div>';
+}
+
+function switchVerlauf(mode,el){
+  document.querySelectorAll('.v-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderVerlauf(mode);
+}
+
+function switchSection(id,navEl){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  if(navEl)navEl.classList.add('active');
+  if(id==='overview')renderOverview();
+  if(id==='sport')renderSport();
+  if(id==='wissen')renderWissen();
+  if(id==='sprachen')renderLang();
+  if(id==='verlauf')renderVerlauf('week');
+  window.scrollTo(0,0);
+}
+
+function init(){
+  const s=load();getToday(s);save(s);
+  renderTopBar();renderOverview();renderSport();renderWissen();renderLang();
+}
+init();
+</script>
+</body>
+</html>

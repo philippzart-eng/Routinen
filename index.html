@@ -629,9 +629,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
   <div class="apikey-modal">
     <h3>🔑 Anthropic API Key</h3>
     <p>Um die Coaches nutzen zu können, braucht die App deinen persönlichen Anthropic API Key. Er wird nur lokal in deinem Browser gespeichert und nie weitergegeben.</p>
-    <p style="margin-bottom:.5rem">API Key bekommst du auf <strong>console.anthropic.com</strong> unter "API Keys".</p>
-    <input type="password" id="apikey-input" placeholder="sk-ant-..." autocomplete="off">
-    <button class="save-key-btn" onclick="saveApiKey()">Speichern & weiter</button>
+    <p style="margin-bottom:.5rem">API Key bekommst du auf <strong>console.anthropic.com</strong> unter "API Keys". Der Key muss mit <code>sk-ant-</code> beginnen.</p>
+    <input type="password" id="apikey-input" placeholder="sk-ant-api03-..." autocomplete="off">
+    <button class="save-key-btn" onclick="saveApiKey()">Speichern & testen</button>
+    <div id="apikey-test-result" style="font-size:12px;margin-top:8px;padding:6px 10px;border-radius:6px;display:none"></div>
     <button onclick="document.getElementById('apikey-modal').style.display='none'" style="width:100%;padding:8px;border:none;background:none;color:var(--tx3);font-size:12px;cursor:pointer;margin-top:6px;font-family:'DM Sans',sans-serif">Später</button>
   </div>
 </div>
@@ -862,14 +863,54 @@ function getWissenDue(sessions) {
 
 // ── API KEY ──
 function getApiKey() { return localStorage.getItem('rc_apikey')||''; }
-function saveApiKey() {
+async function saveApiKey() {
   const inp = document.getElementById('apikey-input');
-  if(!inp||!inp.value.trim()) return;
+  if(!inp||!inp.value.trim()) { alert('Bitte Key eingeben'); return; }
   const key = inp.value.trim();
-  if(!key.startsWith('sk-')) { alert('Ungültiger Key — muss mit sk- beginnen'); return; }
+  if(!key.startsWith('sk-')) { alert('Ungültiger Key — muss mit sk-ant- beginnen'); return; }
   localStorage.setItem('rc_apikey', key);
-  document.getElementById('apikey-modal').style.display='none';
-  toast('API Key gespeichert ✓');
+
+  const resultEl = document.getElementById('apikey-test-result');
+  const saveBtn = document.querySelector('.save-key-btn');
+  if(saveBtn) { saveBtn.textContent='⏳ Teste...'; saveBtn.disabled=true; }
+  if(resultEl) { resultEl.style.display='block'; resultEl.style.background='#FFF3CD'; resultEl.style.color='#7A4F00'; resultEl.textContent='Verbindung wird getestet...'; }
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 10,
+        messages: [{ role: 'user', content: 'Hi' }]
+      })
+    });
+    const data = await resp.json();
+    if(data.error) {
+      const errMsg = data.error.message || JSON.stringify(data.error);
+      if(resultEl) { resultEl.style.background='#FDE8E8'; resultEl.style.color='#7A1A1A'; resultEl.textContent='❌ Fehler: '+errMsg; }
+      if(saveBtn) { saveBtn.textContent='Speichern & testen'; saveBtn.disabled=false; }
+    } else {
+      if(resultEl) { resultEl.style.background='#E0F5EC'; resultEl.style.color='#074D34'; resultEl.textContent='✓ Verbindung erfolgreich! Key funktioniert.'; }
+      setTimeout(()=>{
+        document.getElementById('apikey-modal').style.display='none';
+        toast('API Key gespeichert ✓');
+        if(saveBtn) { saveBtn.textContent='Speichern & testen'; saveBtn.disabled=false; }
+      }, 1200);
+    }
+  } catch(e) {
+    let errText = e.message||String(e);
+    if(errText.includes('Failed to fetch')||errText.includes('NetworkError')) {
+      errText = 'Netzwerkfehler / CORS. Stelle sicher dass du die App über GitHub Pages öffnest (https://...) und nicht als lokale Datei.';
+    }
+    if(resultEl) { resultEl.style.background='#FDE8E8'; resultEl.style.color='#7A1A1A'; resultEl.textContent='❌ '+errText; }
+    if(saveBtn) { saveBtn.textContent='Speichern & testen'; saveBtn.disabled=false; }
+  }
 }
 function checkApiKey() {
   if(!getApiKey()) {
@@ -950,9 +991,11 @@ async function sendMsg(sec) {
     saveChatMsg(sec, 'assistant', reply);
   } catch(e) {
     removeTyping(sec);
-    const msg = e.message&&e.message.includes('401') ? 'API Key ungültig — bitte in Einstellungen neu eingeben.' :
-                e.message&&e.message.includes('429') ? 'Rate limit erreicht — kurz warten und nochmal.' :
-                'Verbindungsfehler: '+e.message;
+    let msg = 'Verbindungsfehler: '+e.message;
+    if(e.message&&e.message.includes('401')) msg = '🔑 API Key ungültig oder abgelaufen. Bitte neu eingeben.';
+    else if(e.message&&e.message.includes('403')) msg = '🔑 API Key hat keine Berechtigung. Prüfe ob der Key aktiv ist.';
+    else if(e.message&&e.message.includes('429')) msg = '⏳ Rate limit — bitte 1 Minute warten.';
+    else if(e.message&&e.message.includes('Failed to fetch')||e.message&&e.message.includes('NetworkError')) msg = '🌐 Kein Internet oder CORS-Fehler. Stelle sicher dass du auf GitHub Pages bist (nicht lokal).';
     appendMessage(sec, 'assistant', msg, sec);
   }
   if(btn) btn.disabled = false;

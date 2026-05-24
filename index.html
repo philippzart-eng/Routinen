@@ -890,13 +890,15 @@ async function saveApiKey() {
         messages: [{ role: 'user', content: 'Hi' }]
       })
     });
-    const data = await resp.json();
-    if(data.error) {
-      const errMsg = data.error.message || JSON.stringify(data.error);
-      if(resultEl) { resultEl.style.background='#FDE8E8'; resultEl.style.color='#7A1A1A'; resultEl.textContent='❌ Fehler: '+errMsg; }
+    const rawText = await resp.text();
+    let data;
+    try { data = JSON.parse(rawText); } catch(pe) { data = null; }
+    if(!resp.ok || (data && data.error)) {
+      const errMsg = data && data.error ? (data.error.type+': '+data.error.message) : ('HTTP '+resp.status+' — '+rawText.slice(0,200));
+      if(resultEl) { resultEl.style.background='#FDE8E8'; resultEl.style.color='#7A1A1A'; resultEl.textContent='❌ '+errMsg; }
       if(saveBtn) { saveBtn.textContent='Speichern & testen'; saveBtn.disabled=false; }
     } else {
-      if(resultEl) { resultEl.style.background='#E0F5EC'; resultEl.style.color='#074D34'; resultEl.textContent='✓ Verbindung erfolgreich! Key funktioniert.'; }
+      if(resultEl) { resultEl.style.background='#E0F5EC'; resultEl.style.color='#074D34'; resultEl.textContent='✓ Verbindung erfolgreich!'; }
       setTimeout(()=>{
         document.getElementById('apikey-modal').style.display='none';
         toast('API Key gespeichert ✓');
@@ -905,8 +907,8 @@ async function saveApiKey() {
     }
   } catch(e) {
     let errText = e.message||String(e);
-    if(errText.includes('Failed to fetch')||errText.includes('NetworkError')) {
-      errText = 'Netzwerkfehler / CORS. Stelle sicher dass du die App über GitHub Pages öffnest (https://...) und nicht als lokale Datei.';
+    if(errText.includes('Failed to fetch')||errText.includes('Load failed')||errText.includes('NetworkError')) {
+      errText = 'CORS-Fehler: Safari blockiert den Request. Lösung: Öffne die App einmal in Chrome auf dem iPhone — dort funktioniert es direkt.';
     }
     if(resultEl) { resultEl.style.background='#FDE8E8'; resultEl.style.color='#7A1A1A'; resultEl.textContent='❌ '+errText; }
     if(saveBtn) { saveBtn.textContent='Speichern & testen'; saveBtn.disabled=false; }

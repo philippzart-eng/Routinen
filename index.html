@@ -1310,7 +1310,7 @@ Keine Floskeln. Bezug auf den konkreten Tag und die Streaks wenn passend. Auf De
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:prompt}]})
+      body: JSON.stringify({model:'claude-3-5-sonnet-20241022',max_tokens:300,messages:[{role:'user',content:prompt}]})
     });
     const d = await r.json();
     const text = d.content[0].text;
@@ -1892,7 +1892,7 @@ async function generateWeekGoals(){
   const laLast=getSessionHistory('sprachen').slice(-3).map(s=>s.date+' '+s.type).join(', ')||'keine';
   const prompt='Coach. Woche ab '+weekStart.toLocaleDateString('de-DE',{day:'numeric',month:'long'})+'. Sport-Level '+p.lv+', PU '+p.pu+', Laufziel '+p.rg+'km, Ziel: '+p.sg+'. Sprachen: ES '+p.esl+'/FR '+p.frl+'/SV '+p.svl+'. Streaks: Sport '+ss+'/Wissen '+ws+'/Sprachen '+ls+'. Letzte Sessions: Sport: '+spLast+', Wissen: '+wiLast+', Sprachen: '+laLast+'. Erstelle 6–8 konkrete Wochenziele + 1–2 Meilensteine. Nur JSON kein Markdown: [{"text":"...","type":"sp|wi|la|ms"}]';
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-3-5-sonnet-20241022',max_tokens:500,messages:[{role:'user',content:prompt}]})});
     const d=await r.json();const goals=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
     if(!s._weekGoals)s._weekGoals={};s._weekGoals[wk]=goals;sv(s);renderWeekGoals(s,wk);toast('Wochenziele generiert ✓');
   }catch(e){toast('Fehler — nochmal versuchen');}

@@ -4,326 +4,335 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Routine Coach</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Routine Coach">
+<meta name="theme-color" content="#18170F">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiB2aWV3Qm94PSIwIDAgMTgwIDE4MCI+CiAgPHJlY3Qgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxODAiIHJ4PSI0MCIgZmlsbD0iIzE4MTcwRiIvPgogIDxjaXJjbGUgY3g9IjkwIiBjeT0iOTAiIHI9IjU4IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjUiIG9wYWNpdHk9IjAuMTUiLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIzOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI1IiBvcGFjaXR5PSIwLjQiLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI1IiBvcGFjaXR5PSIwLjciLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSI3IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiB2aWV3Qm94PSIwIDAgMTgwIDE4MCI+CiAgPHJlY3Qgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxODAiIHJ4PSI0MCIgZmlsbD0iIzE4MTcwRiIvPgogIDxjaXJjbGUgY3g9IjkwIiBjeT0iOTAiIHI9IjU4IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjUiIG9wYWNpdHk9IjAuMTUiLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIzOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI1IiBvcGFjaXR5PSIwLjQiLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI1IiBvcGFjaXR5PSIwLjciLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSI3IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#F5F4F0;--sf:#FFF;--sf2:#EEECEA;--sf3:#E4E2DC;
-  --bd:rgba(0,0,0,0.07);--bd2:rgba(0,0,0,0.13);
+  --bd:rgba(0,0,0,0.08);--bd2:rgba(0,0,0,0.15);
   --tx:#18170F;--tx2:#6A6860;--tx3:#A8A69E;
   --sp:#1A9E72;--sp-bg:#E0F5EC;--sp-dk:#074D34;
   --wi:#6B63D4;--wi-bg:#ECEAFD;--wi-dk:#342E8A;
   --la:#C97A0C;--la-bg:#FEF2DC;--la-dk:#6B3E04;
-  --de:#D44E8A;--de-bg:#FDEAF2;--de-dk:#7A1A3E;
-  --a:#1A9E72;--a-bg:#E0F5EC;--a-dk:#074D34;
-  --b:#3278D4;--b-bg:#E3EEFB;--b-dk:#0C3E7A;
-  --c:#C97A0C;--c-bg:#FEF2DC;--c-dk:#6B3E04;
-  --r:10px;--rs:7px;
+  --r:12px;--rs:8px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;min-height:100vh}
 
-/* ── ONBOARDING ── */
+/* ONBOARDING */
 #ob{position:fixed;inset:0;background:var(--bg);z-index:1000;overflow-y:auto}
 .ob-pw{height:3px;background:var(--sf2)}.ob-pf{height:100%;background:var(--tx);transition:width .4s}
-.ob-body{max-width:520px;margin:0 auto;padding:2rem 1.5rem 6rem}
+.ob-body{max-width:480px;margin:0 auto;padding:2.5rem 1.5rem 6rem}
+.ob-tag{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);margin-bottom:5px}
+.ob-h{font-size:22px;font-weight:500;margin-bottom:6px;line-height:1.3}
+.ob-sub{font-size:13px;color:var(--tx2);margin-bottom:1.5rem;line-height:1.7}
 .ob-step{display:none}.ob-step.on{display:block}
-.ob-tag{font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:4px}
-.ob-h{font-size:20px;font-weight:500;margin-bottom:4px;line-height:1.3}
-.ob-sub{font-size:13px;color:var(--tx2);margin-bottom:1.25rem;line-height:1.6}
-.ob-f{margin-bottom:.875rem}
-.ob-f label{display:block;font-size:12px;font-weight:500;margin-bottom:4px;color:var(--tx2)}
-.ob-f input,.ob-f textarea{width:100%;padding:8px 11px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:13px}
-.ob-f textarea{resize:vertical;min-height:55px}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:3px}
-.ch{padding:6px 12px;border-radius:20px;border:1px solid var(--bd2);background:var(--sf);font-size:12px;cursor:pointer;color:var(--tx2);transition:all .15s;user-select:none}
+.ob-f{margin-bottom:1rem}
+.ob-f label{display:block;font-size:12px;font-weight:500;margin-bottom:5px;color:var(--tx2)}
+.ob-f input,.ob-f textarea,.ob-f select{width:100%;padding:9px 12px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:13px}
+.ob-f textarea{resize:vertical;min-height:70px;line-height:1.6}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.ch{padding:6px 13px;border-radius:20px;border:1px solid var(--bd2);background:var(--sf);font-size:12px;cursor:pointer;color:var(--tx2);user-select:none;transition:all .15s}
 .ch.on{background:var(--tx);color:#fff;border-color:var(--tx)}
-.ob-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:.875rem}
+.ob-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem}
 .ob-num label{display:block;font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:3px;text-align:center}
-.ob-num input{width:100%;padding:7px;text-align:center;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);font-size:15px;font-family:'DM Mono',monospace;color:var(--tx)}
-.ob-nav{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:1px solid var(--bd);padding:.875rem 1.5rem;display:flex;gap:8px;max-width:520px;margin:0 auto}
-.ob-bk{padding:9px 16px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx)}
-.ob-nx{flex:1;padding:10px;border-radius:var(--rs);border:none;background:var(--tx);color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.ob-num input{width:100%;padding:8px;text-align:center;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);font-size:16px;font-family:'DM Mono',monospace;color:var(--tx)}
+.ob-nav{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:1px solid var(--bd);padding:1rem 1.5rem;display:flex;gap:10px;max-width:480px;margin:0 auto}
+.ob-bk{padding:10px 18px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx)}
+.ob-nx{flex:1;padding:11px;border-radius:var(--rs);border:none;background:var(--tx);color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
 
-/* ── APP SHELL ── */
+/* APP SHELL */
 #app{display:none}
-.topbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:.625rem 1.125rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
-.tb-l .tbt{font-size:14px;font-weight:500}
-.tb-l .tbd{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace}
-.streaks{display:flex;gap:4px}
-.sc{font-size:10px;font-weight:500;padding:3px 7px;border-radius:20px;border:.5px solid var(--bd2);font-family:'DM Mono',monospace}
+.topbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:.75rem 1.25rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
+.tbt{font-size:15px;font-weight:500}.tbd{font-size:11px;color:var(--tx3);font-family:'DM Mono',monospace;margin-top:1px}
+.streaks{display:flex;gap:5px}
+.sc{font-size:11px;font-weight:500;padding:4px 9px;border-radius:20px;border:.5px solid var(--bd2);font-family:'DM Mono',monospace;cursor:pointer;user-select:none}
 .sc.sp{background:var(--sp-bg);color:var(--sp-dk);border-color:var(--sp)}
 .sc.wi{background:var(--wi-bg);color:var(--wi-dk);border-color:var(--wi)}
 .sc.la{background:var(--la-bg);color:var(--la-dk);border-color:var(--la)}
 .sc.warn{background:#FFF3CD;color:#7A4F00;border-color:#E8A800;animation:pulse 1.5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
 
-.bnav{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:1px solid var(--bd);display:flex;z-index:100}
-.nb{flex:1;padding:8px 4px 6px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:10px;color:var(--tx3);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
-.nb .ni{font-size:18px;line-height:1}
-.nb.on{color:var(--tx);font-weight:500}
-
-.page{display:none;padding:.875rem 1.125rem 5rem;max-width:700px;margin:0 auto}
+/* HOME PAGE */
+.page{display:none;padding:1rem 1.25rem 2rem;max-width:640px;margin:0 auto}
 .page.on{display:block}
+.home-greeting{font-size:20px;font-weight:500;margin-bottom:4px}
+.home-date{font-size:12px;color:var(--tx2);margin-bottom:1.5rem;font-family:'DM Mono',monospace}
+.coach-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+.coach-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:1.125rem;cursor:pointer;transition:border-color .15s,box-shadow .15s;display:flex;align-items:center;justify-content:space-between;user-select:none}
+.coach-card:hover{border-color:var(--bd2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.coach-card.sp{border-left:3px solid var(--sp)}
+.coach-card.wi{border-left:3px solid var(--wi)}
+.coach-card.la{border-left:3px solid var(--la)}
+.cc-left{display:flex;align-items:center;gap:12px}
+.cc-icon{font-size:26px;line-height:1}
+.cc-name{font-size:14px;font-weight:500;margin-bottom:2px}
+.cc-hint{font-size:12px;color:var(--tx2)}
+.cc-right{display:flex;align-items:center;gap:8px}
+.cc-streak{font-size:11px;font-family:'DM Mono',monospace;padding:3px 8px;border-radius:20px}
+.cc-streak.sp{background:var(--sp-bg);color:var(--sp-dk)}
+.cc-streak.wi{background:var(--wi-bg);color:var(--wi-dk)}
+.cc-streak.la{background:var(--la-bg);color:var(--la-dk)}
+.cc-arrow{font-size:16px;color:var(--tx3)}
+.cc-done{font-size:20px}
+.history-summary{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:1rem}
+.hs-title{font-size:11px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em;font-family:'DM Mono',monospace;margin-bottom:.75rem}
+.hs-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:.5px solid var(--bd);font-size:12px}
+.hs-row:last-child{border-bottom:none}
+.hs-date{color:var(--tx3);font-family:'DM Mono',monospace;font-size:11px}
+.hs-badges{display:flex;gap:5px}
+.hb{font-size:10px;padding:2px 7px;border-radius:8px;font-family:'DM Mono',monospace;font-weight:500}
+.hb-sp{background:var(--sp-bg);color:var(--sp-dk)}
+.hb-wi{background:var(--wi-bg);color:var(--wi-dk)}
+.hb-la{background:var(--la-bg);color:var(--la-dk)}
+.hb-x{background:var(--sf2);color:var(--tx3)}
 
-/* ══════════════════════════════════
-   STEP-FLOW — the core UI pattern
-   ══════════════════════════════════ */
-.flow-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:.75rem;overflow:hidden;transition:border-color .2s}
-.flow-card.active{border-color:var(--bd2);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.flow-card.done-sp{border-color:var(--sp);background:var(--sp-bg)}
-.flow-card.done-wi{border-color:var(--wi);background:var(--wi-bg)}
-.flow-card.done-la{border-color:var(--la);background:var(--la-bg)}
-.flow-card.done-de{border-color:var(--de);background:var(--de-bg)}
-.flow-card.locked{opacity:.55;pointer-events:none}
+/* CHAT PAGE */
+.chat-page{display:none;flex-direction:column;height:calc(100vh);max-width:640px;margin:0 auto}
+.chat-page.on{display:flex}
+.chat-header{display:flex;align-items:center;gap:12px;padding:.875rem 1.25rem;background:var(--sf);border-bottom:1px solid var(--bd);flex-shrink:0;position:sticky;top:0;z-index:50}
+.ch-back{font-size:20px;cursor:pointer;color:var(--tx2);line-height:1;padding:2px 6px;border-radius:var(--rs);transition:background .15s}
+.ch-back:hover{background:var(--sf2)}
+.ch-icon{font-size:28px;line-height:1}
+.ch-info .ch-name{font-size:14px;font-weight:500}
+.ch-info .ch-sub{font-size:11px;color:var(--tx3)}
+.ch-actions{margin-left:auto;display:flex;gap:6px}
+.ch-log-btn{font-size:11px;padding:5px 11px;border-radius:20px;border:.5px solid var(--bd2);background:var(--sf2);color:var(--tx2);cursor:pointer;font-family:'DM Sans',sans-serif}
+.ch-log-btn:hover{background:var(--sf3)}
+.messages{flex:1;overflow-y:auto;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:10px;padding-bottom:1rem}
+.msg{max-width:85%;display:flex;flex-direction:column;gap:3px}
+.msg.user{align-self:flex-end;align-items:flex-end}
+.msg.assistant{align-self:flex-start;align-items:flex-start}
+.msg-bubble{padding:.75rem 1rem;border-radius:var(--r);font-size:13px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.msg.user .msg-bubble{background:var(--tx);color:#fff;border-radius:var(--r) var(--r) 4px var(--r)}
+.msg.assistant .msg-bubble{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r) var(--r) var(--r) 4px}
+.msg.assistant.sp .msg-bubble{border-left:3px solid var(--sp)}
+.msg.assistant.wi .msg-bubble{border-left:3px solid var(--wi)}
+.msg.assistant.la .msg-bubble{border-left:3px solid var(--la)}
+.msg-time{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;padding:0 4px}
+.typing-indicator{display:flex;gap:4px;padding:.75rem 1rem;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);width:fit-content}
+.typing-dot{width:7px;height:7px;border-radius:50%;background:var(--tx3);animation:typing .8s infinite}
+.typing-dot:nth-child(2){animation-delay:.15s}
+.typing-dot:nth-child(3){animation-delay:.3s}
+@keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.chat-input-area{flex-shrink:0;padding:.875rem 1.25rem;background:var(--sf);border-top:1px solid var(--bd);display:flex;gap:8px;align-items:flex-end}
+.chat-input{flex:1;padding:10px 14px;border-radius:22px;border:1px solid var(--bd2);background:var(--bg);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--tx);resize:none;max-height:120px;min-height:42px;line-height:1.5;outline:none}
+.chat-input:focus{border-color:var(--tx)}
+.send-btn{width:40px;height:40px;border-radius:50%;border:none;background:var(--tx);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.send-btn:hover{background:#333}
+.send-btn:disabled{background:var(--sf3);cursor:default}
+.quick-prompts{display:flex;gap:6px;flex-wrap:wrap;padding:.5rem 1.25rem 0;overflow-x:auto;flex-shrink:0}
+.qp{font-size:11px;padding:5px 11px;border-radius:20px;border:.5px solid var(--bd2);background:var(--sf);color:var(--tx2);cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:'DM Sans',sans-serif}
+.qp:hover{background:var(--sf2)}
 
-.fc-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem .875rem;cursor:pointer}
-.fc-left{display:flex;align-items:center;gap:8px}
-.fc-icon{font-size:18px;line-height:1}
-.fc-title{font-size:13px;font-weight:500}
-.fc-sub{font-size:11px;color:var(--tx3);margin-top:1px}
-.fc-right{display:flex;align-items:center;gap:6px}
-.fc-done-pill{font-size:10px;padding:2px 8px;border-radius:10px;font-family:'DM Mono',monospace;font-weight:500}
-.fc-done-sp{background:var(--sp-bg);color:var(--sp-dk)}
-.fc-done-wi{background:var(--wi-bg);color:var(--wi-dk)}
-.fc-done-la{background:var(--la-bg);color:var(--la-dk)}
-.fc-done-de{background:var(--de-bg);color:var(--de-dk)}
-.fc-chevron{font-size:11px;color:var(--tx3);transition:transform .2s}
-.fc-chevron.open{transform:rotate(180deg)}
+/* LOG MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-end}
+.modal-sheet{background:var(--sf);border-radius:var(--r) var(--r) 0 0;width:100%;padding:1.25rem 1.25rem 2.5rem;max-height:80vh;overflow-y:auto}
+.modal-title{font-size:15px;font-weight:500;margin-bottom:1rem}
+.log-field{margin-bottom:.875rem}
+.log-field label{display:block;font-size:12px;font-weight:500;color:var(--tx2);margin-bottom:4px}
+.log-field textarea,.log-field input,.log-field select{width:100%;padding:8px 11px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;font-size:13px}
+.log-field textarea{resize:vertical;min-height:60px}
+.modal-actions{display:flex;gap:8px;margin-top:1rem}
+.modal-save{flex:1;padding:11px;border-radius:var(--rs);border:none;background:var(--tx);color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.modal-cancel{padding:11px 18px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx)}
 
-.fc-body{padding:0 .875rem .875rem;display:none}
-.fc-body.open{display:block}
-
-/* Step indicator */
-.step-dots{display:flex;gap:5px;margin-bottom:.875rem}
-.sdot{width:6px;height:6px;border-radius:50%;background:var(--sf3)}
-.sdot.done{background:var(--tx)}
-.sdot.active{background:var(--tx);width:18px;border-radius:3px}
-
-/* Type chooser */
-.type-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:.875rem}
-.type-grid.four{grid-template-columns:repeat(4,1fr)}
-.tcard{border-radius:var(--rs);border:1px solid var(--bd);padding:.75rem .5rem;cursor:pointer;background:var(--sf);text-align:center;transition:border-color .15s,background .15s}
-.tcard:hover{border-color:var(--bd2)}
-.tcard.sel{border:2px solid var(--tx);background:var(--sf2)}
-.tcard.sel-sp{border-color:var(--sp);background:var(--sp-bg)}
-.tcard.sel-de{border-color:var(--de);background:var(--de-bg)}
-.tcard.sel-wi{border-color:var(--wi);background:var(--wi-bg)}
-.tcard.sel-la{border-color:var(--la);background:var(--la-bg)}
-.tcard .tc-icon{font-size:20px;margin-bottom:3px}
-.tcard .tc-label{font-size:11px;font-weight:500;color:var(--tx)}
-.tcard .tc-sub{font-size:10px;color:var(--tx3);margin-top:1px}
-
-/* Intensity row */
-.int-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:.875rem}
-.ib{border-radius:var(--rs);border:1px solid var(--bd);padding:.625rem .5rem;cursor:pointer;background:var(--sf);transition:border-color .12s,background .12s;position:relative}
-.ib:hover{border-color:var(--bd2)}
-.ib.sel-a{border:2px solid var(--a);background:var(--a-bg)}
-.ib.sel-b{border:2px solid var(--b);background:var(--b-bg)}
-.ib.sel-c{border:2px solid var(--c);background:var(--c-bg)}
-.ib.rec::before{content:'★ Heute';position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:500;padding:1px 6px;border-radius:7px;white-space:nowrap;font-family:'DM Mono',monospace;border:.5px solid}
-.ib.rec-a::before{background:var(--a-bg);color:var(--a-dk);border-color:var(--a)}
-.ib.rec-b::before{background:var(--b-bg);color:var(--b-dk);border-color:var(--b)}
-.ib.rec-c::before{background:var(--c-bg);color:var(--c-dk);border-color:var(--c)}
-.ib-key{font-size:9px;font-weight:500;font-family:'DM Mono',monospace;text-transform:uppercase;margin-bottom:3px}
-.ib-key-a{color:var(--a-dk)}.ib-key-b{color:var(--b-dk)}.ib-key-c{color:var(--c-dk)}
-.ib-title{font-size:11px;font-weight:500;line-height:1.3}
-.ib-time{font-size:10px;color:var(--tx3);margin-top:3px;font-family:'DM Mono',monospace}
-
-/* Context banner */
-.ctx-banner{border-radius:var(--rs);padding:.625rem .875rem;margin-bottom:.875rem;font-size:12px;line-height:1.5;border:.5px solid var(--bd);background:var(--sf2);color:var(--tx2)}
-.ctx-banner strong{display:block;font-size:10px;font-weight:500;color:var(--tx3);margin-bottom:2px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em}
-.ctx-banner.b-sp{background:var(--sp-bg);border-color:var(--sp);color:var(--sp-dk)}
-.ctx-banner.b-wi{background:var(--wi-bg);border-color:var(--wi);color:var(--wi-dk)}
-.ctx-banner.b-la{background:var(--la-bg);border-color:var(--la);color:var(--la-dk)}
-
-/* Daily content */
-.dc-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:.75rem;margin-bottom:.875rem}
-.dc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
-.dc-title{font-size:11px;font-weight:500}
-.dc-badge{font-size:9px;padding:2px 7px;border-radius:8px;font-family:'DM Mono',monospace;font-weight:500}
-.dcb-a{background:var(--a-bg);color:var(--a-dk)}.dcb-b{background:var(--b-bg);color:var(--b-dk)}.dcb-c{background:var(--c-bg);color:var(--c-dk)}
-.dc-content{font-size:12px;color:var(--tx2);line-height:1.7;white-space:pre-wrap}
-.dc-loading{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--tx3);font-family:'DM Mono',monospace}
-.spin{width:12px;height:12px;border:1.5px solid var(--bd2);border-top-color:var(--tx);border-radius:50%;animation:sp .7s linear infinite;flex-shrink:0}
-@keyframes sp{to{transform:rotate(360deg)}}
-
-/* Confirm button */
-.confirm-btn{width:100%;padding:10px;border-radius:var(--rs);border:none;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:.5rem;transition:opacity .15s}
-.confirm-btn:active{opacity:.8}
-.cbtn-sp{background:var(--sp);color:#fff}
-.cbtn-wi{background:var(--wi);color:#fff}
-.cbtn-la{background:var(--la);color:#fff}
-.cbtn-de{background:var(--de);color:#fff}
-.undo-btn{width:100%;padding:7px;border-radius:var(--rs);border:1px solid var(--bd2);background:none;font-size:12px;color:var(--tx2);cursor:pointer;font-family:'DM Sans',sans-serif}
-
-/* ── VORAUSSCHAU ── */
-.forecast-row{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-bottom:.875rem}
-.fday{border-radius:var(--rs);border:.5px solid var(--bd);padding:.5rem .25rem;text-align:center;background:var(--sf)}
-.fday.today-col{border:1.5px solid var(--tx)}
-.fday.past{background:var(--sf2);opacity:.7}
-.fday.rest{background:var(--sf2)}
-.fd-name{font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:2px}
-.fd-icon{font-size:13px;margin-bottom:1px}
-.fd-type{font-size:9px;color:var(--tx2);font-family:'DM Mono',monospace}
-.fd-int{font-size:9px;font-weight:500;font-family:'DM Mono',monospace;margin-top:2px}
-.fd-int-a{color:var(--a-dk)}.fd-int-b{color:var(--b-dk)}.fd-int-c{color:var(--c-dk)}
-.fd-tomorrow{border-color:var(--b);background:var(--b-bg)}
-.forecast-legend{font-size:11px;color:var(--tx2);margin-bottom:.875rem;line-height:1.5}
-.forecast-legend strong{color:var(--tx);font-weight:500}
-
-/* Next-day preview */
-.next-day-box{border-radius:var(--rs);padding:.75rem .875rem;margin-bottom:.875rem;border:.5px solid var(--b);background:var(--b-bg);font-size:12px;color:var(--b-dk);line-height:1.6}
-.next-day-box strong{display:block;font-size:11px;margin-bottom:3px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em;opacity:.7}
-
-/* detail pages common */
-.int-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:.875rem}
-.ic{border-radius:var(--r);border:1px solid var(--bd);padding:.75rem;cursor:pointer;background:var(--sf);transition:border-color .15s;position:relative}
-.ic:hover{border-color:var(--bd2)}
-.ic.sel-a{border:2px solid var(--a);background:var(--a-bg)}.ic.sel-b{border:2px solid var(--b);background:var(--b-bg)}.ic.sel-c{border:2px solid var(--c);background:var(--c-bg)}
-.ic.rec::after{content:'← Heute';position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:500;padding:2px 7px;border-radius:8px;white-space:nowrap;font-family:'DM Mono',monospace;border:.5px solid}
-.ic.rec-a::after{background:var(--a-bg);color:var(--a-dk);border-color:var(--a)}
-.ic.rec-b::after{background:var(--b-bg);color:var(--b-dk);border-color:var(--b)}
-.ic.rec-c::after{background:var(--c-bg);color:var(--c-dk);border-color:var(--c)}
-.ic-badge{font-size:9px;font-weight:500;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-.ib-a{color:var(--a-dk)}.ib-b{color:var(--b-dk)}.ib-c{color:var(--c-dk)}
-.ic-title{font-size:12px;font-weight:500;margin-bottom:3px;line-height:1.3}
-.ic-desc{font-size:11px;color:var(--tx2);line-height:1.4}
-.ic-time{font-size:10px;margin-top:5px;font-family:'DM Mono',monospace}
-.it-a{color:var(--a-dk)}.it-b{color:var(--b-dk)}.it-c{color:var(--c-dk)}
-
-.done-btn{width:100%;padding:10px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--sf);font-size:13px;font-weight:500;color:var(--tx);cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:.875rem}
-.done-btn.ok-sp{background:var(--sp-bg);border-color:var(--sp);color:var(--sp-dk)}
-.done-btn.ok-wi{background:var(--wi-bg);border-color:var(--wi);color:var(--wi-dk)}
-.done-btn.ok-la{background:var(--la-bg);border-color:var(--la);color:var(--la-dk)}
-
-.pr{display:flex;justify-content:space-between;font-size:10px;color:var(--tx2);margin-bottom:4px;font-family:'DM Mono',monospace}
-.pb{height:4px;background:var(--sf2);border-radius:2px;overflow:hidden;margin-bottom:.875rem}
-.pf{height:100%;border-radius:2px;transition:width .5s}
-.pf-sp{background:var(--sp)}.pf-wi{background:var(--wi)}.pf-la{background:var(--la)}
-
-.wgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-bottom:.875rem}
-.wc{aspect-ratio:1;border-radius:var(--rs);border:.5px solid var(--bd);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;font-size:10px;color:var(--tx3);background:var(--sf);font-family:'DM Mono',monospace}
-.wc.done{background:var(--sp-bg);border-color:var(--sp);color:var(--sp-dk)}
-.wc.today{border:1.5px solid var(--tx);color:var(--tx);font-weight:500}
-.wc.rest{background:var(--sf2)}
-.wc .wt{font-size:8px;opacity:.7}
-
-.lgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:.875rem}
-.lcard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.75rem}
-.lname{font-size:12px;font-weight:500;margin-bottom:1px}
-.llvl{font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:5px}
-.lstat{display:flex;justify-content:space-between;font-size:10px;color:var(--tx2);margin-bottom:2px;font-family:'DM Mono',monospace}
-.linp{display:flex;gap:4px;margin-top:6px}
-.linp input{flex:1;min-width:0;font-size:11px;padding:4px 5px;border-radius:5px;border:.5px solid var(--bd2);background:var(--bg);color:var(--tx);font-family:'DM Mono',monospace;text-align:center}
-.llog{font-size:10px;padding:4px 7px;border-radius:5px;border:.5px solid var(--bd2);background:var(--sf2);color:var(--tx);cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
-
-.quiz-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem;margin-bottom:.875rem}
-.qsc{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;text-align:right;margin-bottom:4px}
-.qq{font-size:13px;font-weight:500;margin-bottom:.625rem;line-height:1.5}
-.qopts{display:flex;flex-direction:column;gap:4px;margin-bottom:.625rem}
-.qopt{padding:7px 10px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--bg);font-size:12px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;color:var(--tx)}
-.qopt:hover{background:var(--sf2)}
-.qopt.ok{background:var(--sp-bg);border-color:var(--sp);color:var(--sp-dk)}
-.qopt.bad{background:#FDE8E8;border-color:#C0392B;color:#7A1A1A}
-.qres{font-size:12px;padding:7px 10px;border-radius:var(--rs);margin-bottom:6px;line-height:1.5}
-.qres.ok{background:var(--sp-bg);color:var(--sp-dk)}.qres.bad{background:#FDE8E8;color:#7A1A1A}
-.qnext{font-size:12px;padding:6px 12px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf2);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx)}
-.gen-quiz{width:100%;padding:8px;border-radius:var(--rs);border:.5px solid var(--wi);background:var(--wi-bg);font-size:12px;font-weight:500;color:var(--wi-dk);cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:.875rem}
-
-.narea{width:100%;padding:8px 10px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf);font-size:12px;color:var(--tx);font-family:'DM Sans',sans-serif;resize:vertical;min-height:60px;line-height:1.5;margin-bottom:5px}
-.save-note{font-size:11px;padding:5px 11px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf2);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx);margin-bottom:.875rem}
-
-.tchip{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;margin:2px 2px 2px 0;border:.5px solid var(--bd);color:var(--tx2);background:var(--sf);cursor:pointer}
-.tchip.cur{background:var(--wi-bg);border-color:var(--wi);color:var(--wi-dk);font-weight:500}
-.tchip.done{background:var(--sf2);color:var(--tx3)}
-
-.ex-row{display:grid;grid-template-columns:1fr 46px auto 46px auto;gap:5px;align-items:center;background:var(--sf);border:.5px solid var(--bd);border-radius:var(--rs);padding:6px 8px;margin-bottom:4px}
-.ex-n{font-size:12px;font-weight:500}
-.ex-inp{font-size:11px;padding:3px 5px;border-radius:4px;border:.5px solid var(--bd2);background:var(--bg);color:var(--tx);font-family:'DM Mono',monospace;text-align:center;width:100%}
-.ex-lbl{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;text-align:center}
-.ex-del{color:var(--tx3);cursor:pointer;border:none;background:none;font-size:13px}
-
-.run-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:.875rem}
-.rf label{display:block;font-size:10px;color:var(--tx3);margin-bottom:3px;font-family:'DM Mono',monospace}
-.rf input{width:100%;font-size:12px;padding:6px 7px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf);color:var(--tx);font-family:'DM Mono',monospace}
-
-.vtabs{display:flex;gap:5px;margin-bottom:.875rem}
-.vtab{padding:5px 11px;border-radius:20px;font-size:12px;border:.5px solid var(--bd2);background:var(--sf);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx2)}
-.vtab.on{background:var(--tx);color:#fff;border-color:var(--tx)}
-.hrow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:.5px solid var(--bd);font-size:11px}
-.hrow:last-child{border-bottom:none}
-.hdate{color:var(--tx2);font-family:'DM Mono',monospace;min-width:65px}
-.hbadges{display:flex;gap:4px;flex-wrap:wrap}
-.hb{font-size:9px;padding:2px 6px;border-radius:8px;font-family:'DM Mono',monospace;font-weight:500}
-.hb-a{background:var(--a-bg);color:var(--a-dk)}.hb-b{background:var(--b-bg);color:var(--b-dk)}.hb-c{background:var(--c-bg);color:var(--c-dk)}.hb-x{background:var(--sf2);color:var(--tx3)}
-
-.tipbox{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.75rem;margin-bottom:.875rem}
-.tiphead{font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
-.tipc{font-size:12px;color:var(--tx2);line-height:1.6}
-
-.div{height:.5px;background:var(--bd);margin:.875rem 0}
-.slbl{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
-.ptitle{font-size:15px;font-weight:500;margin-bottom:2px}
-.psub{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;margin-bottom:.875rem;text-transform:uppercase;letter-spacing:.04em}
-
-.toast{position:fixed;top:58px;left:50%;transform:translateX(-50%) translateY(-16px);background:var(--tx);color:#fff;font-size:12px;padding:7px 15px;border-radius:20px;opacity:0;transition:opacity .3s,transform .3s;z-index:999;white-space:nowrap;pointer-events:none}
+/* MISC */
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-16px);background:var(--tx);color:#fff;font-size:12px;padding:8px 16px;border-radius:20px;opacity:0;transition:opacity .3s,transform .3s;z-index:999;white-space:nowrap;pointer-events:none}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-.reset-btn{padding:8px 14px;border-radius:var(--rs);border:1px solid #C0392B;background:#FDE8E8;color:#7A1A1A;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.875rem}
+.reset-btn{padding:8px 14px;border-radius:var(--rs);border:1px solid #C0392B;background:#FDE8E8;color:#7A1A1A;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--tx3);font-size:13px}
+.empty-icon{font-size:36px;margin-bottom:.75rem}
+
+/* ── MOTIVATION PAGE ── */
+.mot-header{background:linear-gradient(135deg,#1A1916 0%,#2D2B22 100%);color:#fff;border-radius:var(--r);padding:1.25rem;margin-bottom:1rem}
+.mot-greeting{font-size:11px;font-family:'DM Mono',monospace;opacity:.5;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.mot-impulse{font-size:16px;font-weight:500;line-height:1.5;margin-bottom:8px}
+.mot-impulse-sub{font-size:12px;opacity:.6;line-height:1.5}
+.mot-gen-btn{font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:8px}
+.mot-gen-btn:hover{background:rgba(255,255,255,.15)}
+.mot-spin{display:inline-block;width:12px;height:12px;border:1.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:6px}
+
+.rules-section{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:1rem;overflow:hidden}
+.rules-header{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1rem;border-bottom:1px solid var(--bd)}
+.rules-title{font-size:13px;font-weight:500}
+.rules-score{font-size:12px;font-family:'DM Mono',monospace;color:var(--tx3)}
+.rules-score span{font-size:16px;font-weight:500;color:var(--tx)}
+.rule-item{display:flex;align-items:flex-start;gap:10px;padding:.75rem 1rem;border-bottom:.5px solid var(--bd);transition:background .15s}
+.rule-item:last-child{border-bottom:none}
+.rule-item.checked{background:var(--sp-bg)}
+.rule-check{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--bd2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:12px;transition:all .15s;margin-top:1px}
+.rule-check.done{background:var(--sp);border-color:var(--sp);color:#fff}
+.rule-body{flex:1;min-width:0}
+.rule-text{font-size:13px;line-height:1.4;margin-bottom:3px}
+.rule-text.done{text-decoration:line-through;color:var(--tx3)}
+.rule-note-inp{width:100%;font-size:11px;padding:4px 8px;border-radius:6px;border:.5px solid var(--bd2);background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;margin-top:4px;display:none}
+.rule-note-inp.open{display:block}
+.rule-note-btn{font-size:10px;color:var(--tx3);cursor:pointer;text-decoration:none;border:none;background:none;font-family:'DM Sans',sans-serif;padding:0}
+.rule-note-saved{font-size:11px;color:var(--tx3);font-style:italic;margin-top:3px}
+
+.streaks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem}
+.streak-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem;text-align:center}
+.streak-card.sp{border-top:3px solid var(--sp)}
+.streak-card.wi{border-top:3px solid var(--wi)}
+.streak-card.la{border-top:3px solid var(--la)}
+.streak-num{font-size:28px;font-weight:500;font-family:'DM Mono',monospace;line-height:1}
+.streak-num.sp{color:var(--sp-dk)}
+.streak-num.wi{color:var(--wi-dk)}
+.streak-num.la{color:var(--la-dk)}
+.streak-lbl{font-size:10px;color:var(--tx3);margin-top:3px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.04em}
+.streak-best{font-size:10px;color:var(--tx3);margin-top:2px}
+
+.heatmap-section{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem 1rem;margin-bottom:1rem}
+.heatmap-title{font-size:11px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em;font-family:'DM Mono',monospace;margin-bottom:.75rem}
+.heatmap-grid{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin-bottom:4px}
+.hm-cell{aspect-ratio:1;border-radius:3px;background:var(--sf2)}
+.hm-cell.l1{background:#C6EAD8}
+.hm-cell.l2{background:#7DD4A8}
+.hm-cell.l3{background:#1A9E72}
+.hm-cell.today{outline:2px solid var(--tx);outline-offset:1px}
+.hm-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--tx3);font-family:'DM Mono',monospace}
+
+.goals-section{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem 1rem;margin-bottom:1rem}
+.goals-title{font-size:11px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em;font-family:'DM Mono',monospace;margin-bottom:.75rem}
+.goal-row{margin-bottom:.75rem}
+.goal-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.goal-label span:first-child{font-weight:500}
+.goal-label span:last-child{font-family:'DM Mono',monospace;color:var(--tx3);font-size:11px}
+.goal-bar-bg{height:6px;background:var(--sf2);border-radius:3px;overflow:hidden}
+.goal-bar-fill{height:100%;border-radius:3px;transition:width .6s}
+
+.rules-edit-btn{font-size:11px;padding:4px 10px;border-radius:20px;border:.5px solid var(--bd2);background:var(--sf2);color:var(--tx2);cursor:pointer;font-family:'DM Sans',sans-serif}
+
+
+.bnav-btn{flex:1;padding:8px 4px 6px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:10px;color:var(--tx3);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bnav-btn.on{color:var(--tx);font-weight:500}
+#pg-home{padding-bottom:4rem}
+#pg-mot{padding-bottom:4rem}
+
+
+/* ── CALENDAR PAGE ── */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem}
+.cal-nav-title{font-size:14px;font-weight:500}
+.cal-nav-btns{display:flex;gap:6px}
+.cal-nav-btn{padding:5px 12px;border-radius:20px;border:.5px solid var(--bd2);background:var(--sf);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx)}
+.cal-nav-btn:hover{background:var(--sf2)}
+.cal-nav-btn.today-btn{background:var(--tx);color:#fff;border-color:var(--tx)}
+
+.week-goals-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem 1rem;margin-bottom:.875rem}
+.wg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.625rem}
+.wg-title{font-size:11px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em;font-family:'DM Mono',monospace}
+.wg-gen-btn{font-size:11px;padding:4px 10px;border-radius:20px;border:.5px solid var(--wi);background:var(--wi-bg);color:var(--wi-dk);cursor:pointer;font-family:'DM Sans',sans-serif}
+.wg-item{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;color:var(--tx2)}
+.wg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.wg-dot-sp{background:var(--sp)}.wg-dot-wi{background:var(--wi)}.wg-dot-la{background:var(--la)}.wg-dot-ms{background:var(--tx3)}
+
+.week-grid-wrap{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;margin-bottom:.875rem}
+.week-header-row{display:grid;grid-template-columns:48px repeat(7,minmax(0,1fr));border-bottom:1px solid var(--bd)}
+.week-hcell{padding:.5rem .25rem;text-align:center;font-size:11px;font-family:'DM Mono',monospace;color:var(--tx3)}
+.week-hcell.today-col{background:var(--sf2);font-weight:500;color:var(--tx)}
+.week-hcell .day-num{font-size:15px;font-weight:500;color:var(--tx);display:block;line-height:1;margin-bottom:1px}
+.week-hcell .day-num.today-num{background:var(--tx);color:#fff;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+
+.week-body{overflow-y:auto;max-height:60vh}
+.time-row{display:grid;grid-template-columns:48px repeat(7,minmax(0,1fr));min-height:52px;border-bottom:.5px solid var(--bd)}
+.time-row:last-child{border-bottom:none}
+.time-label{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;padding:.375rem .375rem 0;text-align:right;flex-shrink:0;line-height:1}
+.day-cell{border-left:.5px solid var(--bd);padding:2px 3px;position:relative;cursor:pointer;transition:background .1s;min-height:52px}
+.day-cell:hover{background:var(--sf2)}
+.day-cell.today-col{background:rgba(26,158,114,.04)}
+
+.cal-event{border-radius:5px;padding:2px 5px;font-size:10px;font-weight:500;line-height:1.4;margin-bottom:2px;cursor:pointer;display:flex;align-items:center;gap:3px;overflow:hidden}
+.cal-event.ev-sport{background:var(--sp-bg);color:var(--sp-dk);border-left:3px solid var(--sp)}
+.cal-event.ev-sport.int-a{border-left-width:5px}
+.cal-event.ev-sport.int-b{border-left-width:3px}
+.cal-event.ev-sport.int-c{border-left-width:2px;opacity:.8}
+.cal-event.ev-wissen{background:var(--wi-bg);color:var(--wi-dk);border-left:3px solid var(--wi)}
+.cal-event.ev-wissen.int-a{border-left-width:5px}
+.cal-event.ev-wissen.int-b{border-left-width:3px}
+.cal-event.ev-wissen.int-c{border-left-width:2px;opacity:.8}
+.cal-event.ev-sprachen{background:var(--la-bg);color:var(--la-dk);border-left:3px solid var(--la)}
+.cal-event.ev-sprachen.int-a{border-left-width:5px}
+.cal-event.ev-sprachen.int-b{border-left-width:3px}
+.cal-event.ev-sprachen.int-c{border-left-width:2px;opacity:.8}
+.cal-event.ev-custom{background:var(--sf2);color:var(--tx);border-left:3px solid var(--tx3)}
+.cal-event.ev-milestone{background:#FFF3CD;color:#7A4F00;border-left:3px solid #E8A800}
+.cal-event .ev-int{font-size:8px;opacity:.7;font-family:'DM Mono',monospace}
+.add-event-hint{font-size:9px;color:var(--tx3);opacity:0;transition:opacity .15s;text-align:center;padding:3px 0}
+.day-cell:hover .add-event-hint{opacity:1}
+
+
+@media (display-mode: standalone) {
+  body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+}
+
 </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
 
-<!-- ═══ ONBOARDING ═══ -->
+<!-- ONBOARDING -->
 <div id="ob">
   <div class="ob-pw"><div class="ob-pf" id="ob-p" style="width:0%"></div></div>
   <div class="ob-body">
     <div class="ob-step on" id="ob-0">
-      <div class="ob-tag">Willkommen</div><div class="ob-h">Dein Routine Coach</div>
-      <div class="ob-sub">Ein kurzes Setup — die App generiert dann täglich konkrete Aufgaben für Sport, Wissen und Sprachen, mit Vorausschau auf die nächsten Tage.</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:1.25rem">
-        <div style="background:var(--sp-bg);border:1px solid var(--sp);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;margin-bottom:3px">🏋️</div><div style="font-size:11px;font-weight:500;color:var(--sp-dk)">Sport</div><div style="font-size:10px;color:var(--sp-dk);margin-top:1px">+ Dehnen</div></div>
-        <div style="background:var(--wi-bg);border:1px solid var(--wi);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;margin-bottom:3px">📖</div><div style="font-size:11px;font-weight:500;color:var(--wi-dk)">Wissen</div><div style="font-size:10px;color:var(--wi-dk);margin-top:1px">30 Themen</div></div>
-        <div style="background:var(--la-bg);border:1px solid var(--la);border-radius:var(--r);padding:.875rem;text-align:center"><div style="font-size:22px;margin-bottom:3px">🗣</div><div style="font-size:11px;font-weight:500;color:var(--la-dk)">Sprachen</div><div style="font-size:10px;color:var(--la-dk);margin-top:1px">ES · FR · SV</div></div>
+      <div class="ob-tag">Willkommen</div>
+      <div class="ob-h">Dein persönlicher Coaching-Team</div>
+      <div class="ob-sub">Drei spezialisierte KI-Coaches — einer für Sport, einer für Wissen, einer für Sprachen. Jeder kennt deine Ziele und deine komplette Geschichte. Du chattest einfach, der Coach weiß was heute Sinn macht.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:1.25rem">
+        <div style="background:var(--sp-bg);border:1px solid var(--sp);border-radius:var(--r);padding:1rem;display:flex;align-items:center;gap:12px"><span style="font-size:28px">🏋️</span><div><div style="font-size:13px;font-weight:500;color:var(--sp-dk)">Sport-Coach</div><div style="font-size:11px;color:var(--sp-dk);opacity:.8">Calisthenics · Laufen · Dehnen · Progression</div></div></div>
+        <div style="background:var(--wi-bg);border:1px solid var(--wi);border-radius:var(--r);padding:1rem;display:flex;align-items:center;gap:12px"><span style="font-size:28px">📖</span><div><div style="font-size:13px;font-weight:500;color:var(--wi-dk)">Wissens-Coach</div><div style="font-size:11px;color:var(--wi-dk);opacity:.8">30 Themenkatalog · Spaced Repetition</div></div></div>
+        <div style="background:var(--la-bg);border:1px solid var(--la);border-radius:var(--r);padding:1rem;display:flex;align-items:center;gap:12px"><span style="font-size:28px">🗣</span><div><div style="font-size:13px;font-weight:500;color:var(--la-dk)">Sprachen-Coach</div><div style="font-size:11px;color:var(--la-dk);opacity:.8">Spanisch · Französisch · Schwedisch</div></div></div>
       </div>
     </div>
+
     <div class="ob-step" id="ob-1">
-      <div class="ob-tag">Sport 1/2</div><div class="ob-h">Level & Maximalwerte</div>
-      <div class="ob-sub">Wie viele saubere Wiederholungen schaffst du je Übung?</div>
-      <div class="ob-f"><label>Level</label><div class="chips" id="c-lv"><div class="ch" onclick="sc(this,'lv','beginner')">Anfänger</div><div class="ch" onclick="sc(this,'lv','intermediate')">Mittel (6–12 Mo)</div><div class="ch" onclick="sc(this,'lv','advanced')">Fortgeschritten (1+ Jahr)</div></div></div>
+      <div class="ob-tag">Sport</div>
+      <div class="ob-h">Dein Fitnesshintergrund</div>
+      <div class="ob-sub">Der Sport-Coach braucht diese Infos um realistische Ziele zu setzen und deine Progression zu tracken.</div>
+      <div class="ob-f"><label>Level</label><div class="chips" id="c-lv"><div class="ch" onclick="oc(this,'lv','Anfänger (trainiere unregelmäßig)')">Anfänger</div><div class="ch" onclick="oc(this,'lv','Mittel (6–12 Monate regelmäßig)')">Mittel</div><div class="ch" onclick="oc(this,'lv','Fortgeschritten (1+ Jahre)')">Fortgeschritten</div></div></div>
       <div class="ob-nums">
-        <div class="ob-num"><label>Pull-ups</label><input type="number" min="0" id="o-pu" placeholder="0"></div>
-        <div class="ob-num"><label>Dips</label><input type="number" min="0" id="o-di" placeholder="0"></div>
-        <div class="ob-num"><label>Liegestütze</label><input type="number" min="0" id="o-ps" placeholder="0"></div>
-        <div class="ob-num"><label>Kniebeugen</label><input type="number" min="0" id="o-sq" placeholder="0"></div>
+        <div class="ob-num"><label>Pull-ups max</label><input type="number" min="0" id="o-pu" placeholder="0"></div>
+        <div class="ob-num"><label>Dips max</label><input type="number" min="0" id="o-di" placeholder="0"></div>
+        <div class="ob-num"><label>Liegestütze max</label><input type="number" min="0" id="o-ps" placeholder="0"></div>
+        <div class="ob-num"><label>Kniebeugen max</label><input type="number" min="0" id="o-sq" placeholder="0"></div>
         <div class="ob-num"><label>Burpees/Min</label><input type="number" min="0" id="o-bu" placeholder="0"></div>
         <div class="ob-num"><label>Laufziel km</label><input type="number" min="1" step=".5" id="o-rg" placeholder="5"></div>
       </div>
+      <div class="ob-f"><label>Sportziel (3 Monate)</label><textarea id="o-sg" placeholder="z.B. 10 saubere Pull-ups, 5km unter 25 Min, mehr Konsistenz..."></textarea></div>
+      <div class="ob-f"><label>Trainierst du Mo–Fr?</label><div class="chips" id="c-days"><div class="ch on" onclick="oc(this,'traindays','Mo–Fr (Wochenende frei)')">Mo–Fr</div><div class="ch" onclick="oc(this,'traindays','Mo/Di/Do/Fr/Sa')">Mo/Di/Do/Fr/Sa</div><div class="ch" onclick="oc(this,'traindays','Flexibel')">Flexibel</div></div></div>
     </div>
+
     <div class="ob-step" id="ob-2">
-      <div class="ob-tag">Sport 2/2</div><div class="ob-h">Ziel & Dehnen</div>
-      <div class="ob-f"><label>Sportziel (3 Monate)</label><textarea id="o-sg" placeholder="z.B. 10 saubere Pull-ups, 5km unter 25 Min..."></textarea></div>
-      <div class="ob-f"><label>Schwachstelle</label><div class="chips" id="c-sw"><div class="ch" onclick="sc(this,'sw','kraft')">Kraft</div><div class="ch" onclick="sc(this,'sw','ausdauer')">Ausdauer</div><div class="ch" onclick="sc(this,'sw','konsistenz')">Konsistenz</div><div class="ch" onclick="sc(this,'sw','mobilitaet')">Mobilität</div></div></div>
-      <div class="ob-f"><label>Wann dehnst du am liebsten?</label><div class="chips" id="c-st"><div class="ch" onclick="sc(this,'st','morgens')">Morgens</div><div class="ch" onclick="sc(this,'st','nach-sport')">Nach Sport</div><div class="ch" onclick="sc(this,'st','abends')">Abends</div><div class="ch" onclick="sc(this,'st','nie')">Selten</div></div></div>
+      <div class="ob-tag">Wissen</div>
+      <div class="ob-h">Dein Wissensziel</div>
+      <div class="ob-sub">Der Wissens-Coach führt dich durch 30 Themenbereiche, fragt vergangene Themen wieder ab und passt den Fokus an deine Interessen an.</div>
+      <div class="ob-f"><label>Was möchtest du erreichen?</label><textarea id="o-wg" placeholder="z.B. Breites Allgemeinwissen, Weltgeschichte vertiefen, auf Gespräche vorbereitet sein..."></textarea></div>
+      <div class="ob-f"><label>Lieblingsbereiche</label><div class="chips" id="c-wf"><div class="ch" onclick="otc(this,'wf','Geschichte')">Geschichte</div><div class="ch" onclick="otc(this,'wf','Wissenschaft')">Wissenschaft</div><div class="ch" onclick="otc(this,'wf','Geographie')">Geographie</div><div class="ch" onclick="otc(this,'wf','Kunst & Kultur')">Kunst & Kultur</div><div class="ch" onclick="otc(this,'wf','Wirtschaft')">Wirtschaft</div><div class="ch" onclick="otc(this,'wf','Philosophie')">Philosophie</div><div class="ch" onclick="otc(this,'wf','Technologie')">Technologie</div><div class="ch" onclick="otc(this,'wf','Politik')">Politik</div></div></div>
+      <div class="ob-f"><label>Lerntiefe</label><div class="chips" id="c-wd"><div class="ch" onclick="oc(this,'wd','breit (viele Themen, guter Überblick)')">Breit</div><div class="ch" onclick="oc(this,'wd','ausgewogen (Überblick + Tiefe)')">Ausgewogen</div><div class="ch" onclick="oc(this,'wd','tief (wenige Themen, wirklich verstehen)')">Tief</div></div></div>
     </div>
+
     <div class="ob-step" id="ob-3">
-      <div class="ob-tag">Wissen</div><div class="ob-h">Lernziel & Interessen</div>
-      <div class="ob-f"><label>Wissensziel</label><textarea id="o-wg" placeholder="z.B. Breites Fundament, Weltgeschichte, auf Gespräche vorbereitet..."></textarea></div>
-      <div class="ob-f"><label>Lieblingsbereiche</label><div class="chips" id="c-wf"><div class="ch" onclick="tc(this,'wf','Geschichte')">Geschichte</div><div class="ch" onclick="tc(this,'wf','Wissenschaft')">Wissenschaft</div><div class="ch" onclick="tc(this,'wf','Geographie')">Geographie</div><div class="ch" onclick="tc(this,'wf','Kunst & Kultur')">Kunst & Kultur</div><div class="ch" onclick="tc(this,'wf','Wirtschaft')">Wirtschaft</div><div class="ch" onclick="tc(this,'wf','Philosophie')">Philosophie</div><div class="ch" onclick="tc(this,'wf','Technologie')">Technologie</div><div class="ch" onclick="tc(this,'wf','Politik')">Politik</div></div></div>
-      <div class="ob-f"><label>Tiefe</label><div class="chips" id="c-wd"><div class="ch" onclick="sc(this,'wd','breit')">Breit</div><div class="ch" onclick="sc(this,'wd','ausgewogen')">Ausgewogen</div><div class="ch" onclick="sc(this,'wd','tief')">Tief</div></div></div>
+      <div class="ob-tag">Sprachen</div>
+      <div class="ob-h">Deine Sprachziele</div>
+      <div class="ob-sub">Der Sprachen-Coach kennt dein Niveau, merkt sich was du bereits geübt hast, und gibt dir täglich gezielte Aufgaben.</div>
+      <div class="ob-f"><label>Spanisch — aktuelles Niveau</label><div class="chips" id="c-es"><div class="ch" onclick="oc(this,'esl','A1')">A1</div><div class="ch on" onclick="oc(this,'esl','A2')">A2</div><div class="ch" onclick="oc(this,'esl','B1')">B1</div><div class="ch" onclick="oc(this,'esl','B2')">B2</div></div></div>
+      <div class="ob-f"><label>Französisch — aktuelles Niveau</label><div class="chips" id="c-fr"><div class="ch on" onclick="oc(this,'frl','A1')">A1</div><div class="ch" onclick="oc(this,'frl','A2')">A2</div><div class="ch" onclick="oc(this,'frl','B1')">B1</div><div class="ch" onclick="oc(this,'frl','B2')">B2</div></div></div>
+      <div class="ob-f"><label>Schwedisch — aktuelles Niveau</label><div class="chips" id="c-sv"><div class="ch" onclick="oc(this,'svl','A1')">A1</div><div class="ch" onclick="oc(this,'svl','A2')">A2</div><div class="ch on" onclick="oc(this,'svl','B1')">B1</div><div class="ch" onclick="oc(this,'svl','B2')">B2</div></div></div>
+      <div class="ob-f"><label>Gesamtziel</label><input type="text" id="o-lg" placeholder="z.B. Spanisch B1 bis Ende Jahr, Schwedisch B2 in 2 Jahren..."></div>
+      <div class="ob-f"><label>Größte Schwachstelle</label><div class="chips" id="c-lw"><div class="ch" onclick="oc(this,'lw','Vokabeln')">Vokabeln</div><div class="ch" onclick="oc(this,'lw','Grammatik')">Grammatik</div><div class="ch" onclick="oc(this,'lw','Sprechen & Aussprache')">Sprechen</div><div class="ch" onclick="oc(this,'lw','Hören & Verstehen')">Hören</div></div></div>
     </div>
+
     <div class="ob-step" id="ob-4">
-      <div class="ob-tag">Sprachen</div><div class="ob-h">Niveaus & Ziele</div>
-      <div class="ob-f"><label>Spanisch</label><div class="chips" id="c-es"><div class="ch" onclick="sc(this,'esl','A1')">A1</div><div class="ch on" onclick="sc(this,'esl','A2')">A2</div><div class="ch" onclick="sc(this,'esl','B1')">B1</div><div class="ch" onclick="sc(this,'esl','B2')">B2</div></div></div>
-      <div class="ob-f"><label>Französisch</label><div class="chips" id="c-fr"><div class="ch on" onclick="sc(this,'frl','A1')">A1</div><div class="ch" onclick="sc(this,'frl','A2')">A2</div><div class="ch" onclick="sc(this,'frl','B1')">B1</div><div class="ch" onclick="sc(this,'frl','B2')">B2</div></div></div>
-      <div class="ob-f"><label>Schwedisch</label><div class="chips" id="c-sv"><div class="ch" onclick="sc(this,'svl','A1')">A1</div><div class="ch" onclick="sc(this,'svl','A2')">A2</div><div class="ch on" onclick="sc(this,'svl','B1')">B1</div><div class="ch" onclick="sc(this,'svl','B2')">B2</div></div></div>
-      <div class="ob-f"><label>Gesamtziel</label><input type="text" id="o-lg" placeholder="z.B. Spanisch B1 bis Ende Jahr, Schwedisch B2..."></div>
-      <div class="ob-f"><label>Schwachstelle</label><div class="chips" id="c-lw"><div class="ch" onclick="sc(this,'lw','vokabeln')">Vokabeln</div><div class="ch" onclick="sc(this,'lw','grammatik')">Grammatik</div><div class="ch" onclick="sc(this,'lw','sprechen')">Sprechen</div><div class="ch" onclick="sc(this,'lw','hoeren')">Hören</div></div></div>
-    </div>
-    <div class="ob-step" id="ob-5">
-      <div class="ob-tag">Fertig</div><div class="ob-h">Alles eingestellt ✓</div>
-      <div class="ob-sub">Jeden Morgen siehst du einen 3-Schritt-Flow: Sport wählen → Wissensthema → Sprachen. Dazu eine Vorausschau was die nächsten Tage bringt.</div>
-      <div id="ob-sum" style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem;font-size:12px;color:var(--tx2);line-height:1.9;margin-top:1rem"></div>
+      <div class="ob-tag">Fertig</div>
+      <div class="ob-h">Alles eingestellt ✓</div>
+      <div class="ob-sub">Deine drei Coaches kennen jetzt deine Ziele. Ab jetzt führst du einfach Gespräche — jeden Tag. Die Coaches wissen immer welcher Tag heute ist und was du bisher gemacht hast.</div>
+      <div id="ob-sum" style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:1rem;font-size:12px;color:var(--tx2);line-height:2;margin-top:1rem"></div>
     </div>
   </div>
   <div class="ob-nav">
@@ -332,597 +341,1212 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
   </div>
 </div>
 
-<!-- ═══ APP ═══ -->
+<!-- APP -->
 <div id="app">
-  <div class="topbar">
-    <div class="tb-l"><div class="tbt" id="greeting"></div><div class="tbd" id="topdate"></div></div>
-    <div class="streaks"><div class="sc sp" id="cs">🏋 0</div><div class="sc wi" id="cw">📖 0</div><div class="sc la" id="cl">🗣 0</div></div>
+
+  <!-- BOTTOM NAV -->
+  <div style="position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:1px solid var(--bd);display:flex;z-index:100;max-width:640px;margin:0 auto" id="bottom-nav">
+    <button class="bnav-btn on" id="btn-home" onclick="goHome()"><span style="font-size:18px">🏠</span><span>Start</span></button>
+    <button class="bnav-btn" id="btn-cal" onclick="openCal()"><span style="font-size:18px">📅</span><span>Kalender</span></button>
+    <button class="bnav-btn" id="btn-mot" onclick="openMot()"><span style="font-size:18px">⭐</span><span>Motivation</span></button>
   </div>
 
-  <!-- HEUTE -->
-  <div id="pg-heute" class="page on">
-    <div id="flow-sport"></div>
-    <div id="flow-wissen"></div>
-    <div id="flow-sprachen"></div>
-    <div id="flow-forecast"></div>
-  </div>
-
-  <!-- SPORT detail -->
-  <div id="pg-sport" class="page">
-    <div class="ptitle">Sport</div><div class="psub" id="sp-sub"></div>
-    <div id="sp-ctx"></div>
-    <div class="int-grid" id="sp-ig"></div>
-    <div id="sp-db"></div>
-    <button class="done-btn" id="sp-done" onclick="markDone('sport')">✓ Einheit abhaken</button>
-    <div id="sp-log">
-      <div class="div"></div>
-      <div class="slbl">Sätze & Wiederholungen</div>
-      <div id="ex-list"></div>
-      <div style="display:flex;gap:6px;margin-bottom:.875rem">
-        <input type="text" id="ex-inp" placeholder="Übung hinzufügen..." style="flex:1;font-size:12px;padding:6px 9px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf);color:var(--tx);font-family:'DM Sans',sans-serif">
-        <button onclick="addEx()" style="font-size:11px;padding:6px 10px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf2);cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx);white-space:nowrap">+ Übung</button>
-      </div>
-      <div id="run-sec" style="display:none">
-        <div class="slbl">Lauf-Log</div>
-        <div class="run-grid">
-          <div class="rf"><label>Distanz (km)</label><input type="number" step=".1" id="r-dist" placeholder="0.0" oninput="saveRun()"></div>
-          <div class="rf"><label>Zeit (min)</label><input type="number" id="r-time" placeholder="0" oninput="saveRun()"></div>
-          <div class="rf"><label>Pace (min/km)</label><input type="text" id="r-pace" placeholder="—" readonly style="background:var(--sf2)"></div>
-        </div>
+  <!-- HOME -->
+  <div id="pg-home" class="page on">
+    <div class="topbar" style="position:relative">
+      <div><div class="tbt" id="greeting"></div><div class="tbd" id="topdate"></div></div>
+      <div class="streaks">
+        <div class="sc sp" id="cs">🏋 0</div>
+        <div class="sc wi" id="cw">📖 0</div>
+        <div class="sc la" id="cl">🗣 0</div>
       </div>
     </div>
-    <div class="div"></div>
-    <div class="pr"><span>Diese Woche</span><span id="sp-wkc">0 / 5</span></div>
-    <div class="pb"><div class="pf pf-sp" id="sp-wkbar" style="width:0%"></div></div>
-    <div class="wgrid" id="sp-wkgrid"></div>
-    <div class="tipbox"><div class="tiphead">💡 Tipp</div><div class="tipc" id="sp-tip"></div></div>
+    <div style="padding:1.25rem 1.25rem 2rem;max-width:640px;margin:0 auto">
+      <div class="coach-cards" id="coach-cards"></div>
+      <div class="history-summary" id="history-summary"></div>
+      <div style="margin-top:1rem;text-align:right"><button class="reset-btn" onclick="resetOb()">⚙ Ziele neu einrichten</button></div>
+    </div>
   </div>
 
-  <!-- WISSEN detail -->
-  <div id="pg-wissen" class="page">
-    <div class="ptitle">Allgemeinwissen</div><div class="psub" id="wi-sub"></div>
-    <div id="wi-ctx"></div>
-    <div class="int-grid" id="wi-ig"></div>
-    <div id="wi-db"></div>
-    <button class="done-btn" id="wi-done" onclick="markDone('wissen')">✓ Lerneinheit abhaken</button>
-    <div class="div"></div>
-    <button class="gen-quiz" id="gen-quiz" onclick="generateQuiz()">🎯 Quiz generieren</button>
-    <div id="quiz-c"></div>
-    <div class="div"></div>
-    <div class="slbl">Notiz</div>
-    <textarea class="narea" id="wi-notes" placeholder="Notizen, Erkenntnisse..."></textarea>
-    <button class="save-note" onclick="saveNote('wi')">Speichern ✓</button>
-    <div class="div"></div>
-    <div class="pr"><span>Themenkatalog</span><span id="wi-plbl"></span></div>
-    <div class="pb"><div class="pf pf-wi" id="wi-pbar" style="width:0%"></div></div>
-    <div id="topic-chips" style="margin-bottom:.875rem"></div>
-    <div class="tipbox"><div class="tiphead">💡 Lerntipp</div><div class="tipc" id="wi-tip"></div></div>
+  <!-- CHAT SPORT -->
+  <div id="pg-sport" class="chat-page">
+    <div class="chat-header">
+      <span class="ch-back" onclick="goHome()">←</span>
+      <span class="ch-icon">🏋️</span>
+      <div class="ch-info"><div class="ch-name">Sport-Coach</div><div class="ch-sub" id="sp-sub">Calisthenics · Laufen · Dehnen</div></div>
+      <div class="ch-actions"><button class="ch-log-btn" onclick="openLogModal('sport')">+ Session loggen</button></div>
+    </div>
+    <div class="quick-prompts" id="qp-sport"></div>
+    <div class="messages" id="msgs-sport"></div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="inp-sport" placeholder="Frag deinen Sport-Coach..." rows="1" onkeydown="handleKey(event,'sport')" oninput="autoResize(this)"></textarea>
+      <button class="send-btn" id="send-sport" onclick="sendMsg('sport')">↑</button>
+    </div>
   </div>
 
-  <!-- SPRACHEN detail -->
-  <div id="pg-sprachen" class="page">
-    <div class="ptitle">Sprachen</div><div class="psub">Spanisch · Französisch · Schwedisch</div>
-    <div id="la-ctx"></div>
-    <div class="int-grid" id="la-ig"></div>
-    <div id="la-db"></div>
-    <div class="lgrid" id="la-grid"></div>
-    <button class="done-btn" id="la-done" onclick="markDone('sprachen')">✓ Session abhaken</button>
-    <div class="div"></div>
-    <div class="slbl">Notiz</div>
-    <textarea class="narea" id="la-notes" placeholder="Vokabeln, Grammatik, Lernpunkte..."></textarea>
-    <button class="save-note" onclick="saveNote('la')">Speichern ✓</button>
-    <div class="tipbox" style="margin-top:.875rem"><div class="tiphead">💡 Tipp</div><div class="tipc" id="la-tip"></div></div>
+  <!-- CHAT WISSEN -->
+  <div id="pg-wissen" class="chat-page">
+    <div class="chat-header">
+      <span class="ch-back" onclick="goHome()">←</span>
+      <span class="ch-icon">📖</span>
+      <div class="ch-info"><div class="ch-name">Wissens-Coach</div><div class="ch-sub" id="wi-sub">30 Themenkatalog · Spaced Repetition</div></div>
+      <div class="ch-actions"><button class="ch-log-btn" onclick="openLogModal('wissen')">+ Einheit loggen</button></div>
+    </div>
+    <div class="quick-prompts" id="qp-wissen"></div>
+    <div class="messages" id="msgs-wissen"></div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="inp-wissen" placeholder="Frag deinen Wissens-Coach..." rows="1" onkeydown="handleKey(event,'wissen')" oninput="autoResize(this)"></textarea>
+      <button class="send-btn" id="send-wissen" onclick="sendMsg('wissen')">↑</button>
+    </div>
   </div>
 
-  <!-- VERLAUF -->
-  <div id="pg-verlauf" class="page">
-    <div class="ptitle" style="margin-bottom:.875rem">Verlauf</div>
-    <div class="vtabs"><button class="vtab on" onclick="switchV('week',this)">Woche</button><button class="vtab" onclick="switchV('month',this)">30 Tage</button><button class="vtab" onclick="switchV('stats',this)">Statistik</button></div>
-    <div id="v-content"></div>
-    <div class="div"></div>
-    <button class="reset-btn" onclick="resetOb()">⚙ Ziele neu einrichten</button>
+  <!-- CHAT SPRACHEN -->
+  <div id="pg-sprachen" class="chat-page">
+    <div class="chat-header">
+      <span class="ch-back" onclick="goHome()">←</span>
+      <span class="ch-icon">🗣</span>
+      <div class="ch-info"><div class="ch-name">Sprachen-Coach</div><div class="ch-sub" id="la-sub">Spanisch · Französisch · Schwedisch</div></div>
+      <div class="ch-actions"><button class="ch-log-btn" onclick="openLogModal('sprachen')">+ Session loggen</button></div>
+    </div>
+    <div class="quick-prompts" id="qp-sprachen"></div>
+    <div class="messages" id="msgs-sprachen"></div>
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="inp-sprachen" placeholder="Frag deinen Sprachen-Coach..." rows="1" onkeydown="handleKey(event,'sprachen')" oninput="autoResize(this)"></textarea>
+      <button class="send-btn" id="send-sprachen" onclick="sendMsg('sprachen')">↑</button>
+    </div>
+  </div>
+  <!-- CALENDAR PAGE -->
+  <div id="pg-cal" class="page">
+    <div class="cal-nav">
+      <div class="cal-nav-title" id="cal-week-title"></div>
+      <div class="cal-nav-btns">
+        <button class="cal-nav-btn" onclick="calPrevWeek()">←</button>
+        <button class="cal-nav-btn today-btn" onclick="calThisWeek()">Heute</button>
+        <button class="cal-nav-btn" onclick="calNextWeek()">→</button>
+      </div>
+    </div>
+    <div class="week-goals-box">
+      <div class="wg-header">
+        <div class="wg-title">Wochenziele & Meilensteine</div>
+        <button class="wg-gen-btn" onclick="generateWeekGoals()">✦ KI generieren</button>
+      </div>
+      <div id="week-goals-list"><div style="font-size:12px;color:var(--tx3)">Klicke auf "KI generieren" um Wochenziele zu erstellen.</div></div>
+    </div>
+    <div class="week-grid-wrap">
+      <div class="week-header-row" id="cal-header"></div>
+      <div class="week-body" id="cal-body"></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:.875rem">
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><div style="width:10px;height:10px;background:var(--sp-bg);border-left:3px solid var(--sp);border-radius:2px"></div>Sport</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><div style="width:10px;height:10px;background:var(--wi-bg);border-left:3px solid var(--wi);border-radius:2px"></div>Wissen</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><div style="width:10px;height:10px;background:var(--la-bg);border-left:3px solid var(--la);border-radius:2px"></div>Sprachen</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><div style="width:10px;height:10px;background:var(--sf2);border-left:3px solid var(--tx3);border-radius:2px"></div>Eigener Termin</div>
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--tx2)"><div style="width:10px;height:10px;background:#FFF3CD;border-left:3px solid #E8A800;border-radius:2px"></div>Meilenstein</div>
+    </div>
+    <div style="font-size:11px;color:var(--tx3);text-align:center">Auf eine Zelle tippen um einen Termin hinzuzufügen</div>
   </div>
 
-  <div class="bnav">
-    <button class="nb on" onclick="nav('heute',this)" id="n-heute"><span class="ni">☀️</span><span>Heute</span></button>
-    <button class="nb" onclick="nav('sport',this)" id="n-sport"><span class="ni">🏋️</span><span>Sport</span></button>
-    <button class="nb" onclick="nav('wissen',this)" id="n-wissen"><span class="ni">📖</span><span>Wissen</span></button>
-    <button class="nb" onclick="nav('sprachen',this)" id="n-sprachen"><span class="ni">🗣</span><span>Sprachen</span></button>
-    <button class="nb" onclick="nav('verlauf',this)" id="n-verlauf"><span class="ni">📊</span><span>Verlauf</span></button>
+  <!-- MOTIVATION PAGE -->
+  <div id="pg-mot" class="page">
+    <div id="mot-impulse-box"></div>
+    <div class="streaks-grid" id="mot-streaks"></div>
+    <div class="rules-section">
+      <div class="rules-header">
+        <div class="rules-title">Tägliche Regeln</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="rules-score"><span id="rules-score-num">0</span> / 11</div>
+          <button class="rules-edit-btn" onclick="openRulesEditor()">Bearbeiten</button>
+        </div>
+      </div>
+      <div id="rules-list"></div>
+    </div>
+    <div class="heatmap-section">
+      <div class="heatmap-title">Aktivität — letzte 91 Tage</div>
+      <div class="heatmap-grid" id="heatmap-grid"></div>
+      <div class="hm-labels"><span>13 Wo.</span><span>heute</span></div>
+    </div>
+    <div class="goals-section">
+      <div class="goals-title">Zielfortschritt</div>
+      <div id="goals-bars"></div>
+    </div>
+  </div>
+
+</div>
+
+<div id="modal-overlay" class="modal-overlay" style="display:none" onclick="closeModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-title" id="modal-title">Session loggen</div>
+    <div id="modal-body"></div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">Abbrechen</button>
+      <button class="modal-save" id="modal-save">Speichern</button>
+    </div>
   </div>
 </div>
 
 <script>
-const SK='rcv5';
-const DAYS=['So','Mo','Di','Mi','Do','Fr','Sa'];
-const DAYSFULL=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
-// Sport type per weekday: 1=Kraft,2=Lauf,3=Kraft,4=Lauf,5=Ganzkörper,6/0=Rest
-const STYPE={1:'Kraft',2:'Lauf',3:'Kraft',4:'Lauf',5:'Ganzkörper'};
-const TOPICS=['Astronomie & Weltall','Antike Kulturen','Mittelalter','Aufklärung & Renaissance','Industrialisierung','20. Jahrhundert','Geographie & Kontinente','Biologie & Evolution','Chemie & Elemente','Physik & Kräfte','Mathematik & Logik','Ökonomie & Handel','Philosophie & Ethik','Religionen & Mythen','Kunst & Architektur','Musik & Literatur','Technologie & Erfindungen','Medizin & Körper','Klima & Ökologie','Politische Systeme','Sprache & Linguistik','Psychologie','Soziologie','Sport & Olympia','Ernährung & Gesundheit','Recht & Justiz','Informatik','Militärgeschichte','Wirtschaftsgeschichte','Kulturgeschichte'];
-const LANGS=[{code:'es',name:'Spanisch',goal:{min:15,pts:60}},{code:'fr',name:'Französisch',goal:{min:15,pts:60}},{code:'sv',name:'Schwedisch',goal:{min:10,pts:40}}];
-const DEF_EX=['Pull-ups','Dips','Liegestütze','Burpees','Kniebeugen'];
-const MOTIV=['Stark! Weiter so 💪','Top — Rhythmus gehalten 🎯','Erledigt! Näher am Ziel ✓','Konsistenz gewinnt 🏆','Perfekt ⚡','Ausgezeichnet! 🌟'];
+const SK = 'rcv7';
+const DAYS_DE = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+const DAYS_SHORT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const TOPICS = ['Astronomie & Weltall','Antike Kulturen','Mittelalter','Aufklärung & Renaissance','Industrialisierung','20. Jahrhundert','Geographie & Kontinente','Biologie & Evolution','Chemie & Elemente','Physik & Kräfte','Mathematik & Logik','Ökonomie & Handel','Philosophie & Ethik','Religionen & Mythen','Kunst & Architektur','Musik & Literatur','Technologie & Erfindungen','Medizin & Körper','Klima & Ökologie','Politische Systeme','Sprache & Linguistik','Psychologie','Soziologie','Sport & Olympia','Ernährung & Gesundheit','Recht & Justiz','Informatik','Militärgeschichte','Wirtschaftsgeschichte','Kulturgeschichte'];
 
-// Stretch plans
-const STRETCH={
-  morgens:{a:{t:'Morgen-Mobility',d:'Hüfte, Schultern, Wirbelsäule aktivieren',ex:['Hüftkreisen 10×','Kniebeugen-Stretch 3×30s','Schulteröffner 3×20s','Katze-Kuh 10×','Thoraxrotation 2×10'],time:'15–20'},b:{t:'Kurze Mobility',d:'3 Schlüsselübungen',ex:['Hüftkreisen 8×','Kniebeugen-Stretch 2×20s','Schulteröffner 2×15s'],time:'7–10'},c:{t:'1-Min-Wecker',d:'Gelenke kurz bewegen',ex:['Schulter+Hüfte+Knöchel kreisen, je 8×'],time:'1–2'}},
-  'nach-sport':{a:{t:'Post-Workout Dehnen',d:'Alle beanspruchten Muskeln',ex:['Brustdehnung 2×30s','Trizeps-Stretch 2×20s','Hüftbeuger 2×30s','Oberschenkel 2×30s','Waden 2×30s','Kindshaltung 45s'],time:'12–15'},b:{t:'Kurzer Cooldown',d:'Top 3 nach dem Training',ex:['Brustdehnung 2×20s','Hüftbeuger 2×20s','Waden 2×20s'],time:'6–8'},c:{t:'Minimal-Cooldown',d:'1 Übung',ex:['Kindshaltung 60s'],time:'1–2'}},
-  abends:{a:{t:'Abend-Entspannung',d:'Tief dehnen, Parasympathikus aktivieren',ex:['Liegender Schmetterling 2 Min','Pigeon Pose 2×90s','Wirbelsäulentwist 2×30s','Beinstreckung 2×30s','Shavasana 3 Min'],time:'15–20'},b:{t:'Abend-Stretch',d:'Hüfte, Rücken, Beine',ex:['Pigeon Pose 2×60s','Liegender Twist 2×20s','Beinstreckung 2×20s'],time:'8–10'},c:{t:'2-Min-Entspannung',d:'Herunterfahren',ex:['Kindshaltung 90s + 3 tiefe Atemzüge'],time:'2–3'}},
-  nie:{a:{t:'Ganzkörper-Stretch',d:'Systematisches Dehnen',ex:['Schultern 2×30s','Brust 2×30s','Hüftbeuger 2×30s','Oberschenkel 2×30s','Waden 2×30s','Rücken 60s'],time:'12–15'},b:{t:'Fokus-Stretch',d:'3 wichtigste Übungen',ex:['Hüftbeuger 2×30s','Brustdehnung 2×30s','Kindshaltung 60s'],time:'6–8'},c:{t:'Minimal',d:'1 Übung sofort',ex:['Kindshaltung 90s'],time:'1–2'}}
+// ── storage ──
+const p2 = n => String(n).padStart(2,'0');
+const TK = () => { const d=new Date(); return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); };
+const DK = d => d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
+const ago = n => { const d=new Date(); d.setDate(d.getDate()-n); return DK(d); };
+const ld = () => { try { return JSON.parse(localStorage.getItem(SK))||{}; } catch(e) { return {}; } };
+const sv = s => localStorage.setItem(SK, JSON.stringify(s));
+const prof = () => ld()._profile || null;
+const toast = m => { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),2500); };
+
+// ── sessions ──
+function getSessions(s) { if(!s._sessions) s._sessions={}; return s._sessions; }
+function addSession(sec, data) {
+  const s=ld(); const sessions=getSessions(s);
+  if(!sessions[sec]) sessions[sec]=[];
+  sessions[sec].push({ date: TK(), time: new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}), ...data });
+  s._sessions=sessions; sv(s);
+}
+function getSessionHistory(sec) {
+  const s=ld(); const sessions=getSessions(s);
+  return (sessions[sec]||[]);
+}
+function streak(sec) {
+  const sessions=getSessionHistory(sec);
+  if(!sessions.length) return 0;
+  const dates=[...new Set(sessions.map(s=>s.date))].sort().reverse();
+  let count=0; let expected=TK();
+  for(const d of dates) {
+    if(d===expected) { count++; const dd=new Date(expected); dd.setDate(dd.getDate()-1); expected=DK(dd); }
+    else if(d<expected) break;
+  }
+  return count;
+}
+
+// ── system prompts ──
+function buildSystemPrompt(sec) {
+  const p = prof()||{};
+  const now = new Date();
+  const dow = now.getDay();
+  const dayName = DAYS_DE[dow];
+  const dateStr = now.toLocaleDateString('de-DE', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  const timeStr = now.toLocaleTimeString('de-DE', {hour:'2-digit', minute:'2-digit'});
+  const sessions = getSessionHistory(sec);
+
+  // Build full history string
+  const historyStr = buildFullHistory(sec, sessions);
+
+  if(sec==='sport') {
+    const nextDayRec = getSportNextDayRec(sessions, dow);
+    return `Du bist ein erfahrener, persönlicher Sport-Coach. Du sprichst Deutsch, bist direkt und motivierend, aber nie aufdringlich.
+
+AKTUELLES DATUM & ZEIT (100% zuverlässig, nicht aus Training — direkt vom Gerät):
+- Heute: ${dateStr}
+- Uhrzeit: ${timeStr}
+- Wochentag: ${dayName} (Tag ${dow}, 0=Sonntag)
+
+BENUTZERPROFIL:
+- Fitnesslevel: ${p.lv||'nicht angegeben'}
+- Maximale Reps: Pull-ups ${p.pu||'?'}, Dips ${p.di||'?'}, Liegestütze ${p.ps||'?'}, Kniebeugen ${p.sq||'?'}, Burpees/Min ${p.bu||'?'}
+- Laufziel: ${p.rg||5} km
+- Sportziel (3 Monate): ${p.sg||'nicht angegeben'}
+- Trainingstage: ${p.traindays||'Mo–Fr'}
+
+WICHTIGE TRAININGSREGELN:
+- Mo/Mi/Fr = Kraft (Calisthenics: Pull-ups, Dips, Liegestütze, Burpees, Kniebeugen)
+- Di/Do = Laufen oder Ausdauer
+- Sa/So = Ruhetag (Dehnen möglich)
+- Nach Krafttag → Lauftag empfohlen (und umgekehrt)
+- Nach 3 aufeinanderfolgenden A-Sessions → heute B empfohlen
+
+VOLLSTÄNDIGE TRAININGSHISTORIE (alle Sessions seit Beginn):
+${historyStr}
+
+${nextDayRec ? 'EMPFEHLUNG FÜR HEUTE basierend auf Geschichte: '+nextDayRec : ''}
+
+DEINE AUFGABE:
+- Antworte immer basierend auf dem echten Datum und der echten Historie
+- Wenn der Nutzer fragt "was soll ich heute machen?" — gib eine konkrete Empfehlung mit exakten Übungen, Sätzen und Reps
+- Beziehe die letzte Session explizit ein ("Gestern hast du X gemacht, daher...")
+- Wenn Ruhetag: erkläre warum, schlage Dehnen vor
+- Drei Intensitätsstufen: A (Vollprogramm), B (kompakt), C (minimal/Streak-Halten)
+- Wenn der Nutzer eine Session meldet, fasse sie kurz zusammen und gib Feedback zur Progression
+- Sprich den Nutzer mit "du" an, bleib prägnant (max 4–5 Sätze pro Antwort wenn nicht explizit mehr gefragt)`;
+
+  } else if(sec==='wissen') {
+    const topicIdx = getWissenTopicIdx(sessions);
+    const currentTopic = TOPICS[topicIdx];
+    const dueTopics = getWissenDue(sessions);
+    return `Du bist ein erfahrener Lerncoach und Wissensbegleiter. Du sprichst Deutsch, bist präzise und macht Lernen interessant.
+
+AKTUELLES DATUM & ZEIT (100% zuverlässig, direkt vom Gerät):
+- Heute: ${dateStr}
+- Wochentag: ${dayName}
+
+BENUTZERPROFIL:
+- Wissensziel: ${p.wg||'Breites Allgemeinwissen aufbauen'}
+- Lieblingsbereiche: ${(p.wf||[]).join(', ')||'alle Bereiche'}
+- Lerntiefe: ${p.wd||'ausgewogen'}
+
+THEMENKATALOG (${TOPICS.length} Themen gesamt):
+Aktuelles Thema: "${currentTopic}" (Thema ${topicIdx+1}/${TOPICS.length})
+${dueTopics.length>0 ? 'Wiederholungen fällig: '+dueTopics.join(', ') : 'Keine Wiederholungen fällig.'}
+
+VOLLSTÄNDIGE LERNHISTORIE:
+${historyStr}
+
+DEINE AUFGABE:
+- Wenn "was soll ich heute lernen?" → gib konkrete Lernaufgaben für das aktuelle Thema (A: tief 45 Min, B: fokussiert 20 Min, C: kurz 10 Min)
+- Beziehe die Wiederholungsqueue ein wenn Themen fällig sind
+- Wechsle automatisch zum nächsten Thema wenn das aktuelle abgeschlossen ist
+- Erkläre Themen klar und mit Beispielen wenn gefragt
+- Stelle Quizfragen zum Thema wenn der Nutzer das möchte
+- Sprich den Nutzer mit "du" an, bleib prägnant`;
+
+  } else { // sprachen
+    return `Du bist ein erfahrener Sprachcoach. Du sprichst primär Deutsch, kannst aber auch auf Spanisch, Französisch oder Schwedisch kommunizieren.
+
+AKTUELLES DATUM & ZEIT (100% zuverlässig, direkt vom Gerät):
+- Heute: ${dateStr}
+- Wochentag: ${dayName}
+
+BENUTZERPROFIL:
+- Spanisch: ${p.esl||'A2'} — Ziel: höheres Niveau
+- Französisch: ${p.frl||'A1'} — Ziel: höheres Niveau
+- Schwedisch: ${p.svl||'B1'} — Ziel: höheres Niveau
+- Gesamtziel: ${p.lg||'Fortschritt in allen drei Sprachen'}
+- Größte Schwachstelle: ${p.lw||'allgemein'}
+
+VOLLSTÄNDIGE SPRACHHISTORIE:
+${historyStr}
+
+DEINE AUFGABE:
+- Wenn "was soll ich heute üben?" → gib konkrete Aufgaben pro Sprache (A: voll 40 Min, B: 2 Sprachen 20 Min, C: minimal 15 Min)
+- Beziehe die bisherigen Übungsschwerpunkte ein ("Letzte Woche habt ihr Konjunktiv geübt, heute...")
+- Erstelle auf Wunsch direkte Übungen (Lückensätze, Vokabeln, Grammatikaufgaben)
+- Wechsle Schwerpunkte systematisch damit alle Bereiche abgedeckt werden
+- Wenn der Nutzer in Spanisch/Französisch/Schwedisch schreibt, antworte in der jeweiligen Sprache + Deutsch
+- Sprich den Nutzer mit "du" an`;
+  }
+}
+
+function buildFullHistory(sec, sessions) {
+  if(!sessions.length) return 'Noch keine Sessions geloggt. Dies ist der erste Kontakt.';
+  // Group by date
+  const byDate = {};
+  sessions.forEach(s => {
+    if(!byDate[s.date]) byDate[s.date] = [];
+    byDate[s.date].push(s);
+  });
+  const dates = Object.keys(byDate).sort().reverse();
+  const lines = [];
+  dates.forEach(date => {
+    const d = new Date(date);
+    const dayName = DAYS_DE[d.getDay()];
+    const entries = byDate[date];
+    entries.forEach(e => {
+      let line = `${date} (${dayName})`;
+      if(e.type) line += ` — ${e.type}`;
+      if(e.intensity) line += ` [${e.intensity.toUpperCase()}]`;
+      if(e.duration) line += ` · ${e.duration} Min`;
+      if(e.details) line += ` · ${e.details}`;
+      if(e.notes) line += ` · Notiz: ${e.notes}`;
+      lines.push(line);
+    });
+  });
+  return lines.join('\n');
+}
+
+function getSportNextDayRec(sessions, dow) {
+  if(!sessions.length) return null;
+  const lastSession = sessions[sessions.length-1];
+  const lastDate = lastSession.date;
+  const today = TK();
+  const yesterday = ago(1);
+  if(lastDate !== yesterday && lastDate !== today) return null;
+  const lastType = lastSession.type||'';
+  if(lastType.includes('Kraft') && (dow===2||dow===4)) return 'Gestern war Krafttraining — heute Laufen ideal für Muskelregeneration.';
+  if(lastType.includes('Lauf') && (dow===1||dow===3||dow===5)) return 'Gestern war Laufen — heute Kraft ideal.';
+  if(lastSession.intensity==='a') return 'Gestern war eine A-Session (Vollprogramm) — heute B empfohlen.';
+  if(lastSession.intensity==='c') return 'Gestern war nur eine C-Session (Minimal) — heute B oder A für echten Fortschritt.';
+  return null;
+}
+
+function getWissenTopicIdx(sessions) {
+  const doneDates = new Set(sessions.filter(s=>s.completed).map(s=>s.topicIdx));
+  return Math.min(doneDates.size, TOPICS.length-1);
+}
+
+function getWissenDue(sessions) {
+  const now = new Date();
+  const due = [];
+  const reviewMap = {};
+  sessions.filter(s=>s.reviewed).forEach(s => {
+    if(!reviewMap[s.topicIdx]||s.date>reviewMap[s.topicIdx].date) reviewMap[s.topicIdx]=s;
+  });
+  Object.entries(reviewMap).forEach(([idx, s]) => {
+    const intervals = {good:14, ok:7, bad:1};
+    const days = intervals[s.rating]||7;
+    const nextReview = new Date(s.date); nextReview.setDate(nextReview.getDate()+days);
+    if(nextReview <= now) due.push(TOPICS[parseInt(idx)]||'Thema '+idx);
+  });
+  return due;
+}
+
+// ── chat state ──
+const chatHistory = { sport:[], wissen:[], sprachen:[] };
+
+// ── quick prompts ──
+const QUICK_PROMPTS = {
+  sport: ['Was mache ich heute?','Wie war mein letztes Training?','Wie ist meine Progression?','Trainingsplan für diese Woche','Ich habe nur 15 Min'],
+  wissen: ['Was lerne ich heute?','Frag mich zum letzten Thema','Welche Themen kommen als nächstes?','Erkläre das aktuelle Thema','Wann sind Wiederholungen fällig?'],
+  sprachen: ['Was übe ich heute?','Gib mir eine Übung auf Spanisch','Erstelle Lückensätze auf Französisch','Schwedisch Vokabeln üben','Wie ist mein Fortschritt?']
 };
 
-// helpers
-function p2(n){return String(n).padStart(2,'0')}
-function TK(){const d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
-function DK(d){return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
-function ago(n){const d=new Date();d.setDate(d.getDate()-n);return DK(d)}
-function future(n){const d=new Date();d.setDate(d.getDate()+n);return DK(d)}
-function ld(){try{return JSON.parse(localStorage.getItem(SK))||{}}catch(e){return{}}}
-function sv(s){localStorage.setItem(SK,JSON.stringify(s))}
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500)}
-function prof(){const s=ld();return s._profile||null}
-
-function getDay(s,key){
-  key=key||TK();
-  if(!s[key])s[key]={
-    sport:{done:false,int:null,type:null,subtype:null,exercises:{},run:{},dc:null},
-    dehnen:{done:false,int:null},
-    wissen:{done:false,int:null,topicIdx:topicIdx(s),note:'',dc:null},
-    sprachen:{done:false,int:null,langs:{es:{min:0,pts:0},fr:{min:0,pts:0},sv:{min:0,pts:0}},note:'',dc:null}
-  };
-  return s[key];
+function renderQuickPrompts(sec) {
+  const el = document.getElementById('qp-'+sec);
+  if(!el) return;
+  el.innerHTML = QUICK_PROMPTS[sec].map(p =>
+    `<div class="qp" onclick="useQuickPrompt('${sec}','${p.replace(/'/g,"\\'")}')"> ${p}</div>`
+  ).join('');
 }
-function topicIdx(s){let c=0;Object.keys(s).sort().forEach(k=>{if(k.match(/^\d{4}/)&&s[k]&&s[k].wissen&&s[k].wissen.done)c++});return Math.min(c,TOPICS.length-1)}
-function streak(s,sec){let n=0;for(let i=0;i<90;i++){const k=ago(i);if(i===0&&s[k]&&s[k][sec]&&s[k][sec].done){n++;continue}if(i===0)break;if(s[k]&&s[k][sec]&&s[k][sec].done)n++;else break;}return n}
-function yest(s,sec){const k=ago(1);return s[k]&&s[k][sec]?s[k][sec]:null}
 
-// ── Onboarding ──
-let oStep=0;const ON=6;
-const od={lv:null,pu:'',di:'',ps:'',sq:'',bu:'',rg:'5',sg:'',sw:null,st:null,wg:'',wf:[],wd:null,esl:'A2',frl:'A1',svl:'B1',lg:'',lw:null};
-function sc(el,k,v){el.closest('.chips').querySelectorAll('.ch').forEach(c=>c.classList.remove('on'));el.classList.add('on');od[k]=v;}
-function tc(el,k,v){el.classList.toggle('on');if(!od[k])od[k]=[];if(el.classList.contains('on'))od[k].push(v);else od[k]=od[k].filter(x=>x!==v);}
+function useQuickPrompt(sec, prompt) {
+  const inp = document.getElementById('inp-'+sec);
+  if(inp) { inp.value=prompt; inp.focus(); }
+  sendMsg(sec);
+}
+
+// ── sending messages ──
+async function sendMsg(sec) {
+  const inp = document.getElementById('inp-'+sec);
+  const btn = document.getElementById('send-'+sec);
+  if(!inp) return;
+  const text = inp.value.trim();
+  if(!text) return;
+  inp.value = ''; autoResize(inp);
+  btn.disabled = true;
+
+  appendMessage(sec, 'user', text);
+  chatHistory[sec].push({ role:'user', content:text });
+  showTyping(sec);
+
+  try {
+    const systemPrompt = buildSystemPrompt(sec);
+    const messages = chatHistory[sec].slice(-20); // last 20 for context window
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: systemPrompt,
+        messages: messages
+      })
+    });
+    const data = await resp.json();
+    const reply = data.content[0].text;
+    removeTyping(sec);
+    appendMessage(sec, 'assistant', reply, sec);
+    chatHistory[sec].push({ role:'assistant', content:reply });
+    // Save to persistent chat history
+    saveChatMsg(sec, 'user', text);
+    saveChatMsg(sec, 'assistant', reply);
+  } catch(e) {
+    removeTyping(sec);
+    appendMessage(sec, 'assistant', 'Fehler beim Verbinden — bitte nochmal versuchen.', sec);
+  }
+  btn.disabled = false;
+}
+
+function saveChatMsg(sec, role, content) {
+  const s = ld();
+  if(!s._chats) s._chats = {};
+  if(!s._chats[sec]) s._chats[sec] = [];
+  s._chats[sec].push({ role, content, date:TK(), time:new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}) });
+  // Keep last 200 messages per coach
+  if(s._chats[sec].length>200) s._chats[sec]=s._chats[sec].slice(-200);
+  sv(s);
+}
+
+function loadChatHistory(sec) {
+  const s = ld();
+  const msgs = (s._chats&&s._chats[sec])||[];
+  msgs.forEach(m => {
+    appendMessage(sec, m.role, m.content, sec, m.time, false);
+    chatHistory[sec].push({ role:m.role, content:m.content });
+  });
+  // Scroll to bottom
+  setTimeout(()=>{ const el=document.getElementById('msgs-'+sec); if(el) el.scrollTop=el.scrollHeight; }, 50);
+}
+
+function appendMessage(sec, role, content, coachType, timeStr, scroll=true) {
+  const msgs = document.getElementById('msgs-'+sec);
+  if(!msgs) return;
+  const time = timeStr || new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+  const div = document.createElement('div');
+  div.className = 'msg '+role+(role==='assistant'&&coachType?' '+coachType:'');
+  div.innerHTML = `<div class="msg-bubble">${escapeHtml(content)}</div><div class="msg-time">${time}</div>`;
+  msgs.appendChild(div);
+  if(scroll) msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping(sec) {
+  const msgs = document.getElementById('msgs-'+sec);
+  if(!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'msg assistant';
+  div.id = 'typing-'+sec;
+  div.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping(sec) {
+  const el = document.getElementById('typing-'+sec);
+  if(el) el.remove();
+}
+
+function escapeHtml(text) {
+  return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g,'<br>');
+}
+
+// ── log modal ──
+let currentLogSec = null;
+function openLogModal(sec) {
+  currentLogSec = sec;
+  const overlay = document.getElementById('modal-overlay');
+  const title = document.getElementById('modal-title');
+  const body = document.getElementById('modal-body');
+  const saveBtn = document.getElementById('modal-save');
+  overlay.style.display = 'flex';
+
+  if(sec==='sport') {
+    title.textContent = 'Sport-Session loggen';
+    body.innerHTML = `
+      <div class="log-field"><label>Trainingsart</label>
+        <select id="log-type"><option>Kraft (Calisthenics)</option><option>Laufen</option><option>Ganzkörper</option><option>Dehnen</option></select></div>
+      <div class="log-field"><label>Intensität</label>
+        <select id="log-int"><option value="a">A – Vollprogramm (~60 Min)</option><option value="b">B – Kompakt (~30 Min)</option><option value="c">C – Minimal (~15 Min)</option></select></div>
+      <div class="log-field"><label>Dauer (Minuten)</label><input type="number" id="log-dur" placeholder="45"></div>
+      <div class="log-field"><label>Details (optional)</label><textarea id="log-details" placeholder="z.B. Pull-ups 3×8, Dips 3×10, 4km in 24 Min..."></textarea></div>
+      <div class="log-field"><label>Wie war es?</label><textarea id="log-notes" placeholder="z.B. Gut gelaufen, Schulter schmerzt etwas..."></textarea></div>`;
+    saveBtn.onclick = () => {
+      const type = document.getElementById('log-type').value;
+      const intensity = document.getElementById('log-int').value;
+      const dur = document.getElementById('log-dur').value;
+      const details = document.getElementById('log-details').value;
+      const notes = document.getElementById('log-notes').value;
+      addSession('sport', {type, intensity, duration:dur, details, notes});
+      closeModal();
+      toast('Session geloggt ✓');
+      renderHome();
+      // Send summary to coach
+      const summary = `Ich habe gerade folgendes geloggt: ${type} [${intensity.toUpperCase()}]${dur?' · '+dur+' Min':''}${details?' · '+details:''}${notes?' · '+notes:''}`;
+      const inp = document.getElementById('inp-sport');
+      if(inp) { inp.value=summary; sendMsg('sport'); }
+    };
+  } else if(sec==='wissen') {
+    const s=ld(); const sessions=getSessionHistory('wissen'); const topicIdx=getWissenTopicIdx(sessions);
+    title.textContent = 'Lerneinheit loggen';
+    body.innerHTML = `
+      <div class="log-field"><label>Thema</label>
+        <select id="log-topic">${TOPICS.map((t,i)=>`<option value="${i}" ${i===topicIdx?'selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="log-field"><label>Intensität</label>
+        <select id="log-int"><option value="a">A – Tief (45–60 Min)</option><option value="b">B – Fokus (20–30 Min)</option><option value="c">C – Kurz (10–15 Min)</option></select></div>
+      <div class="log-field"><label>Was habe ich gelernt?</label><textarea id="log-notes" placeholder="z.B. Schlüsselfakten zum Mittelalter, Kreuzzüge, Feudalsystem..."></textarea></div>`;
+    saveBtn.onclick = () => {
+      const topicI = parseInt(document.getElementById('log-topic').value);
+      const intensity = document.getElementById('log-int').value;
+      const notes = document.getElementById('log-notes').value;
+      addSession('wissen', {type:TOPICS[topicI], topicIdx:topicI, intensity, notes, completed:true});
+      closeModal(); toast('Lerneinheit geloggt ✓'); renderHome();
+      const summary = `Ich habe heute "${TOPICS[topicI]}" [${intensity.toUpperCase()}] gelernt.${notes?' Notizen: '+notes:''}`;
+      const inp = document.getElementById('inp-wissen');
+      if(inp) { inp.value=summary; sendMsg('wissen'); }
+    };
+  } else {
+    title.textContent = 'Sprachsession loggen';
+    body.innerHTML = `
+      <div class="log-field"><label>Fokus heute</label>
+        <select id="log-focus"><option>Alle drei Sprachen</option><option>Spanisch</option><option>Französisch</option><option>Schwedisch</option></select></div>
+      <div class="log-field"><label>Intensität</label>
+        <select id="log-int"><option value="a">A – Voll (40–45 Min)</option><option value="b">B – 2 Sprachen (20–25 Min)</option><option value="c">C – Minimal (15 Min)</option></select></div>
+      <div class="log-field"><label>Was habe ich geübt?</label><textarea id="log-notes" placeholder="z.B. Spanisch: Konjunktiv Imperfekt, Französisch: Liaisons, Schwedisch: Pitch-Akzent..."></textarea></div>`;
+    saveBtn.onclick = () => {
+      const focus = document.getElementById('log-focus').value;
+      const intensity = document.getElementById('log-int').value;
+      const notes = document.getElementById('log-notes').value;
+      addSession('sprachen', {type:focus, intensity, notes});
+      closeModal(); toast('Session geloggt ✓'); renderHome();
+      const summary = `Ich habe heute Sprachen geübt: ${focus} [${intensity.toUpperCase()}].${notes?' Geübt: '+notes:''}`;
+      const inp = document.getElementById('inp-sprachen');
+      if(inp) { inp.value=summary; sendMsg('sprachen'); }
+    };
+  }
+}
+
+function closeModal(e) {
+  if(e&&e.target!==document.getElementById('modal-overlay'))return;
+  document.getElementById('modal-overlay').style.display='none';
+}
+
+// ── home page ──
+function renderHome() {
+  const s = ld();
+  const now = new Date();
+  const h = now.getHours();
+  const g = document.getElementById('greeting');
+  const td = document.getElementById('topdate');
+  if(g) g.textContent = (h<12?'Guten Morgen':h<18?'Guten Tag':'Guten Abend')+', Bob';
+  if(td) td.textContent = now.toLocaleDateString('de-DE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  // Streaks
+  const ss=streak('sport'), ws=streak('wissen'), ls=streak('sprachen');
+  const cs=document.getElementById('cs'),cw=document.getElementById('cw'),cl=document.getElementById('cl');
+  if(cs){cs.textContent='🏋 '+ss;}
+  if(cw){cw.textContent='📖 '+ws;}
+  if(cl){cl.textContent='🗣 '+ls;}
+
+  // Check done today
+  const spSessions = getSessionHistory('sport').filter(s=>s.date===TK());
+  const wiSessions = getSessionHistory('wissen').filter(s=>s.date===TK());
+  const laSessions = getSessionHistory('sprachen').filter(s=>s.date===TK());
+  const spDone = spSessions.length>0;
+  const wiDone = wiSessions.length>0;
+  const laDone = laSessions.length>0;
+
+  // Last session hints
+  const spLast = getSessionHistory('sport').slice(-1)[0];
+  const wiLast = getSessionHistory('wissen').slice(-1)[0];
+  const laLast = getSessionHistory('sprachen').slice(-1)[0];
+  const dow = now.getDay();
+  const isRest = dow===0||dow===6;
+
+  const getHint = (sec, last, done, rest) => {
+    if(done) return 'Heute erledigt ✓';
+    if(sec==='sport'&&rest) return 'Ruhetag — Dehnen möglich';
+    if(!last) return 'Noch keine Session — frag deinen Coach';
+    const daysSince = Math.floor((now - new Date(last.date))/(1000*60*60*24));
+    if(daysSince===0) return 'Heute: '+last.type+(last.intensity?' ['+last.intensity.toUpperCase()+']':'');
+    if(daysSince===1) return 'Gestern: '+last.type;
+    return 'Zuletzt vor '+daysSince+' Tagen';
+  };
+
+  const cards = document.getElementById('coach-cards');
+  if(cards) cards.innerHTML = [
+    {sec:'sport',icon:'🏋️',name:'Sport-Coach',cls:'sp',hint:getHint('sport',spLast,spDone,isRest),done:spDone,streak:ss},
+    {sec:'wissen',icon:'📖',name:'Wissens-Coach',cls:'wi',hint:getHint('wissen',wiLast,wiDone,false),done:wiDone,streak:ws},
+    {sec:'sprachen',icon:'🗣',name:'Sprachen-Coach',cls:'la',hint:getHint('sprachen',laLast,laDone,false),done:laDone,streak:ls}
+  ].map(c=>`
+    <div class="coach-card ${c.cls}" onclick="openCoach('${c.sec}')">
+      <div class="cc-left">
+        <span class="cc-icon">${c.icon}</span>
+        <div><div class="cc-name">${c.name}</div><div class="cc-hint">${c.hint}</div></div>
+      </div>
+      <div class="cc-right">
+        ${c.streak>0?`<span class="cc-streak ${c.cls}">${c.streak} 🔥</span>`:''}
+        ${c.done?'<span class="cc-done">✅</span>':'<span class="cc-arrow">›</span>'}
+      </div>
+    </div>`).join('');
+
+  // History summary (last 7 days)
+  const hist = document.getElementById('history-summary');
+  if(hist) {
+    let rows = '';
+    for(let i=0; i<7; i++) {
+      const k = ago(i);
+      const d = new Date(k);
+      const sp = getSessionHistory('sport').filter(s=>s.date===k);
+      const wi = getSessionHistory('wissen').filter(s=>s.date===k);
+      const la = getSessionHistory('sprachen').filter(s=>s.date===k);
+      if(!sp.length&&!wi.length&&!la.length&&i>0) continue;
+      const label = i===0?'Heute':i===1?'Gestern':DAYS_SHORT[d.getDay()]+' '+p2(d.getDate())+'.'+p2(d.getMonth()+1)+'.';
+      const spBadge = sp.length?`<span class="hb hb-sp">🏋 ${sp[0].intensity?(sp[0].intensity.toUpperCase()):''}</span>`:`<span class="hb hb-x">🏋</span>`;
+      const wiBadge = wi.length?`<span class="hb hb-wi">📖 ${wi[0].intensity?(wi[0].intensity.toUpperCase()):''}</span>`:`<span class="hb hb-x">📖</span>`;
+      const laBadge = la.length?`<span class="hb hb-la">🗣 ${la[0].intensity?(la[0].intensity.toUpperCase()):''}</span>`:`<span class="hb hb-x">🗣</span>`;
+      rows+=`<div class="hs-row"><span class="hs-date">${label}</span><div class="hs-badges">${spBadge}${wiBadge}${laBadge}</div></div>`;
+    }
+    hist.innerHTML=`<div class="hs-title">Letzte 7 Tage</div>${rows||'<div style="color:var(--tx3);font-size:12px">Noch keine Einträge</div>'}`;
+  }
+}
+
+function openCoach(sec) {
+  document.querySelectorAll('.page,.chat-page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-'+sec).classList.add('on');
+  renderQuickPrompts(sec);
+  // Load history if empty
+  if(chatHistory[sec].length===0) loadChatHistory(sec);
+  // Focus input
+  setTimeout(()=>{const inp=document.getElementById('inp-'+sec);if(inp)inp.focus();},100);
+}
+
+function goHome() {
+  document.querySelectorAll('.page,.chat-page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-home').classList.add('on');
+  document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('on'));
+  const btn = document.getElementById('btn-home');
+  if(btn) btn.classList.add('on');
+  renderHome();
+}
+
+// ── input helpers ──
+function handleKey(e, sec) {
+  if(e.key==='Enter'&&!e.shiftKey) { e.preventDefault(); sendMsg(sec); }
+}
+function autoResize(el) {
+  el.style.height='auto';
+  el.style.height=Math.min(el.scrollHeight,120)+'px';
+}
+
+// ── onboarding ──
+let oStep=0; const ON=5;
+const od={lv:null,pu:'',di:'',ps:'',sq:'',bu:'',rg:'5',sg:'',traindays:'Mo–Fr (Wochenende frei)',wg:'',wf:[],wd:null,esl:'A2',frl:'A1',svl:'B1',lg:'',lw:null};
+function oc(el,k,v){el.closest('.chips').querySelectorAll('.ch').forEach(c=>c.classList.remove('on'));el.classList.add('on');od[k]=v;}
+function otc(el,k,v){el.classList.toggle('on');if(!od[k])od[k]=[];if(el.classList.contains('on'))od[k].push(v);else od[k]=od[k].filter(x=>x!==v);}
 function oNx(){collectO();if(oStep===ON-1){finishO();return}oStep++;updateO();}
 function oBk(){if(oStep>0){oStep--;updateO();}}
 function collectO(){
-  if(oStep===1){od.pu=document.getElementById('o-pu').value;od.di=document.getElementById('o-di').value;od.ps=document.getElementById('o-ps').value;od.sq=document.getElementById('o-sq').value;od.bu=document.getElementById('o-bu').value;od.rg=document.getElementById('o-rg').value||'5';}
-  if(oStep===2){od.sg=document.getElementById('o-sg').value;}
-  if(oStep===3){od.wg=document.getElementById('o-wg').value;}
-  if(oStep===4){od.lg=document.getElementById('o-lg').value;}
+  if(oStep===1){od.pu=document.getElementById('o-pu').value;od.di=document.getElementById('o-di').value;od.ps=document.getElementById('o-ps').value;od.sq=document.getElementById('o-sq').value;od.bu=document.getElementById('o-bu').value;od.rg=document.getElementById('o-rg').value||'5';od.sg=document.getElementById('o-sg').value;}
+  if(oStep===2){od.wg=document.getElementById('o-wg').value;}
+  if(oStep===3){od.lg=document.getElementById('o-lg').value;}
 }
 function updateO(){
   document.querySelectorAll('.ob-step').forEach(s=>s.classList.remove('on'));
   document.getElementById('ob-'+oStep).classList.add('on');
   document.getElementById('ob-p').style.width=Math.round(oStep/(ON-1)*100)+'%';
   document.getElementById('ob-bk').style.display=oStep>0?'block':'none';
-  document.getElementById('ob-nx').textContent=oStep===ON-1?'App starten →':'Weiter →';
-  if(oStep===ON-1)document.getElementById('ob-sum').innerHTML=`<div>🏋️ <strong>Sport:</strong> ${od.lv||'—'} · PU ${od.pu||'?'} · Laufziel ${od.rg} km · Dehnen: ${od.st||'allgemein'}</div><div>📖 <strong>Wissen:</strong> ${od.wd||'ausgewogen'} · ${(od.wf||[]).join(', ')||'alle Themen'}</div><div>🗣 <strong>Sprachen:</strong> ES ${od.esl} · FR ${od.frl} · SV ${od.svl}</div>`;
-}
-function finishO(){collectO();const s=ld();s._profile={...od,created:TK()};sv(s);document.getElementById('ob').style.display='none';document.getElementById('app').style.display='block';initApp();}
-function resetOb(){if(!confirm('Ziele zurücksetzen?'))return;const s=ld();delete s._profile;sv(s);location.reload();}
-
-// ── Recommendations ──
-function recSport(s,dow){
-  const y=yest(s,'sport');const str=streak(s,'sport');
-  if(!STYPE[dow])return{int:'a',reason:null};
-  let ri='a',reason=null;
-  if(y&&y.int==='c'){ri='b';reason={t:'Gestern C – heute B.',cls:''}}
-  else if(str>=4&&y&&y.int==='a'){ri='b';reason={t:str+'-Tage-Streak – heute B verhindert Übertraining.',cls:''}}
-  const yt=y?y.type:null;
-  if(dow===2&&yt==='Kraft'){reason={t:'Gestern Kraft → heute Laufen: Muskelregeneration + Ausdauer.',cls:'b-sp'}}
-  else if(dow===4&&yt==='Kraft'){reason={t:'Gestern Kraft → heute Laufen & Core: optimale Abwechslung.',cls:'b-sp'}}
-  else if((dow===3||dow===5)&&yt==='Lauf'){reason={t:'Gestern Laufen → heute Kraft: ausgewogene Entwicklung.',cls:'b-sp'}}
-  return{int:ri,reason};
-}
-function recWissen(s){
-  const y=yest(s,'wissen');const str=streak(s,'wissen');
-  let ri='a',reason=null;
-  if(y&&!y.done){ri='b';reason={t:'Gestern keine Einheit – heute B.',cls:'b-wi'}}
-  else if(y&&y.int==='c'){ri='b';reason={t:'Gestern C – heute B für echten Fortschritt.',cls:''}}
-  else if(str>=5&&y&&y.int==='a'){ri='b';reason={t:str+'-Tage-Streak – heute B genügt.',cls:''}}
-  return{int:ri,reason};
-}
-function recLang(s){
-  const y=yest(s,'sprachen');const str=streak(s,'sprachen');
-  let ri='a',reason=null;
-  if(str===0){ri='c';reason={t:'Kein Streak – C zum Aufbauen.',cls:'b-la'}}
-  else if(y&&!y.done){ri='c';reason={t:'Gestern keine Session – C sichert Streak.',cls:'b-la'}}
-  else if(y&&y.int==='c'){ri='b';reason={t:'Gestern minimal – heute B.',cls:''}}
-  if(y&&y.langs){const m=LANGS.filter(l=>y.langs[l.code]&&y.langs[l.code].pts<20).map(l=>l.name);if(m.length&&!reason)reason={t:'Gestern '+m.join(', ')+' unter Ziel.',cls:'b-la'};}
-  return{int:ri,reason};
-}
-
-// ── Forecast logic ──
-function forecastWeek(s){
-  const today=getDay(s);const dow=new Date().getDay();
-  const result=[];
-  for(let offset=-1;offset<=5;offset++){
-    const d=new Date();d.setDate(d.getDate()+offset);
-    const k=DK(d);const wd=d.getDay();
-    const isPast=offset<0;const isToday=offset===0;
-    const isTomorrow=offset===1;
-    const isRest=wd===0||wd===6;
-    const entry=s[k];
-    const done=entry&&entry.sport&&entry.sport.done;
-    const int=entry&&entry.sport&&entry.sport.int;
-    const type=done?entry.sport.type:(!isRest?STYPE[wd]:null);
-    // Suggest intensity for future days based on today's choice
-    let suggestedInt=null;
-    if(!isPast&&!isToday&&!isRest){
-      const todayInt=today.sport.int;
-      if(isToday)suggestedInt=null;
-      else if(todayInt==='a')suggestedInt='b';
-      else if(todayInt==='c')suggestedInt='b';
-      else suggestedInt='a';
-    }
-    result.push({offset,d,k,wd,isPast,isToday,isTomorrow,isRest,done,int,type,suggestedInt});
+  document.getElementById('ob-nx').textContent=oStep===ON-1?'Coaches starten →':'Weiter →';
+  if(oStep===ON-1){
+    document.getElementById('ob-sum').innerHTML=
+      `<div>🏋️ <strong>Sport:</strong> ${od.lv||'—'} · PU ${od.pu||'?'} · Laufziel ${od.rg} km</div>`+
+      `<div>📖 <strong>Wissen:</strong> ${od.wd||'ausgewogen'} · ${(od.wf||[]).join(', ')||'alle'}</div>`+
+      `<div>🗣 <strong>Sprachen:</strong> ES ${od.esl} · FR ${od.frl} · SV ${od.svl}</div>`;
   }
-  return result;
+}
+function finishO(){
+  collectO();
+  const s=ld(); s._profile={...od,created:TK()}; sv(s);
+  document.getElementById('ob').style.display='none';
+  document.getElementById('app').style.display='block';
+  initApp();
+}
+function resetOb(){
+  if(!confirm('Alle Ziele und Chat-Verläufe zurücksetzen?'))return;
+  localStorage.removeItem(SK); location.reload();
 }
 
-function nextDayPreview(s){
-  const todayInt=getDay(s).sport.int||'a';
-  const todayType=STYPE[new Date().getDay()]||null;
-  const tmrDow=(new Date().getDay()+1)%7;
-  const tmrType=STYPE[tmrDow]||null;
-  const isRest=tmrDow===0||tmrDow===6;
-  if(isRest)return{text:'Morgen ist Ruhetag. Du kannst trotzdem dehnen.',type:null,suggestedInt:null};
-  let suggestedInt=todayInt==='a'?'b':todayInt==='c'?'b':'a';
-  let reason='';
-  if(todayType&&tmrType&&todayType!==tmrType){reason=`Heute ${todayType} → Morgen ${tmrType}: optimale Abwechslung.`;}
-  else if(todayInt==='a'){reason=`Du hast heute Vollgas gegeben (A) → morgen B empfohlen zur Erholung.`;}
-  else if(todayInt==='c'){reason=`Heute Erhalt (C) → morgen B um wieder Fahrt aufzunehmen.`;}
-  else{reason=`Heute B → morgen A für vollen Trainingseffekt.`;}
-  return{text:reason,type:tmrType,suggestedInt,dow:tmrDow};
+
+// ══════════════════════════════════════════════
+// MOTIVATION PAGE
+// ══════════════════════════════════════════════
+
+const DEFAULT_RULES = [
+  'Bewege dich täglich — Training oder 30 Min Spaziergang',
+  'Lerne etwas — Wissen oder Sprachen, auch nur 10 Min',
+  'Schlaf 7–8 Stunden',
+  'Iss bewusst — eine Mahlzeit ohne Ablenkung',
+  'Kein Handy die ersten 30 Min nach dem Aufwachen',
+  'Eine Sache fokussiert erledigen — Deep Work',
+  'Draußen sein — mindestens 20 Min frische Luft',
+  '5 Min Stille oder Atemübung',
+  'Abends reflektieren — 2 Min: Was war gut heute?',
+  'Mindestens 2 Liter Wasser trinken',
+  'Eine Sache tun die mir einfach Freude macht'
+];
+
+function getRules(s) {
+  if(!s._rules) s._rules = DEFAULT_RULES.map(text=>({text,active:true}));
+  return s._rules;
 }
 
-// ── KI Content ──
-async function getContent(section,subtype){
-  const s=ld();const today=getDay(s);const p=prof();if(!p)return null;
-  const cacheKey=section+(subtype||'');
-  if(today[section]&&today[section].dc&&today[section].dcKey===cacheKey)return today[section].dc;
-  const dow=new Date().getDay();const dn=DAYSFULL[dow];
-  let prompt='';
-  if(section==='sport'){
-    const st=subtype||STYPE[dow]||'Training';
-    prompt=`Du bist Trainer. Konkreter Tagesplan ${dn}, Typ: ${st}. Profil: Level ${p.lv||'mittel'}, Pull-ups ${p.pu||'?'}, Dips ${p.di||'?'}, Liegestütze ${p.ps||'?'}, Kniebeugen ${p.sq||'?'}, Burpees/Min ${p.bu||'?'}, Laufziel ${p.rg}km, Ziel: ${p.sg||'Fitness'}.
-Drei Varianten:
-A (~60 Min): exakte Sätze×Reps, alle Übungen
-B (~30 Min): Fokus auf 3 Hauptübungen
-C (~15 Min): Minimal zum Streak-Halten
-Überschriften A:, B:, C: — kein Markdown, präzise.`;
-  } else if(section==='dehnen'){
-    const sp=STRETCH[p.st||'nie'];const when=p.st||'allgemein';
-    prompt=`Du bist Mobility-Coach. Dehnplan ${when}. Level ${p.lv||'mittel'}, Schwachstelle ${p.sw||'keine'}.
-Drei Varianten:
-A (~15 Min): vollständige Routine mit Übungen und Sekunden
-B (~8 Min): 4 wichtigste Übungen
-C (~2 Min): 1 Übung sofort umsetzbar
-Überschriften A:, B:, C: — kein Markdown.`;
-  } else if(section==='wissen'){
-    const ti=today.wissen.topicIdx;const topic=TOPICS[ti];
-    prompt=`Du bist Lerncoach. Lernaufgaben für "${topic}". Tiefe: ${p.wd||'ausgewogen'}, Interessen: ${(p.wf||[]).join(',')||'alle'}, Ziel: ${p.wg||'Allgemeinwissen'}.
-Drei Varianten:
-A (~45 Min): tiefe Aufgaben mit konkreten Recherchefragen
-B (~25 Min): 3 Kernfragen
-C (~10 Min): eine Mini-Aufgabe
-Überschriften A:, B:, C: — kein Markdown.`;
-  } else if(section==='sprachen'){
-    const focus=subtype||'alle';
-    prompt=`Du bist Sprachlehrer. Sprachlernaufgaben für heute. ES ${p.esl||'A2'}, FR ${p.frl||'A1'}, SV ${p.svl||'B1'}, Ziel: ${p.lg||'Fortschritt'}, Schwachstelle: ${p.lw||'allgemein'}, Fokus heute: ${focus}.
-Drei Varianten:
-A (~40 Min): konkrete Aufgaben pro Sprache
-B (~20 Min): Fokus auf die 2 schwächeren Sprachen
-C (~15 Min): je 1 Mini-Aufgabe pro Sprache
-Überschriften A:, B:, C: — kein Markdown.`;
+function getRuleChecks(s) {
+  const k = TK();
+  if(!s._ruleChecks) s._ruleChecks = {};
+  if(!s._ruleChecks[k]) s._ruleChecks[k] = {};
+  return s._ruleChecks[k];
+}
+
+function getTodayImpulse(s) {
+  const k = TK();
+  if(!s._impulse) s._impulse = {};
+  return s._impulse[k] || null;
+}
+
+function saveImpulse(s, text) {
+  const k = TK();
+  if(!s._impulse) s._impulse = {};
+  s._impulse[k] = text;
+  sv(s);
+}
+
+async function generateImpulse(forceNew) {
+  const s = ld();
+  if(!forceNew && getTodayImpulse(s)) {
+    renderImpulseBox(getTodayImpulse(s));
+    return;
   }
-  try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,messages:[{role:'user',content:prompt}]})});
-    const d=await r.json();const text=d.content[0].text;
-    today[section].dc=text;today[section].dcKey=cacheKey;sv(s);return text;
-  }catch(e){return null;}
-}
-function parseSection(text,key){
-  if(!text)return null;const K=key.toUpperCase()+':';
-  const i=text.indexOf(K);if(i===-1)return text.slice(0,400);
-  const rest=text.slice(i+K.length);
-  const nxt=Math.min(...['A:','B:','C:'].filter(k=>k!==K).map(k=>rest.indexOf(k)).filter(x=>x>0).concat([rest.length]));
-  return rest.slice(0,nxt).trim();
-}
+  const p = prof()||{};
+  const now = new Date();
+  const dayName = DAYS_DE[now.getDay()];
+  const ss = streak('sport'), ws = streak('wissen'), ls = streak('sprachen');
+  const checks = getRuleChecks(s);
+  const rules = getRules(s);
+  const checkedCount = rules.filter((_,i)=>checks[i]).length;
+  const prompt = `Du bist ein persönlicher Life-Coach. Heute ist ${dayName}. 
+Der Nutzer hat folgende aktive Streaks: Sport ${ss} Tage, Wissen ${ws} Tage, Sprachen ${ls} Tage.
+Gestern hat er ${checkedCount} von ${rules.length} täglichen Regeln eingehalten.
+Sein Sportziel: ${p.sg||'Fitness aufbauen'}. Sprachziel: ${p.lg||'Drei Sprachen lernen'}.
 
-// ══════════════════════════════════════
-// HEUTE FLOW — 3-step accordion
-// ══════════════════════════════════════
-function renderHeute(){
-  const s=ld();const today=getDay(s);const dow=new Date().getDay();
-  const p=prof()||{};
-  renderFlowSport(s,today,dow,p);
-  renderFlowWissen(s,today,p);
-  renderFlowSprachen(s,today,p);
-  renderForecast(s,today,dow);
-}
+Schreibe einen kurzen, persönlichen Tages-Impuls (2–3 Sätze max). Direkt, ehrlich, motivierend ohne kitschig zu sein. 
+Keine Floskeln. Bezug auf den konkreten Tag und die Streaks wenn passend. Auf Deutsch.`;
 
-// ── SPORT FLOW ──
-function renderFlowSport(s,today,dow,p){
-  const isRest=dow===0||dow===6;
-  const spDone=today.sport.done;const deDone=today.dehnen.done;
-  const rec=recSport(s,dow);
-  const yt=yest(s,'sport');
-  const stretchPlan=STRETCH[p.st||'nie'];
+  const box = document.getElementById('mot-impulse-box');
+  if(box) box.innerHTML = `<div class="mot-header"><div class="mot-greeting">${dayName} · ${now.toLocaleDateString('de-DE',{day:'numeric',month:'long'})}</div><div class="mot-impulse"><span class="mot-spin"></span> Impuls wird generiert...</div></div>`;
 
-  let html=`<div class="flow-card ${spDone&&deDone?'done-sp':''} active" id="fc-sport">`;
-  html+=`<div class="fc-header" onclick="toggleFC('sport')">
-    <div class="fc-left">
-      <span class="fc-icon">🏋️</span>
-      <div><div class="fc-title">Sport${isRest?' — Ruhetag':''}</div>
-      <div class="fc-sub">${isRest?'Dehnen trotzdem möglich':spDone?'Einheit erledigt':'Schritt 1 von 3'}</div></div>
-    </div>
-    <div class="fc-right">
-      ${spDone?'<span class="fc-done-pill fc-done-sp">✓</span>':''}
-      ${deDone?'<span class="fc-done-pill fc-done-de">🧘✓</span>':''}
-      <span class="fc-chevron ${!spDone?'open':''}" id="chev-sport">▾</span>
-    </div>
-  </div>`;
-  html+=`<div class="fc-body ${!spDone?'open':''}" id="fcb-sport">`;
-
-  if(!isRest){
-    // context from yesterday
-    if(rec.reason){html+=`<div class="ctx-banner ${rec.reason.cls||''}"><strong>Kontext</strong>${rec.reason.t}</div>`;}
-    else if(yt&&yt.done){html+=`<div class="ctx-banner"><strong>Gestern</strong>${yt.type||'Training'} · Intensität ${(yt.int||'?').toUpperCase()} — heute baut darauf auf.</div>`;}
-
-    if(!spDone){
-      // Step dots
-      const hasSub=today.sport.subtype;const hasInt=today.sport.int;
-      html+=`<div class="step-dots"><div class="sdot ${hasSub?'done':'active'}"></div><div class="sdot ${hasInt?'done':hasSub?'active':''}"></div><div class="sdot ${hasInt?'active':''}"></div></div>`;
-
-      // Step 1: choose type
-      if(!hasSub){
-        html+=`<div class="slbl" style="margin-bottom:6px">Was machst du heute?</div>`;
-        const types=[{k:'Kraft',icon:'💪',sub:'Pull-ups, Dips, Kniebeugen...'},{k:'Lauf',icon:'🏃',sub:p.rg+'km Zone 2 oder Intervall'},{k:'Ganzkörper',icon:'🔥',sub:'Alle Übungen kombiniert'},{k:'Dehnen',icon:'🧘',sub:'Nur Mobility heute'}];
-        html+=`<div class="type-grid four">`;
-        types.forEach(t=>{html+=`<div class="tcard ${today.sport.subtype===t.k?'sel-sp':''}" onclick="chooseSportType('${t.k}')"><div class="tc-icon">${t.icon}</div><div class="tc-label">${t.k}</div><div class="tc-sub">${t.sub}</div></div>`;});
-        html+='</div>';
-      } else {
-        // Step 2: choose intensity
-        const isSub=today.sport.subtype;
-        html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.625rem">📍 <strong style="color:var(--tx)">${isSub}</strong> gewählt — <span style="cursor:pointer;color:var(--b-dk);text-decoration:underline" onclick="resetSportType()">ändern</span></div>`;
-        if(!hasInt){
-          html+=`<div class="slbl" style="margin-bottom:6px">Wie viel Zeit hast du?</div>`;
-          const spPlans={Kraft:{a:{t:'Vollständig',d:'4 Übungen, max Sätze',time:'55–70'},b:{t:'Fokus-Satz',d:'Top 3, je 3 Sätze',time:'25–35'},c:{t:'Erhalt',d:'Je 2×10',time:'15'}},Lauf:{a:{t:'Zone-2-Lauf',d:'Steady state, Nasenatemung',time:'40–50'},b:{t:'Intervall',d:'5×3 Min, je 2 Min Pause',time:'25–30'},c:{t:'Kurzer Lauf',d:'15 Min locker',time:'15'}},Ganzkörper:{a:{t:'5 Runden AMRAP',d:'Alle Übungen',time:'55–65'},b:{t:'Kompakt',d:'PU+Dips+Kniebeugen, 3R',time:'30–35'},c:{t:'Minimal',d:'Burpees 3×10, Liegestütze 2×10',time:'15'}},Dehnen:null};
-          const plan=spPlans[isSub];
-          if(plan){
-            html+=`<div class="int-row">`;
-            ['a','b','c'].forEach(k=>{
-              const isRec=!hasInt&&k===rec.int;
-              html+=`<div class="ib ${hasInt===k?'sel-'+k:''} ${isRec?'rec rec-'+k:''}" onclick="chooseSportInt('${k}')">
-                <div class="ib-key ib-key-${k}">${k.toUpperCase()} ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div>
-                <div class="ib-title">${plan[k].t}</div>
-                <div class="ib-time">⏱ ${plan[k].time} Min</div></div>`;
-            });
-            html+='</div>';
-          }
-        } else {
-          // Step 3: confirm
-          html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.625rem">📍 ${isSub} · ${hasInt.toUpperCase()} gewählt — <span style="cursor:pointer;color:var(--b-dk);text-decoration:underline" onclick="resetSportInt()">ändern</span></div>`;
-          html+=`<div id="dc-sport"><div class="dc-loading"><div class="spin"></div> Plan wird generiert...</div></div>`;
-          html+=`<button class="confirm-btn cbtn-sp" onclick="confirmDone('sport')">✓ Als erledigt markieren</button>`;
-          html+=`<button class="undo-btn" onclick="resetSportInt()">Intensität ändern</button>`;
-        }
-      }
-    } else {
-      html+=`<div style="font-size:12px;color:var(--sp-dk)">✓ ${today.sport.subtype} · ${(today.sport.int||'').toUpperCase()} erledigt</div>`;
-    }
-  } else {
-    html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.875rem">🌿 Ruhetag. Keine Pflicht, aber Dehnen kann trotzdem helfen.</div>`;
-  }
-
-  // Dehnen section — always shown
-  html+=`<div class="div"></div>`;
-  html+=`<div class="slbl" style="margin-bottom:6px">🧘 Dehnen — täglich</div>`;
-  if(deDone){
-    html+=`<div style="font-size:11px;color:var(--de-dk)">✓ ${stretchPlan[today.dehnen.int||'b'].t} erledigt</div>`;
-  } else {
-    html+=`<div class="int-row">`;
-    ['a','b','c'].forEach(k=>{
-      html+=`<div class="ib ${today.dehnen.int===k?'sel-de':''}" onclick="chooseDehnen('${k}')" style="${today.dehnen.int===k?'border-color:var(--de);background:var(--de-bg)':''}">
-        <div class="ib-key" style="color:var(--de-dk)">${k==='a'?'A Voll':k==='b'?'B Kurz':'C 2 Min'}</div>
-        <div class="ib-title">${stretchPlan[k].t}</div>
-        <div class="ib-time" style="color:var(--de-dk)">⏱ ${stretchPlan[k].time} Min</div></div>`;
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:prompt}]})
     });
-    html+='</div>';
-    if(today.dehnen.int){
-      const ex=stretchPlan[today.dehnen.int].ex;
-      html+=`<div class="dc-box" style="border-color:var(--de);background:var(--de-bg)"><div class="dc-content" style="color:var(--de-dk)">${ex.map(e=>'• '+e).join('\n')}</div></div>`;
-      html+=`<button class="confirm-btn cbtn-de" onclick="confirmDone('dehnen')">✓ Dehnen erledigt</button>`;
-    }
+    const d = await r.json();
+    const text = d.content[0].text;
+    saveImpulse(s, text);
+    renderImpulseBox(text);
+  } catch(e) {
+    renderImpulseBox('Heute ist ein neuer Tag. Deine Gewohnheiten bauen sich Schicht für Schicht auf — auch wenn es manchmal langsam wirkt.');
   }
-  html+='</div></div>';
-  document.getElementById('flow-sport').innerHTML=html;
-  if(today.sport.int&&!today.sport.done)loadDCInto('dc-sport','sport',today.sport.int,today.sport.subtype);
 }
 
-// ── WISSEN FLOW ──
-function renderFlowWissen(s,today,p){
-  const wiDone=today.wissen.done;
-  const rec=recWissen(s);const yw=yest(s,'wissen');
-  const ti=today.wissen.topicIdx;const topic=TOPICS[ti];
-  const isLocked=!today.sport.done&&!today.dehnen.done;
-
-  let html=`<div class="flow-card ${wiDone?'done-wi':''} ${isLocked?'locked':''}" id="fc-wissen">`;
-  html+=`<div class="fc-header" onclick="toggleFC('wissen')">
-    <div class="fc-left">
-      <span class="fc-icon">📖</span>
-      <div><div class="fc-title">Allgemeinwissen</div>
-      <div class="fc-sub">${wiDone?'Lerneinheit erledigt':isLocked?'Nach Sport verfügbar':'Schritt 2 von 3'}</div></div>
-    </div>
-    <div class="fc-right">
-      ${wiDone?'<span class="fc-done-pill fc-done-wi">✓</span>':''}
-      <span class="fc-chevron ${wiDone||isLocked?'':'open'}" id="chev-wissen">▾</span>
-    </div>
-  </div>`;
-  html+=`<div class="fc-body ${wiDone||isLocked?'':'open'}" id="fcb-wissen">`;
-
-  if(rec.reason){html+=`<div class="ctx-banner ${rec.reason.cls||''}"><strong>Kontext</strong>${rec.reason.t}</div>`;}
-
-  if(!wiDone){
-    // Topic confirm
-    html+=`<div class="slbl" style="margin-bottom:5px">Heutiges Thema</div>`;
-    html+=`<div style="display:flex;align-items:center;justify-content:space-between;background:var(--wi-bg);border:1px solid var(--wi);border-radius:var(--rs);padding:.625rem .875rem;margin-bottom:.875rem">
-      <div><div style="font-size:13px;font-weight:500;color:var(--wi-dk)">${topic}</div><div style="font-size:10px;color:var(--wi-dk);opacity:.7;margin-top:1px;font-family:'DM Mono',monospace">Thema ${ti+1} / ${TOPICS.length}</div></div>
-      <button onclick="openTopicPicker()" style="font-size:11px;padding:4px 10px;border-radius:var(--rs);border:.5px solid var(--wi);background:var(--sf);color:var(--wi-dk);cursor:pointer;font-family:'DM Sans',sans-serif">Wechseln</button>
+function renderImpulseBox(text) {
+  const now = new Date();
+  const dayName = DAYS_DE[now.getDay()];
+  const box = document.getElementById('mot-impulse-box');
+  if(!box) return;
+  const s = ld();
+  const ss = streak('sport'), ws = streak('wissen'), ls = streak('sprachen');
+  box.innerHTML = `
+    <div class="mot-header">
+      <div class="mot-greeting">${dayName} · ${now.toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'})}</div>
+      <div class="mot-impulse">${escapeHtml(text)}</div>
+      <button class="mot-gen-btn" onclick="generateImpulse(true)">↺ Neuer Impuls</button>
     </div>`;
-    if(!today.wissen.int){
-      html+=`<div class="slbl" style="margin-bottom:6px">Wie tief möchtest du heute gehen?</div>`;
-      html+=`<div class="int-row">`;
-      ['a','b','c'].forEach(k=>{
-        const isRec=k===rec.int;
-        const info={a:{t:'Tief lernen',time:'45–60'},b:{t:'Fokus-Einheit',time:'20–30'},c:{t:'Kurz-Review',time:'10–15'}}[k];
-        html+=`<div class="ib ${today.wissen.int===k?'sel-'+k:''} ${isRec&&!today.wissen.int?'rec rec-'+k:''}" onclick="chooseWissenInt('${k}')">
-          <div class="ib-key ib-key-${k}">${k.toUpperCase()} ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div>
-          <div class="ib-title">${info.t}</div><div class="ib-time">⏱ ${info.time} Min</div></div>`;
-      });
-      html+='</div>';
-    } else {
-      html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.625rem">${today.wissen.int.toUpperCase()} gewählt — <span style="cursor:pointer;color:var(--b-dk);text-decoration:underline" onclick="resetWissenInt()">ändern</span></div>`;
-      html+=`<div id="dc-wissen"><div class="dc-loading"><div class="spin"></div> Aufgaben werden geladen...</div></div>`;
-      html+=`<button class="confirm-btn cbtn-wi" onclick="confirmDone('wissen')">✓ Lerneinheit abhaken</button>`;
-      html+=`<button class="undo-btn" onclick="resetWissenInt()">Intensität ändern</button>`;
-    }
-  } else {
-    html+=`<div style="font-size:12px;color:var(--wi-dk)">✓ ${topic} · ${(today.wissen.int||'').toUpperCase()} erledigt</div>`;
-  }
-  html+='</div></div>';
-  document.getElementById('flow-wissen').innerHTML=html;
-  if(today.wissen.int&&!today.wissen.done)loadDCInto('dc-wissen','wissen',today.wissen.int,null);
 }
 
-// ── SPRACHEN FLOW ──
-function renderFlowSprachen(s,today,p){
-  const laDone=today.sprachen.done;
-  const rec=recLang(s);
-  const isLocked=!today.wissen.done;
-
-  let html=`<div class="flow-card ${laDone?'done-la':''} ${isLocked?'locked':''}" id="fc-sprachen">`;
-  html+=`<div class="fc-header" onclick="toggleFC('sprachen')">
-    <div class="fc-left">
-      <span class="fc-icon">🗣</span>
-      <div><div class="fc-title">Sprachen</div>
-      <div class="fc-sub">${laDone?'Session erledigt':isLocked?'Nach Wissen verfügbar':'Schritt 3 von 3'}</div></div>
-    </div>
-    <div class="fc-right">
-      ${laDone?'<span class="fc-done-pill fc-done-la">✓</span>':''}
-      <span class="fc-chevron ${laDone||isLocked?'':'open'}" id="chev-sprachen">▾</span>
-    </div>
-  </div>`;
-  html+=`<div class="fc-body ${laDone||isLocked?'':'open'}" id="fcb-sprachen">`;
-
-  if(rec.reason){html+=`<div class="ctx-banner ${rec.reason.cls||''}"><strong>Kontext</strong>${rec.reason.t}</div>`;}
-
-  if(!laDone){
-    // Focus language selection
-    if(!today.sprachen.focus){
-      html+=`<div class="slbl" style="margin-bottom:6px">Worauf liegt heute der Fokus?</div>`;
-      html+=`<div class="type-grid" style="grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:.875rem">`;
-      [{k:'Alle drei',icon:'🌍'},{k:'Spanisch',icon:'🇪🇸'},{k:'Französisch',icon:'🇫🇷'},{k:'Schwedisch',icon:'🇸🇪'}].forEach(l=>{
-        html+=`<div class="tcard ${today.sprachen.focus===l.k?'sel-la':''}" onclick="chooseLangFocus('${l.k}')"><div class="tc-icon">${l.icon}</div><div class="tc-label" style="font-size:10px">${l.k}</div></div>`;
-      });
-      html+='</div>';
-    } else {
-      html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.625rem">📍 Fokus: <strong>${today.sprachen.focus}</strong> — <span style="cursor:pointer;color:var(--b-dk);text-decoration:underline" onclick="resetLangFocus()">ändern</span></div>`;
-      if(!today.sprachen.int){
-        html+=`<div class="slbl" style="margin-bottom:6px">Wie viel Zeit hast du?</div>`;
-        html+=`<div class="int-row">`;
-        ['a','b','c'].forEach(k=>{
-          const isRec=k===rec.int;
-          const info={a:{t:'Volle Session',time:'40–45'},b:{t:'2 Sprachen',time:'20–25'},c:{t:'Minimal-Streak',time:'15'}}[k];
-          html+=`<div class="ib ${today.sprachen.int===k?'sel-'+k:''} ${isRec&&!today.sprachen.int?'rec rec-'+k:''}" onclick="chooseLangInt('${k}')">
-            <div class="ib-key ib-key-${k}">${k.toUpperCase()} ${k==='a'?'Perfekt':k==='b'?'OK':'Erhalt'}</div>
-            <div class="ib-title">${info.t}</div><div class="ib-time">⏱ ${info.time} Min</div></div>`;
-        });
-        html+='</div>';
-      } else {
-        html+=`<div style="font-size:12px;color:var(--tx2);margin-bottom:.625rem">${today.sprachen.int.toUpperCase()} gewählt — <span style="cursor:pointer;color:var(--b-dk);text-decoration:underline" onclick="resetLangInt()">ändern</span></div>`;
-        html+=`<div id="dc-sprachen"><div class="dc-loading"><div class="spin"></div> Aufgaben werden geladen...</div></div>`;
-        html+=`<button class="confirm-btn cbtn-la" onclick="confirmDone('sprachen')">✓ Sprachsession abhaken</button>`;
-        html+=`<button class="undo-btn" onclick="resetLangInt()">Intensität ändern</button>`;
-      }
-    }
-  } else {
-    html+=`<div style="font-size:12px;color:var(--la-dk)">✓ ${today.sprachen.focus||'Alle'} · ${(today.sprachen.int||'').toUpperCase()} erledigt</div>`;
-  }
-  html+='</div></div>';
-  document.getElementById('flow-sprachen').innerHTML=html;
-  if(today.sprachen.int&&today.sprachen.focus&&!today.sprachen.done)loadDCInto('dc-sprachen','sprachen',today.sprachen.int,today.sprachen.focus);
-}
-
-// ── FORECAST ──
-function renderForecast(s,today,dow){
-  const fc=forecastWeek(s);
-  const nd=nextDayPreview(s);
-  const todayInt=today.sport.int;
-  const typeIcon={Kraft:'💪',Lauf:'🏃',Ganzkörper:'🔥',null:'🌿'};
-
-  let html='';
-  // Next day preview (only show when sport is done or selected)
-  if(todayInt||today.sport.done){
-    html+=`<div class="next-day-box"><strong>Morgen — Vorausschau</strong>${nd.text}${nd.suggestedInt?` Empfehlung: <strong>${nd.suggestedInt.toUpperCase()}</strong>${nd.type?' ('+nd.type+')':''}.`:''}</div>`;
-  }
-
-  // 7-day forecast grid
-  html+=`<div class="slbl" style="margin-bottom:6px">7-Tage-Übersicht</div>`;
-  html+=`<div class="forecast-row">`;
-  fc.forEach(day=>{
-    const icon=day.isRest?'🌿':(typeIcon[day.type]||'🏋');
-    const intLabel=day.done?day.int:day.isToday?todayInt:day.isPast?null:day.suggestedInt;
-    html+=`<div class="fday ${day.isToday?'today-col':''} ${day.isPast?'past':''} ${day.isRest?'rest':''} ${day.isTomorrow&&!day.isRest?'fd-tomorrow':''}">
-      <div class="fd-name">${DAYS[day.wd]}</div>
-      <div class="fd-icon">${icon}</div>
-      <div class="fd-type">${day.type||''}</div>
-      ${intLabel?`<div class="fd-int fd-int-${intLabel}">${intLabel.toUpperCase()}</div>`:''}
+function renderRules() {
+  const s = ld();
+  const rules = getRules(s);
+  const checks = getRuleChecks(s);
+  const checkedCount = rules.filter((_,i) => checks[i]).length;
+  const scoreEl = document.getElementById('rules-score-num');
+  if(scoreEl) scoreEl.textContent = checkedCount;
+  const list = document.getElementById('rules-list');
+  if(!list) return;
+  list.innerHTML = rules.map((rule,i) => {
+    const checked = !!checks[i];
+    const note = (checks[i]&&checks[i].note) ? checks[i].note : '';
+    return `<div class="rule-item ${checked?'checked':''}" id="rule-item-${i}">
+      <div class="rule-check ${checked?'done':''}" onclick="toggleRule(${i})">${checked?'✓':''}</div>
+      <div class="rule-body">
+        <div class="rule-text ${checked?'done':''}">${escapeHtml(rule.text)}</div>
+        ${note ? `<div class="rule-note-saved">"${escapeHtml(note)}"</div>` : ''}
+        <div style="display:flex;align-items:center;gap:8px;margin-top:3px">
+          <button class="rule-note-btn" onclick="toggleNoteInput(${i})">${note?'Notiz bearbeiten':'+ Notiz'}</button>
+        </div>
+        <input class="rule-note-inp" id="rule-note-${i}" type="text" placeholder="Kurze Notiz..." value="${escapeHtml(note)}" onblur="saveRuleNote(${i})" onkeydown="if(event.key==='Enter')saveRuleNote(${i})">
+      </div>
     </div>`;
+  }).join('');
+}
+
+function toggleRule(i) {
+  const s = ld();
+  const checks = getRuleChecks(s);
+  if(checks[i] && checks[i] !== true) {
+    // preserve note
+    checks[i] = checks[i] ? (checks[i].note ? {note:checks[i].note, done: !checks[i].done} : !checks[i]) : true;
+  } else {
+    checks[i] = !checks[i];
+  }
+  if(!checks[i]) delete checks[i];
+  const k = TK();
+  s._ruleChecks[k] = checks;
+  sv(s);
+  renderRules();
+}
+
+function toggleNoteInput(i) {
+  const inp = document.getElementById('rule-note-'+i);
+  if(inp) { inp.classList.toggle('open'); if(inp.classList.contains('open')) inp.focus(); }
+}
+
+function saveRuleNote(i) {
+  const inp = document.getElementById('rule-note-'+i);
+  if(!inp) return;
+  const note = inp.value.trim();
+  const s = ld();
+  const k = TK();
+  if(!s._ruleChecks) s._ruleChecks = {};
+  if(!s._ruleChecks[k]) s._ruleChecks[k] = {};
+  const existing = s._ruleChecks[k][i];
+  if(note) {
+    s._ruleChecks[k][i] = typeof existing === 'object' ? {...existing, note} : {done: !!existing, note};
+  } else if(typeof existing === 'object') {
+    s._ruleChecks[k][i] = !!existing.done;
+  }
+  sv(s);
+  renderRules();
+}
+
+function renderStreakCards() {
+  const el = document.getElementById('mot-streaks');
+  if(!el) return;
+  const ss=streak('sport'), ws=streak('wissen'), ls=streak('sprachen');
+  const bestSp = getBestStreak('sport'), bestWi = getBestStreak('wissen'), bestLa = getBestStreak('sprachen');
+  el.innerHTML = [
+    {cls:'sp',icon:'🏋️',label:'Sport',val:ss,best:bestSp},
+    {cls:'wi',icon:'📖',label:'Wissen',val:ws,best:bestWi},
+    {cls:'la',icon:'🗣',label:'Sprachen',val:ls,best:bestLa}
+  ].map(c=>`<div class="streak-card ${c.cls}">
+    <div class="streak-num ${c.cls}">${c.val}</div>
+    <div class="streak-lbl">${c.icon} ${c.label}</div>
+    <div class="streak-best">Rekord: ${c.best}</div>
+  </div>`).join('');
+}
+
+function getBestStreak(sec) {
+  const sessions = getSessionHistory(sec);
+  if(!sessions.length) return 0;
+  const dates = [...new Set(sessions.map(s=>s.date))].sort();
+  let best=0, cur=0, prev=null;
+  dates.forEach(d => {
+    if(!prev) { cur=1; }
+    else {
+      const diff = (new Date(d)-new Date(prev))/(1000*60*60*24);
+      if(diff===1) cur++;
+      else cur=1;
+    }
+    if(cur>best) best=cur;
+    prev=d;
   });
-  html+='</div>';
-  html+=`<div class="forecast-legend">★ = heute empfohlen &nbsp;·&nbsp; <strong>blau</strong> = morgen &nbsp;·&nbsp; abgeblasst = vergangen</div>`;
-  document.getElementById('flow-forecast').innerHTML=html;
+  return best;
 }
 
-// ── Flow actions ──
-function toggleFC(id){
-  const body=document.getElementById('fcb-'+id);const chev=document.getElementById('chev-'+id);
-  if(body)body.classList.toggle('open');if(chev)chev.classList.toggle('open');
-}
-function chooseSportType(type){
-  const s=ld();const today=getDay(s);today.sport.subtype=type;today.sport.dc=null;sv(s);
-  if(type==='Dehnen'){today.sport.int='a';sv(s);}
-  renderHeute();
-}
-function resetSportType(){const s=ld();const t=getDay(s);t.sport.subtype=null;t.sport.int=null;t.sport.dc=null;sv(s);renderHeute();}
-function chooseSportInt(key){const s=ld();const t=getDay(s);t.sport.int=key;t.sport.dc=null;sv(s);renderHeute();}
-function resetSportInt(){const s=ld();const t=getDay(s);t.sport.int=null;t.sport.dc=null;sv(s);renderHeute();}
-function chooseDehnen(key){const s=ld();const t=getDay(s);t.dehnen.int=key;sv(s);renderHeute();}
-function chooseWissenInt(key){const s=ld();const t=getDay(s);t.wissen.int=key;t.wissen.dc=null;sv(s);renderHeute();}
-function resetWissenInt(){const s=ld();const t=getDay(s);t.wissen.int=null;t.wissen.dc=null;sv(s);renderHeute();}
-function chooseLangFocus(focus){const s=ld();const t=getDay(s);t.sprachen.focus=focus;t.sprachen.dc=null;sv(s);renderHeute();}
-function resetLangFocus(){const s=ld();const t=getDay(s);t.sprachen.focus=null;t.sprachen.int=null;t.sprachen.dc=null;sv(s);renderHeute();}
-function chooseLangInt(key){const s=ld();const t=getDay(s);t.sprachen.int=key;t.sprachen.dc=null;sv(s);renderHeute();}
-function resetLangInt(){const s=ld();const t=getDay(s);t.sprachen.int=null;t.sprachen.dc=null;sv(s);renderHeute();}
-
-async function loadDCInto(elId,section,intensity,subtype){
-  const el=document.getElementById(elId);if(!el)return;
-  const content=await getContent(section,subtype);
-  if(!el||!document.getElementById(elId))return;
-  if(content){
-    const parsed=parseSection(content,intensity);
-    document.getElementById(elId).innerHTML=`<div class="dc-box"><div class="dc-head"><div class="dc-title">Dein Plan</div><div class="dc-badge dcb-${intensity}">${intensity.toUpperCase()}</div></div><div class="dc-content">${parsed||''}</div></div>`;
-  } else document.getElementById(elId)&&(document.getElementById(elId).innerHTML='');
+function renderHeatmap() {
+  const el = document.getElementById('heatmap-grid');
+  if(!el) return;
+  const today = TK();
+  const cells = [];
+  for(let i=90; i>=0; i--) {
+    const k = ago(i);
+    const sp = getSessionHistory('sport').some(s=>s.date===k);
+    const wi = getSessionHistory('wissen').some(s=>s.date===k);
+    const la = getSessionHistory('sprachen').some(s=>s.date===k);
+    const count = (sp?1:0)+(wi?1:0)+(la?1:0);
+    const lvl = count===0?'':count===1?'l1':count===2?'l2':'l3';
+    const isToday = k===today;
+    cells.push(`<div class="hm-cell ${lvl} ${isToday?'today':''}" title="${k}: ${count}/3 Routinen"></div>`);
+  }
+  el.innerHTML = cells.join('');
 }
 
-function confirmDone(section){
-  const s=ld();const today=getDay(s);const dow=new Date().getDay();
-  if(section==='sport'){today.sport.done=true;today.sport.type=today.sport.subtype||STYPE[dow]||null;}
-  else if(section==='dehnen')today.dehnen.done=true;
-  else if(section==='wissen')today.wissen.done=true;
-  else if(section==='sprachen')today.sprachen.done=true;
-  sv(s);toast(MOTIV[Math.floor(Math.random()*MOTIV.length)]);
-  renderHeute();renderTopBar();
+function renderGoalBars() {
+  const el = document.getElementById('goals-bars');
+  if(!el) return;
+  const p = prof()||{};
+  const s = ld();
+  const totalSportSessions = getSessionHistory('sport').length;
+  const totalWissenSessions = getSessionHistory('wissen').length;
+  const totalLangSessions = getSessionHistory('sprachen').length;
+  const topicsDone = new Set(getSessionHistory('wissen').filter(s=>s.completed).map(s=>s.topicIdx)).size;
+
+  const goals = [
+    {label:'Sport-Sessions (Ziel: 100)',color:'var(--sp)',val:Math.min(100,totalSportSessions),max:100},
+    {label:'Lerntage (Ziel: 60)',color:'var(--wi)',val:Math.min(100,Math.round(totalWissenSessions/60*100)),max:100},
+    {label:'Wissensthemen ('+topicsDone+'/30)',color:'var(--wi)',val:Math.round(topicsDone/30*100),max:100},
+    {label:'Sprach-Sessions (Ziel: 100)',color:'var(--la)',val:Math.min(100,totalLangSessions),max:100},
+  ];
+
+  el.innerHTML = goals.map(g=>`
+    <div class="goal-row">
+      <div class="goal-label"><span>${g.label}</span><span>${g.val}%</span></div>
+      <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:${g.val}%;background:${g.color}"></div></div>
+    </div>`).join('');
 }
-</script></body></html>
+
+function openRulesEditor() {
+  const s = ld();
+  const rules = getRules(s);
+  const overlay = document.getElementById('modal-overlay');
+  const title = document.getElementById('modal-title');
+  const body = document.getElementById('modal-body');
+  const saveBtn = document.getElementById('modal-save');
+  overlay.style.display = 'flex';
+  title.textContent = 'Regeln bearbeiten';
+  body.innerHTML = rules.map((r,i)=>`
+    <div class="log-field" style="margin-bottom:.5rem">
+      <input type="text" id="rule-edit-${i}" value="${escapeHtml(r.text)}" style="font-size:12px">
+    </div>`).join('')+
+    `<button onclick="addRuleField()" style="font-size:11px;padding:5px 10px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf2);cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:4px;color:var(--tx)">+ Regel hinzufügen</button>
+    <div id="extra-rules"></div>`;
+  saveBtn.onclick = () => {
+    const updated = [];
+    rules.forEach((_,i) => {
+      const inp = document.getElementById('rule-edit-'+i);
+      if(inp && inp.value.trim()) updated.push({text:inp.value.trim(),active:true});
+    });
+    // Check extra rules
+    let j=0; let extra;
+    while((extra=document.getElementById('rule-extra-'+j))) {
+      if(extra.value.trim()) updated.push({text:extra.value.trim(),active:true});
+      j++;
+    }
+    s._rules = updated; sv(s);
+    closeModal(); renderRules(); toast('Regeln gespeichert ✓');
+  };
+}
+
+let extraRuleCount = 0;
+function addRuleField() {
+  const container = document.getElementById('extra-rules');
+  if(!container) return;
+  const div = document.createElement('div');
+  div.className = 'log-field';
+  div.style.marginBottom = '.5rem';
+  div.style.marginTop = '.5rem';
+  div.innerHTML = `<input type="text" id="rule-extra-${extraRuleCount}" placeholder="Neue Regel..." style="font-size:12px">`;
+  container.appendChild(div);
+  extraRuleCount++;
+}
+
+
+// ══════════════════════════════════════════════
+// CALENDAR
+// ══════════════════════════════════════════════
+let calWeekOffset = 0;
+
+function getWeekStart(offset) {
+  const now = new Date();
+  const dow = now.getDay();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (dow === 0 ? 6 : dow - 1) + offset * 7);
+  monday.setHours(0,0,0,0);
+  return monday;
+}
+
+function getCalEvents(s) { if(!s._calEvents) s._calEvents=[]; return s._calEvents; }
+
+function addCalEvent(ev) {
+  const s=ld(); if(!s._calEvents) s._calEvents=[];
+  ev.id=Date.now().toString(36); s._calEvents.push(ev); sv(s);
+}
+
+function deleteCalEvent(id) {
+  const s=ld(); s._calEvents=(s._calEvents||[]).filter(e=>e.id!==id); sv(s); renderCal();
+}
+
+function getWeekGoals(s,wk) { if(!s._weekGoals) s._weekGoals={}; return s._weekGoals[wk]||null; }
+function weekKey2(ws) { return DK(ws); }
+
+const HOURS=[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
+const DAYS_CAL=['Mo','Di','Mi','Do','Fr','Sa','So'];
+
+
+function makeSessionEv(sec,date,e){
+  const icons={sport:'🏋',wissen:'📖',sprachen:'🗣'};
+  const labels={sport:e.type||'Sport',wissen:e.type||'Wissen',sprachen:e.type||'Sprachen'};
+  const intCls=e.intensity?'int-'+e.intensity:'';
+  const label=labels[sec];
+  const intBadge=e.intensity?'<span class="ev-int">'+e.intensity.toUpperCase()+'</span>':'';
+  return '<div class="cal-event ev-'+sec+' '+intCls+'" data-sec="'+sec+'" data-date="'+date+'" data-type="'+escHtml(label)+'" data-int="'+(e.intensity||'')+'" data-details="'+escHtml(e.details||'')+'">'+icons[sec]+' '+escHtml(label)+intBadge+'</div>';
+}
+function makeCustomEv(e){
+  const icon=e.type==='milestone'?'🏆':'📌';
+  return '<div class="cal-event '+(e.type==='milestone'?'ev-milestone':'ev-custom')+'" data-evid="'+e.id+'">'+icon+' '+escHtml(e.title)+'</div>';
+}
+
+function renderCal() {
+  const s=ld();
+  const weekStart=getWeekStart(calWeekOffset);
+  const days=[];
+  for(let i=0;i<7;i++){const d=new Date(weekStart);d.setDate(weekStart.getDate()+i);days.push(d);}
+  const today=new Date();today.setHours(0,0,0,0);
+  const todayStr=DK(today);
+
+  const titleEl=document.getElementById('cal-week-title');
+  if(titleEl) titleEl.textContent=weekStart.toLocaleDateString('de-DE',{day:'numeric',month:'long'})+' – '+days[6].toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'});
+
+  const header=document.getElementById('cal-header');
+  if(header) header.innerHTML='<div class="week-hcell"></div>'+days.map((d,i)=>{
+    const isToday=DK(d)===todayStr;
+    return '<div class="week-hcell '+(isToday?'today-col':'')+'"><span class="day-num '+(isToday?'today-num':'')+'">'+(d.getDate())+'</span>'+DAYS_CAL[i]+'</div>';
+  }).join('');
+
+  const spAll=getSessionHistory('sport');
+  const wiAll=getSessionHistory('wissen');
+  const laAll=getSessionHistory('sprachen');
+  const calEvs=getCalEvents(s).filter(e=>days.some(d=>DK(d)===e.date));
+
+  const body=document.getElementById('cal-body');
+  if(!body) return;
+  body.innerHTML=HOURS.map(hour=>{
+    const cells=days.map((d,di)=>{
+      const dk2=DK(d);const isToday=dk2===todayStr;
+      let evHtml='';
+      if(hour===8){
+        spAll.filter(e=>e.date===dk2).forEach(e=>{ evHtml+=makeSessionEv('sport',dk2,e); });
+        wiAll.filter(e=>e.date===dk2).forEach(e=>{ evHtml+=makeSessionEv('wissen',dk2,e); });
+        laAll.filter(e=>e.date===dk2).forEach(e=>{ evHtml+=makeSessionEv('sprachen',dk2,e); });
+      }
+      calEvs.filter(e=>e.date===dk2&&e.hour===hour).forEach(e=>{ evHtml+=makeCustomEv(e); });
+      return '<div class="day-cell '+(isToday?'today-col':'')+'" data-date="'+dk2+'" data-hour="'+hour+'">'+evHtml+'<div class="add-event-hint">+</div></div>';
+    }).join('');
+    return '<div class="time-row"><div class="time-label">'+hour+':00</div>'+cells+'</div>';
+  }).join('');
+
+  renderWeekGoals(s, weekKey2(weekStart));
+
+  // Attach click handlers via delegation (avoids innerHTML listener loss)
+  setTimeout(()=>{
+    const bodyEl=document.getElementById('cal-body');
+    if(!bodyEl) return;
+    bodyEl.onclick=function(e){
+      // Session event
+      const sessEl=e.target.closest('[data-sec]');
+      if(sessEl){
+        e.stopPropagation();
+        showEvDetail(sessEl.dataset.sec,sessEl.dataset.date,sessEl.dataset.type,sessEl.dataset.int,sessEl.dataset.details);
+        return;
+      }
+      // Custom event
+      const custEl=e.target.closest('[data-evid]');
+      if(custEl){
+        e.stopPropagation();
+        showCustomEvDetail(custEl.dataset.evid);
+        return;
+      }
+      // Day cell — open add event
+      const cellEl=e.target.closest('[data-date][data-hour]');
+      if(cellEl){
+        openAddEvent(cellEl.dataset.date, parseInt(cellEl.dataset.hour));
+      }
+    };
+  },0);
+}
+
+function escHtml(t){return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+function renderWeekGoals(s,wk){
+  const goals=getWeekGoals(s,wk);const el=document.getElementById('week-goals-list');if(!el)return;
+  if(!goals){el.innerHTML='<div style="font-size:12px;color:var(--tx3)">Klicke auf "KI generieren" für Wochenziele.</div>';return;}
+  el.innerHTML=goals.map(g=>'<div class="wg-item"><div class="wg-dot wg-dot-'+(g.type||'ms')+'"></div><span>'+escHtml(g.text)+'</span></div>').join('');
+}
+
+async function generateWeekGoals(){
+  const s=ld();const weekStart=getWeekStart(calWeekOffset);const wk=weekKey2(weekStart);
+  const p=prof()||{};const now=new Date();
+  const btn=document.querySelector('.wg-gen-btn');
+  if(btn){btn.textContent='⏳...';btn.disabled=true;}
+  const ss=streak('sport'),ws=streak('wissen'),ls=streak('sprachen');
+  const spLast=getSessionHistory('sport').slice(-5).map(s=>s.date+' '+s.type+(s.intensity?' ['+s.intensity+']':'')).join(', ')||'keine';
+  const wiLast=getSessionHistory('wissen').slice(-3).map(s=>s.date+' '+s.type).join(', ')||'keine';
+  const laLast=getSessionHistory('sprachen').slice(-3).map(s=>s.date+' '+s.type).join(', ')||'keine';
+  const prompt='Coach. Woche ab '+weekStart.toLocaleDateString('de-DE',{day:'numeric',month:'long'})+'. Sport-Level '+p.lv+', PU '+p.pu+', Laufziel '+p.rg+'km, Ziel: '+p.sg+'. Sprachen: ES '+p.esl+'/FR '+p.frl+'/SV '+p.svl+'. Streaks: Sport '+ss+'/Wissen '+ws+'/Sprachen '+ls+'. Letzte Sessions: Sport: '+spLast+', Wissen: '+wiLast+', Sprachen: '+laLast+'. Erstelle 6–8 konkrete Wochenziele + 1–2 Meilensteine. Nur JSON kein Markdown: [{"text":"...","type":"sp|wi|la|ms"}]';
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});
+    const d=await r.json();const goals=JSON.parse(d.content[0].text.replace(/```json|```/g,'').trim());
+    if(!s._weekGoals)s._weekGoals={};s._weekGoals[wk]=goals;sv(s);renderWeekGoals(s,wk);toast('Wochenziele generiert ✓');
+  }catch(e){toast('Fehler — nochmal versuchen');}
+  if(btn){btn.textContent='✦ KI generieren';btn.disabled=false;}
+}
+
+function openAddEvent(dateStr,hour){
+  const overlay=document.getElementById('modal-overlay');
+  const title=document.getElementById('modal-title');
+  const body=document.getElementById('modal-body');
+  const saveBtn=document.getElementById('modal-save');
+  const d=new Date(dateStr);
+  title.textContent='Termin — '+d.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'});
+  overlay.style.display='flex';
+  body.innerHTML='<div class="log-field"><label>Titel</label><input type="text" id="ev-title" placeholder="z.B. Arzttermin, Meeting..."></div>'+
+    '<div class="log-field"><label>Uhrzeit</label><select id="ev-hour">'+Array.from({length:18},(_,i)=>i+6).map(h=>'<option value="'+h+'" '+(h===hour?'selected':'')+'>'+h+':00</option>').join('')+'</select></div>'+
+    '<div class="log-field"><label>Art</label><select id="ev-type"><option value="custom">📌 Eigener Termin</option><option value="milestone">🏆 Meilenstein</option></select></div>'+
+    '<div class="log-field"><label>Notiz (optional)</label><textarea id="ev-notes" placeholder="Details..."></textarea></div>';
+  saveBtn.onclick=()=>{
+    const t=document.getElementById('ev-title').value.trim();if(!t)return;
+    addCalEvent({date:dateStr,hour:parseInt(document.getElementById('ev-hour').value),title:t,type:document.getElementById('ev-type').value,notes:document.getElementById('ev-notes').value});
+    closeModal();renderCal();toast('Termin gespeichert ✓');
+  };
+}
+
+function showEvDetail(sec,date,type,intensity,details){
+  const overlay=document.getElementById('modal-overlay');
+  const title=document.getElementById('modal-title');
+  const body=document.getElementById('modal-body');
+  const saveBtn=document.getElementById('modal-save');
+  const icon=sec==='sport'?'🏋️':sec==='wissen'?'📖':'🗣';
+  const d=new Date(date);
+  title.textContent=icon+' '+d.toLocaleDateString('de-DE',{weekday:'long',day:'numeric',month:'long'});
+  body.innerHTML='<div style="font-size:13px;margin-bottom:.5rem"><strong>'+type+'</strong>'+(intensity?' · '+intensity.toUpperCase():'')+' </div>'+(details?'<div style="font-size:12px;color:var(--tx2)">'+details+'</div>':'')+'<div style="font-size:11px;color:var(--tx3);margin-top:.5rem">Automatisch vom Coach eingetragen</div>';
+  saveBtn.textContent='Schließen';saveBtn.onclick=closeModal;overlay.style.display='flex';
+}
+
+function showCustomEvDetail(id){
+  const s=ld();const ev=(s._calEvents||[]).find(e=>e.id===id);if(!ev)return;
+  const overlay=document.getElementById('modal-overlay');
+  const title=document.getElementById('modal-title');
+  const body=document.getElementById('modal-body');
+  const saveBtn=document.getElementById('modal-save');
+  title.textContent=ev.type==='milestone'?'🏆 Meilenstein':'📌 Termin';
+  body.innerHTML='<div style="font-size:13px;font-weight:500;margin-bottom:.5rem">'+escHtml(ev.title)+'</div>'+
+    '<div style="font-size:12px;color:var(--tx3);margin-bottom:.75rem">'+ev.date+' · '+ev.hour+':00 Uhr</div>'+
+    (ev.notes?'<div style="font-size:12px;color:var(--tx2)">'+escHtml(ev.notes)+'</div>':'')+
+    '<div id="del-ev-btn" style="margin-top:.875rem"><button style="padding:7px 14px;border-radius:var(--rs);border:1px solid #C0392B;background:#FDE8E8;color:#7A1A1A;font-size:12px;cursor:pointer;font-family:DM Sans,sans-serif" id="do-delete-btn">Löschen</button></div>';
+  setTimeout(()=>{const b=document.getElementById('do-delete-btn');if(b)b.onclick=function(){deleteCalEvent(ev.id);closeModal();};},10);
+  saveBtn.textContent='Schließen';saveBtn.onclick=closeModal;overlay.style.display='flex';
+}
+
+function calPrevWeek(){calWeekOffset--;renderCal();}
+function calNextWeek(){calWeekOffset++;renderCal();}
+function calThisWeek(){calWeekOffset=0;renderCal();}
+
+function openCal(){
+  document.querySelectorAll('.page,.chat-page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-cal').classList.add('on');
+  document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('on'));
+  const btn=document.getElementById('btn-cal');if(btn)btn.classList.add('on');
+  renderCal();
+}
+
+
+function openMot() {
+  document.querySelectorAll('.page,.chat-page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-mot').classList.add('on');
+  document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('btn-mot').classList.add('on');
+  renderMotPage();
+}
+
+function renderMotPage() {
+  const s = ld();
+  generateImpulse(false);
+  renderStreakCards();
+  renderRules();
+  renderHeatmap();
+  renderGoalBars();
+}
+
+// ── init ──
+function initApp(){
+  renderHome();
+}
+function init(){
+  const p=prof();
+  if(p){document.getElementById('ob').style.display='none';document.getElementById('app').style.display='block';initApp();}
+  else{od.esl='A2';od.frl='A1';od.svl='B1';od.traindays='Mo–Fr (Wochenende frei)';}
+}
+init();
+</script>
+</body>
+</html>

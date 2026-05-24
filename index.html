@@ -8,8 +8,33 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Routine Coach">
 <meta name="theme-color" content="#18170F">
-<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiB2aWV3Qm94PSIwIDAgMTgwIDE4MCI+CiAgPHJlY3Qgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxODAiIHJ4PSI0MCIgZmlsbD0iIzE4MTcwRiIvPgogIDxjaXJjbGUgY3g9IjkwIiBjeT0iOTAiIHI9IjU4IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjUiIG9wYWNpdHk9IjAuMTUiLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIzOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI1IiBvcGFjaXR5PSIwLjQiLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI1IiBvcGFjaXR5PSIwLjciLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSI3IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiB2aWV3Qm94PSIwIDAgMTgwIDE4MCI+CiAgPHJlY3Qgd2lkdGg9IjE4MCIgaGVpZ2h0PSIxODAiIHJ4PSI0MCIgZmlsbD0iIzE4MTcwRiIvPgogIDxjaXJjbGUgY3g9IjkwIiBjeT0iOTAiIHI9IjU4IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjUiIG9wYWNpdHk9IjAuMTUiLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIzOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI1IiBvcGFjaXR5PSIwLjQiLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIxOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI1IiBvcGFjaXR5PSIwLjciLz4KICA8Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSI3IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=">
+<link rel="apple-touch-icon" id="touch-icon" href="">
+<script>
+(function(){
+  var c=document.createElement('canvas');c.width=180;c.height=180;
+  var ctx=c.getContext('2d');
+  // Rounded rect background
+  ctx.fillStyle='#18170F';
+  var r=40,w=180,h=180;
+  ctx.beginPath();ctx.moveTo(r,0);ctx.lineTo(w-r,0);ctx.quadraticCurveTo(w,0,w,r);
+  ctx.lineTo(w,h-r);ctx.quadraticCurveTo(w,h,w-r,h);ctx.lineTo(r,h);
+  ctx.quadraticCurveTo(0,h,0,h-r);ctx.lineTo(0,r);ctx.quadraticCurveTo(0,0,r,0);
+  ctx.closePath();ctx.fill();
+  // Rings
+  ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=6;
+  ctx.beginPath();ctx.arc(90,90,58,0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,0.4)';ctx.lineWidth=6;
+  ctx.beginPath();ctx.arc(90,90,38,0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,0.7)';ctx.lineWidth=6;
+  ctx.beginPath();ctx.arc(90,90,18,0,Math.PI*2);ctx.stroke();
+  // Center dot
+  ctx.fillStyle='white';
+  ctx.beginPath();ctx.arc(90,90,7,0,Math.PI*2);ctx.fill();
+  // Set as icon
+  var el=document.getElementById('touch-icon');
+  if(el)el.href=c.toDataURL('image/png');
+})();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -281,6 +306,56 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .apikey-modal input{width:100%;padding:9px 12px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--bg);color:var(--tx);font-family:'DM Mono',monospace;font-size:12px;margin-bottom:.75rem}
 .apikey-modal .save-key-btn{width:100%;padding:10px;border-radius:var(--rs);border:none;background:var(--tx);color:#fff;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
 
+
+/* ── TAGEBUCH ── */
+.diary-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem}
+.diary-date-nav{display:flex;align-items:center;gap:8px}
+.diary-date-nav button{padding:5px 11px;border-radius:20px;border:.5px solid var(--bd2);background:var(--sf);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--tx)}
+.diary-date-nav button:hover{background:var(--sf2)}
+.diary-date-nav button.today-btn{background:var(--tx);color:#fff;border-color:var(--tx)}
+.diary-date-title{font-size:14px;font-weight:500;min-width:160px;text-align:center}
+
+.diary-mood{display:flex;gap:6px;margin-bottom:.875rem}
+.mood-btn{font-size:22px;cursor:pointer;padding:6px 10px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--sf);transition:all .15s;line-height:1}
+.mood-btn:hover{border-color:var(--bd2);transform:scale(1.1)}
+.mood-btn.selected{border:2px solid var(--tx);background:var(--sf2)}
+.mood-label{font-size:11px;color:var(--tx3);align-self:center;font-family:'DM Mono',monospace}
+
+.diary-entry-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;margin-bottom:.875rem}
+.diary-section-label{font-size:10px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;font-family:'DM Mono',monospace;padding:.625rem 1rem .375rem;border-bottom:.5px solid var(--bd)}
+.diary-textarea{width:100%;padding:.875rem 1rem;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--tx);resize:none;line-height:1.7;min-height:120px;outline:none}
+.diary-textarea::placeholder{color:var(--tx3)}
+.diary-textarea.small{min-height:70px}
+.diary-save-row{display:flex;align-items:center;justify-content:space-between;padding:.625rem 1rem;border-top:.5px solid var(--bd);background:var(--bg)}
+.diary-save-btn{padding:7px 16px;border-radius:var(--rs);border:none;background:var(--tx);color:#fff;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.diary-save-btn:hover{background:#333}
+.diary-saved-hint{font-size:11px;color:var(--sp-dk);font-family:'DM Mono',monospace;opacity:0;transition:opacity .4s}
+.diary-saved-hint.show{opacity:1}
+
+.diary-tags{display:flex;flex-wrap:wrap;gap:6px;padding:.625rem 1rem;border-bottom:.5px solid var(--bd)}
+.diary-tag{padding:4px 11px;border-radius:20px;border:.5px solid var(--bd2);background:var(--sf);font-size:11px;cursor:pointer;color:var(--tx2);user-select:none;transition:all .15s}
+.diary-tag.on{background:var(--tx);color:#fff;border-color:var(--tx)}
+.diary-tag-label{font-size:10px;color:var(--tx3);font-family:'DM Mono',monospace;padding:.375rem 1rem 0}
+
+.diary-past-entries{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;margin-bottom:.875rem}
+.diary-past-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;cursor:pointer;user-select:none}
+.diary-past-title{font-size:12px;font-weight:500}
+.diary-past-list{border-top:.5px solid var(--bd)}
+.diary-past-item{padding:.75rem 1rem;border-bottom:.5px solid var(--bd);cursor:pointer;transition:background .15s}
+.diary-past-item:last-child{border-bottom:none}
+.diary-past-item:hover{background:var(--sf2)}
+.diary-past-date{font-size:11px;font-family:'DM Mono',monospace;color:var(--tx3);margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.diary-past-preview{font-size:12px;color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.diary-past-tags{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
+.diary-mini-tag{font-size:9px;padding:1px 6px;border-radius:10px;background:var(--sf2);color:var(--tx3);font-family:'DM Mono',monospace}
+
+.diary-ai-reflect{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:.875rem 1rem;margin-bottom:.875rem}
+.dar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.dar-title{font-size:11px;font-weight:500;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em;font-family:'DM Mono',monospace}
+.dar-gen-btn{font-size:11px;padding:4px 10px;border-radius:20px;border:.5px solid var(--bd2);background:var(--sf2);color:var(--tx2);cursor:pointer;font-family:'DM Sans',sans-serif}
+.dar-gen-btn:hover{background:var(--sf3)}
+.dar-content{font-size:13px;color:var(--tx2);line-height:1.7;font-style:italic}
+
 </style>
 </head>
 <body>
@@ -357,6 +432,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
   <!-- BOTTOM NAV -->
   <div style="position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:1px solid var(--bd);display:flex;z-index:50;max-width:640px;margin:0 auto" id="bottom-nav">
     <button class="bnav-btn on" id="btn-home" onclick="goHome()"><span style="font-size:18px">🏠</span><span>Start</span></button>
+    <button class="bnav-btn" id="btn-diary" onclick="openDiary()"><span style="font-size:18px">📓</span><span>Tagebuch</span></button>
     <button class="bnav-btn" id="btn-cal" onclick="openCal()"><span style="font-size:18px">📅</span><span>Kalender</span></button>
     <button class="bnav-btn" id="btn-mot" onclick="openMot()"><span style="font-size:18px">⭐</span><span>Motivation</span></button>
   </div>
@@ -428,6 +504,69 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
       <button class="send-btn" id="send-sprachen" onclick="sendMsg('sprachen')">↑</button>
     </div>
   </div>
+
+  <!-- TAGEBUCH PAGE -->
+  <div id="pg-diary" class="page">
+    <div class="diary-toolbar">
+      <div class="diary-date-nav">
+        <button onclick="diaryPrev()">←</button>
+        <div class="diary-date-title" id="diary-date-title"></div>
+        <button onclick="diaryNext()">→</button>
+      </div>
+      <button class="today-btn" onclick="diaryToday()" style="padding:5px 11px;border-radius:20px;border:.5px solid var(--bd2);background:var(--tx);color:#fff;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">Heute</button>
+    </div>
+
+    <div class="diary-entry-box">
+      <div class="diary-section-label">Wie fühlst du dich heute?</div>
+      <div class="diary-mood" style="padding:.75rem 1rem">
+        <button class="mood-btn" data-mood="😊" onclick="selectMood('😊')">😊</button>
+        <button class="mood-btn" data-mood="😌" onclick="selectMood('😌')">😌</button>
+        <button class="mood-btn" data-mood="😐" onclick="selectMood('😐')">😐</button>
+        <button class="mood-btn" data-mood="😔" onclick="selectMood('😔')">😔</button>
+        <button class="mood-btn" data-mood="😤" onclick="selectMood('😤')">😤</button>
+        <button class="mood-btn" data-mood="😴" onclick="selectMood('😴')">😴</button>
+        <span class="mood-label" id="mood-label"></span>
+      </div>
+      <div class="diary-section-label">Was war heute gut?</div>
+      <textarea class="diary-textarea small" id="diary-good" placeholder="Erfolge, schöne Momente, Dinge für die ich dankbar bin..."></textarea>
+      <div class="diary-section-label">Was bewegt mich gerade?</div>
+      <textarea class="diary-textarea" id="diary-main" placeholder="Gedanken, Gefühle, Erlebnisse — schreib einfach drauflos..."></textarea>
+      <div class="diary-section-label">Was nehme ich mir für morgen vor?</div>
+      <textarea class="diary-textarea small" id="diary-tomorrow" placeholder="Eine Intention, ein Ziel, eine kleine Veränderung..."></textarea>
+      <div class="diary-tag-label">Themen</div>
+      <div class="diary-tags" id="diary-tags">
+        <span class="diary-tag" onclick="toggleTag(this,'Sport')">Sport</span>
+        <span class="diary-tag" onclick="toggleTag(this,'Arbeit')">Arbeit</span>
+        <span class="diary-tag" onclick="toggleTag(this,'Familie')">Familie</span>
+        <span class="diary-tag" onclick="toggleTag(this,'Lernen')">Lernen</span>
+        <span class="diary-tag" onclick="toggleTag(this,'Gesundheit')">Gesundheit</span>
+        <span class="diary-tag" onclick="toggleTag(this,'Soziales')">Soziales</span>
+        <span class="diary-tag" onclick="toggleTag(this,'Finanzen')">Finanzen</span>
+        <span class="diary-tag" onclick="toggleTag(this,'Reflexion')">Reflexion</span>
+      </div>
+      <div class="diary-save-row">
+        <span class="diary-saved-hint" id="diary-saved-hint">Gespeichert ✓</span>
+        <button class="diary-save-btn" onclick="saveDiaryEntry()">Speichern</button>
+      </div>
+    </div>
+
+    <div class="diary-ai-reflect">
+      <div class="dar-header">
+        <div class="dar-title">✦ KI-Reflexion</div>
+        <button class="dar-gen-btn" onclick="generateReflection()">Generieren</button>
+      </div>
+      <div class="dar-content" id="diary-reflect-content" style="color:var(--tx3);font-size:12px">Schreib einen Eintrag — dann kann der Coach eine persönliche Reflexion dazu generieren.</div>
+    </div>
+
+    <div class="diary-past-entries">
+      <div class="diary-past-header" onclick="togglePastEntries()">
+        <div class="diary-past-title">Frühere Einträge</div>
+        <span id="past-chev" style="color:var(--tx3);font-size:12px">▾</span>
+      </div>
+      <div class="diary-past-list" id="diary-past-list" style="display:none"></div>
+    </div>
+  </div>
+
   <!-- CALENDAR PAGE -->
   <div id="pg-cal" class="page">
     <div class="cal-nav">
@@ -792,7 +931,7 @@ async function sendMsg(sec) {
         'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
-        model:'claude-sonnet-4-5-20251001',
+        model:'claude-3-5-sonnet-20241022',
         max_tokens:1000,
         system: systemPrompt,
         messages: messages
@@ -1415,6 +1554,242 @@ function weekKey2(ws) { return DK(ws); }
 const HOURS=[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
 const DAYS_CAL=['Mo','Di','Mi','Do','Fr','Sa','So'];
 
+
+
+// ══════════════════════════════════════════════
+// TAGEBUCH
+// ══════════════════════════════════════════════
+let diaryOffset = 0; // 0 = today
+
+function getDiaryKey(offset) {
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+  return DK(d);
+}
+
+function getDiaryEntries(s) {
+  if(!s._diary) s._diary = {};
+  return s._diary;
+}
+
+function getDiaryEntry(s, key) {
+  const entries = getDiaryEntries(s);
+  return entries[key] || { mood:'', good:'', main:'', tomorrow:'', tags:[], reflection:'' };
+}
+
+function saveDiaryEntryData(key, data) {
+  const s = ld();
+  if(!s._diary) s._diary = {};
+  s._diary[key] = { ...getDiaryEntry(s, key), ...data, updatedAt: new Date().toISOString() };
+  sv(s);
+}
+
+function renderDiary() {
+  const s = ld();
+  const key = getDiaryKey(diaryOffset);
+  const entry = getDiaryEntry(s, key);
+  const d = new Date();
+  d.setDate(d.getDate() + diaryOffset);
+
+  // Date title
+  const titleEl = document.getElementById('diary-date-title');
+  if(titleEl) {
+    const label = diaryOffset === 0 ? 'Heute' : diaryOffset === -1 ? 'Gestern' : diaryOffset === 1 ? 'Morgen' : '';
+    titleEl.textContent = (label ? label + ' · ' : '') + d.toLocaleDateString('de-DE', {weekday:'long', day:'numeric', month:'long'});
+  }
+
+  // Mood
+  document.querySelectorAll('.mood-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.mood === entry.mood);
+  });
+  const moodLabels = {'😊':'Gut','😌':'Entspannt','😐':'Neutral','😔':'Nicht so gut','😤':'Gestresst','😴':'Müde'};
+  const moodLbl = document.getElementById('mood-label');
+  if(moodLbl) moodLbl.textContent = entry.mood ? moodLabels[entry.mood]||'' : '';
+
+  // Text fields
+  const good = document.getElementById('diary-good');
+  const main = document.getElementById('diary-main');
+  const tomorrow = document.getElementById('diary-tomorrow');
+  if(good) good.value = entry.good || '';
+  if(main) main.value = entry.main || '';
+  if(tomorrow) tomorrow.value = entry.tomorrow || '';
+
+  // Tags
+  document.querySelectorAll('.diary-tag').forEach(t => {
+    t.classList.toggle('on', (entry.tags||[]).includes(t.textContent));
+  });
+
+  // Reflection
+  const ref = document.getElementById('diary-reflect-content');
+  if(ref) {
+    if(entry.reflection) {
+      ref.style.color = 'var(--tx2)';
+      ref.style.fontSize = '13px';
+      ref.textContent = entry.reflection;
+    } else {
+      ref.style.color = 'var(--tx3)';
+      ref.style.fontSize = '12px';
+      ref.textContent = 'Schreib einen Eintrag — dann kann der Coach eine persönliche Reflexion dazu generieren.';
+    }
+  }
+
+  // Past entries
+  renderPastEntries(s);
+
+  // Autosave on text change
+  ['diary-good','diary-main','diary-tomorrow'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.oninput = () => autoSaveDiary();
+  });
+}
+
+let autoSaveTimer = null;
+function autoSaveDiary() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    saveDiaryEntry(true);
+  }, 1500);
+}
+
+function saveDiaryEntry(silent) {
+  const key = getDiaryKey(diaryOffset);
+  const good = document.getElementById('diary-good');
+  const main = document.getElementById('diary-main');
+  const tomorrow = document.getElementById('diary-tomorrow');
+  const tags = [...document.querySelectorAll('.diary-tag.on')].map(t => t.textContent);
+  const s = ld();
+  const existing = getDiaryEntry(s, key);
+  saveDiaryEntryData(key, {
+    good: good ? good.value : existing.good,
+    main: main ? main.value : existing.main,
+    tomorrow: tomorrow ? tomorrow.value : existing.tomorrow,
+    tags,
+    mood: existing.mood
+  });
+  if(!silent) {
+    const hint = document.getElementById('diary-saved-hint');
+    if(hint) { hint.classList.add('show'); setTimeout(() => hint.classList.remove('show'), 2000); }
+  }
+}
+
+function selectMood(mood) {
+  const key = getDiaryKey(diaryOffset);
+  const s = ld();
+  const existing = getDiaryEntry(s, key);
+  saveDiaryEntryData(key, { ...existing, mood });
+  renderDiary();
+}
+
+function toggleTag(el) {
+  el.classList.toggle('on');
+  autoSaveDiary();
+}
+
+function renderPastEntries(s) {
+  const el = document.getElementById('diary-past-list');
+  if(!el) return;
+  const entries = getDiaryEntries(s);
+  const keys = Object.keys(entries).sort().reverse().filter(k => k !== getDiaryKey(diaryOffset));
+  if(!keys.length) { el.innerHTML = '<div style="padding:.875rem 1rem;font-size:12px;color:var(--tx3)">Noch keine früheren Einträge.</div>'; return; }
+  const moodLabels = {'😊':'Gut','😌':'Entspannt','😐':'Neutral','😔':'Nicht so gut','😤':'Gestresst','😴':'Müde'};
+  el.innerHTML = keys.slice(0,20).map(k => {
+    const e = entries[k];
+    const d = new Date(k);
+    const preview = (e.main || e.good || '').slice(0,60) + ((e.main||e.good||'').length > 60 ? '…' : '');
+    const dayDiff = Math.round((new Date(getDiaryKey(0)) - d) / (1000*60*60*24));
+    const label = dayDiff===1?'Gestern':dayDiff===0?'Heute':DAYS_DE[d.getDay()]+', '+d.toLocaleDateString('de-DE',{day:'numeric',month:'short'});
+    return `<div class="diary-past-item" onclick="jumpToDiaryDate('${k}')">
+      <div class="diary-past-date">
+        ${e.mood||''}
+        <span>${label}</span>
+      </div>
+      ${preview ? '<div class="diary-past-preview">'+escapeHtml(preview)+'</div>' : ''}
+      ${(e.tags||[]).length ? '<div class="diary-past-tags">'+e.tags.map(t=>'<span class="diary-mini-tag">'+t+'</span>').join('')+'</div>' : ''}
+    </div>`;
+  }).join('');
+}
+
+function jumpToDiaryDate(dateStr) {
+  const today = new Date(getDiaryKey(0));
+  const target = new Date(dateStr);
+  diaryOffset = Math.round((target - today) / (1000*60*60*24));
+  renderDiary();
+  window.scrollTo(0,0);
+}
+
+function togglePastEntries() {
+  const el = document.getElementById('diary-past-list');
+  const chev = document.getElementById('past-chev');
+  if(!el) return;
+  const open = el.style.display !== 'none';
+  el.style.display = open ? 'none' : 'block';
+  if(chev) chev.textContent = open ? '▾' : '▴';
+  if(!open) renderPastEntries(ld());
+}
+
+async function generateReflection() {
+  const key = getDiaryKey(diaryOffset);
+  const s = ld();
+  const entry = getDiaryEntry(s, key);
+  const apiKey = getApiKey();
+  if(!apiKey) { checkApiKey(); return; }
+
+  const hasContent = entry.good || entry.main || entry.tomorrow;
+  if(!hasContent) { toast('Schreib zuerst einen Eintrag'); return; }
+
+  const ref = document.getElementById('diary-reflect-content');
+  const btn = document.querySelector('.dar-gen-btn');
+  if(ref) { ref.style.color='var(--tx3)'; ref.textContent='Reflexion wird generiert...'; }
+  if(btn) { btn.textContent='⏳'; btn.disabled=true; }
+
+  const p = prof()||{};
+  const d = new Date(); d.setDate(d.getDate()+diaryOffset);
+  const ss=streak('sport'), ws=streak('wissen'), ls=streak('sprachen');
+
+  const prompt = `Du bist ein einfühlsamer Life-Coach. Heute ist ${DAYS_DE[d.getDay()]}, ${d.toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'})}.
+
+Tagebucheintrag des Nutzers:
+${entry.mood ? 'Stimmung: '+entry.mood : ''}
+${entry.good ? 'Was war gut: '+entry.good : ''}
+${entry.main ? 'Gedanken: '+entry.main : ''}
+${entry.tomorrow ? 'Morgen: '+entry.tomorrow : ''}
+${(entry.tags||[]).length ? 'Themen: '+(entry.tags||[]).join(', ') : ''}
+
+Aktuelle Streaks: Sport ${ss}, Wissen ${ws}, Sprachen ${ls} Tage.
+
+Schreib eine kurze, persönliche Reflexion (3–4 Sätze). Ehrlich, warm, konkret — keine Floskeln. Gehe auf den Inhalt des Eintrags ein. Auf Deutsch.`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({model:'claude-3-5-sonnet-20241022',max_tokens:400,messages:[{role:'user',content:prompt}]})
+    });
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
+    const data = await resp.json();
+    const text = data.content[0].text;
+    saveDiaryEntryData(key, { ...entry, reflection: text });
+    if(ref) { ref.style.color='var(--tx2)'; ref.style.fontSize='13px'; ref.textContent=text; }
+    toast('Reflexion generiert ✓');
+  } catch(e) {
+    if(ref) { ref.style.color='var(--tx3)'; ref.textContent='Fehler — bitte nochmal versuchen.'; }
+  }
+  if(btn) { btn.textContent='Generieren'; btn.disabled=false; }
+}
+
+function diaryPrev() { diaryOffset--; renderDiary(); window.scrollTo(0,0); }
+function diaryNext() { if(diaryOffset<0){diaryOffset++;renderDiary();window.scrollTo(0,0);} }
+function diaryToday() { diaryOffset=0; renderDiary(); window.scrollTo(0,0); }
+
+function openDiary() {
+  document.querySelectorAll('.page,.chat-page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-diary').classList.add('on');
+  document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('on'));
+  const btn = document.getElementById('btn-diary'); if(btn) btn.classList.add('on');
+  const nav = document.getElementById('bottom-nav'); if(nav) nav.style.display='flex';
+  diaryOffset = 0;
+  renderDiary();
+}
 
 function makeSessionEv(sec,date,e){
   const icons={sport:'🏋',wissen:'📖',sprachen:'🗣'};

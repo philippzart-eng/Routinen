@@ -23,6 +23,7 @@
   --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
   --text:#1A1A1A;--muted:#6B6A65;--hint:#AAA9A3;
   --font:'DM Sans',sans-serif;--serif:'DM Serif Display',serif;
+  --quiz:#2A6B8A;--quiz-l:#E6F4FA;
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
   --tab-h:58px;
@@ -347,6 +348,69 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 .key-row-info{font-size:12px;color:var(--muted);}
 .key-row-info strong{color:var(--text);font-weight:500;display:block;margin-bottom:1px;}
 .key-change-btn{font-size:12px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer;font-family:var(--font);white-space:nowrap;}
+
+/* ── QUIZ ── */
+.quiz-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.quiz-hero{
+  padding:22px 16px 14px;background:var(--surface);
+  border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.quiz-hero-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;}
+.quiz-hero-title{font-size:15px;font-weight:500;}
+.quiz-score-pill{font-size:12px;padding:4px 12px;border-radius:20px;background:var(--quiz-l);color:var(--quiz);font-weight:500;}
+.quiz-cats{display:flex;gap:6px;flex-wrap:wrap;}
+.quiz-cat{
+  font-size:11.5px;padding:5px 12px;border-radius:20px;
+  border:1px solid var(--border);background:var(--bg);color:var(--muted);
+  cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap;
+}
+.quiz-cat.active{background:var(--quiz);color:#fff;border-color:var(--quiz);}
+.quiz-area{padding:14px 14px 24px;}
+.quiz-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;margin-bottom:12px;
+}
+.quiz-question{padding:16px 16px 12px;font-size:15px;font-weight:500;line-height:1.5;color:var(--text);}
+.quiz-meta{padding:0 16px 10px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.quiz-cat-badge{padding:2px 8px;border-radius:10px;background:var(--quiz-l);color:var(--quiz);font-size:11px;}
+.quiz-options{padding:0 12px 12px;display:flex;flex-direction:column;gap:7px;}
+.quiz-opt{
+  padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);
+  background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;
+  text-align:left;cursor:pointer;transition:all .15s;line-height:1.4;
+}
+.quiz-opt:active{transform:scale(.98);}
+.quiz-opt.correct{background:#E1F5EE;border-color:#0F6E56;color:#0F6E56;}
+.quiz-opt.wrong  {background:#FAECE7;border-color:#993C1D;color:#993C1D;}
+.quiz-opt.reveal {background:var(--quiz-l);border-color:var(--quiz);color:var(--quiz);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-explanation{
+  margin:0 12px 12px;padding:10px 13px;border-radius:10px;
+  background:var(--quiz-l);border:1px solid var(--quiz);
+  font-size:13px;line-height:1.6;color:var(--text);display:none;
+}
+.quiz-explanation.show{display:block;}
+.quiz-next-btn{
+  display:block;width:calc(100% - 24px);margin:0 12px 14px;
+  padding:11px;border:none;border-radius:12px;
+  background:var(--quiz);color:#fff;font-family:var(--font);font-size:14px;font-weight:500;
+  cursor:pointer;display:none;
+}
+.quiz-next-btn.show{display:block;}
+.quiz-gen-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:13px;border:none;border-radius:14px;
+  background:var(--quiz);color:#fff;font-family:var(--font);font-size:14px;font-weight:500;
+  cursor:pointer;margin-bottom:14px;
+}
+.quiz-gen-btn:disabled{opacity:.5;cursor:not-allowed;}
+.quiz-loading{text-align:center;padding:32px 20px;color:var(--muted);font-size:13px;}
+.quiz-loading i{font-size:32px;display:block;margin-bottom:8px;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.quiz-streak{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
+.quiz-streak-val{font-weight:500;color:var(--quiz);}
+.quiz-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.7;}
+.quiz-empty i{font-size:40px;display:block;margin-bottom:10px;opacity:.4;}
 </style>
 </head>
 <body>
@@ -524,12 +588,36 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
     </div>
   </div>
 
+
+  <!-- QUIZ PANEL -->
+  <div class="panel" id="panel-quiz">
+    <div class="quiz-hero">
+      <div class="quiz-hero-row">
+        <span class="quiz-hero-title">🧩 Quiz</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="quiz-streak"><i class="ti ti-flame" style="font-size:14px;color:var(--quiz)"></i> Streak: <span class="quiz-streak-val" id="quiz-streak-val">0</span></div>
+          <span class="quiz-score-pill" id="quiz-score-pill">0 / 0 richtig</span>
+        </div>
+      </div>
+      <div class="quiz-cats" id="quiz-cats"></div>
+    </div>
+    <div class="quiz-scroll">
+      <div class="quiz-area" id="quiz-area">
+        <div class="quiz-empty" id="quiz-empty">
+          <i class="ti ti-brain"></i>
+          Wähle eine Kategorie und starte dein Quiz.<br>Claude generiert jedes Mal neue Fragen!
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- BOTTOM TABS -->
   <div class="bottom-tabs">
     <button class="btab active" data-tab="sport" onclick="switchTab('sport')"><i class="ti ti-barbell"></i>Sport</button>
     <button class="btab" data-tab="wissen" onclick="switchTab('wissen')"><i class="ti ti-brain"></i>Wissen</button>
     <button class="btab" data-tab="sprachen" onclick="switchTab('sprachen')"><i class="ti ti-language"></i>Sprachen</button>
     <button class="btab" data-tab="motiv" onclick="switchTab('motiv')"><i class="ti ti-flame"></i>Regeln</button>
+    <button class="btab" data-tab="quiz" onclick="switchTab('quiz')"><i class="ti ti-help-circle"></i>Quiz</button>
     <button class="btab" data-tab="journal" onclick="switchTab('journal')"><i class="ti ti-notebook"></i>Tagebuch</button>
   </div>
 </div>
@@ -714,6 +802,7 @@ function initApp(){
   document.getElementById('je-meta-date').textContent=getTodayISO();
   renderRules();
   renderJournal();
+  initQuiz();
   ['sport','wissen','sprachen'].forEach(c=>{
     updateSub(c);
     if(S[c].profile)updateChip(c);
@@ -992,6 +1081,225 @@ function saveEntry(){
     S.journal.push({id:Date.now()+'',text,mood:selectedMood,created:Date.now()});
   }
   persist();renderJournal();closeEditor();
+}
+
+
+/* ── QUIZ ── */
+const QUIZ_CATS = [
+  {id:'geo',    label:'🌍 Erde & Weltall'},
+  {id:'natur',  label:'🌿 Mensch & Natur'},
+  {id:'wiss',   label:'🔬 Wissenschaft'},
+  {id:'history',label:'📜 Geschichte'},
+  {id:'politik',label:'🏛️ Politik'},
+  {id:'lit',    label:'📖 Literatur'},
+  {id:'kunst',  label:'🎨 Kunst'},
+  {id:'musik',  label:'🎵 Klassik'},
+  {id:'rock',   label:'🎸 Rock & Pop'},
+  {id:'film',   label:'🎬 Film & TV'},
+  {id:'sport',  label:'⚽ Sport'},
+  {id:'allg',   label:'🧠 Allgemein'},
+];
+
+const QUIZ_CAT_PROMPTS = {
+  geo:    'Geografie, Länder, Hauptstädte, Kontinente, Ozeane, Berge, Flüsse, Planeten, Weltall',
+  natur:  'Menschlicher Körper, Tiere, Pflanzen, Biologie, Ökologie, Natur',
+  wiss:   'Wissenschaft, Technik, Physik, Chemie, Erfindungen, Entdecker, Mathematik',
+  history:'Weltgeschichte, Antike, Mittelalter, Neuzeit, Weltkriege, wichtige Persönlichkeiten',
+  politik:'Politik, Demokratie, Weltreligionen, internationale Organisationen, Staatsoberhäupter',
+  lit:    'Literatur, Philosophie, Schriftsteller, berühmte Werke, Mythologie',
+  kunst:  'Kunst, Malerei, Architektur, berühmte Künstler und Werke',
+  musik:  'Klassische Musik, Komponisten, Sinfonien, Opern',
+  rock:   'Rock, Pop, Musik, Bands, Musiker, Schlager, Hits',
+  film:   'Filme, Schauspieler, Regisseure, Oscars, Serien',
+  sport:  'Sport, Weltrekorde, Olympia, Fußball, bekannte Sportler',
+  allg:   'Allgemeinwissen, Sprichwörter, Maßeinheiten, Grammatik, Zahlen und Fakten',
+};
+
+let quizState = {
+  activeCat: null,
+  questions: [],
+  current: 0,
+  score: 0,
+  total: 0,
+  streak: 0,
+  loading: false,
+};
+
+function initQuiz() {
+  const cats = document.getElementById('quiz-cats');
+  cats.innerHTML = '';
+  QUIZ_CATS.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-cat';
+    btn.textContent = c.label;
+    btn.dataset.id = c.id;
+    btn.onclick = () => selectQuizCat(c.id, btn);
+    cats.appendChild(btn);
+  });
+  updateQuizScore();
+  // load saved state
+  if (S.quiz) {
+    quizState.score = S.quiz.score || 0;
+    quizState.total = S.quiz.total || 0;
+    quizState.streak = S.quiz.streak || 0;
+    updateQuizScore();
+  }
+}
+
+function selectQuizCat(id, btn) {
+  document.querySelectorAll('.quiz-cat').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  quizState.activeCat = id;
+  quizState.questions = [];
+  quizState.current = 0;
+  document.getElementById('quiz-area').innerHTML = `
+    <button class="quiz-gen-btn" id="quiz-gen-btn" onclick="generateQuiz()">
+      <i class="ti ti-sparkles"></i> 5 neue Fragen generieren
+    </button>
+    <div class="quiz-empty"><i class="ti ti-help-circle"></i>Klick auf den Button um zu starten!</div>`;
+}
+
+async function generateQuiz() {
+  if (!apiKey) { alert('Bitte zuerst API Key einrichten.'); return; }
+  const cat = quizState.activeCat;
+  if (!cat) return;
+  const btn = document.getElementById('quiz-gen-btn');
+  if (btn) btn.disabled = true;
+
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = `<div class="quiz-loading"><i class="ti ti-loader-2"></i>Generiere neue Fragen…</div>`;
+
+  const prompt = `QUIZ-KATEGORIE: ${QUIZ_CAT_PROMPTS[cat]}
+
+Erstelle 5 Multiple-Choice-Quizfragen zu dieser Kategorie. Themen wie auf taschenhirn.de: konkrete Fakten, Zahlen, Daten, Persönlichkeiten.
+
+Antworte NUR mit diesem exakten JSON-Format (kein Markdown, keine Erklärung):
+[
+  {
+    "q": "Frage hier?",
+    "opts": ["Option A", "Option B", "Option C", "Option D"],
+    "correct": 0,
+    "explanation": "Kurze Erklärung warum die Antwort richtig ist.",
+    "cat": "Unterkategorie z.B. Geografie"
+  }
+]
+
+Regeln: correct = Index (0-3) der richtigen Antwort. Fragen auf Deutsch. Mittelschwer bis schwer. Keine trivialen Fragen. Abwechslungsreich.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 1500,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    if (data.error) { area.innerHTML = `<div class="quiz-empty"><i class="ti ti-alert-circle"></i>Fehler: ${data.error.message}</div>`; return; }
+    const text = data.content[0].text.trim();
+    const clean = text.replace(/```json|```/g, '').trim();
+    const questions = JSON.parse(clean);
+    quizState.questions = questions;
+    quizState.current = 0;
+    renderQuizQuestion();
+  } catch(e) {
+    area.innerHTML = `<div class="quiz-empty"><i class="ti ti-alert-circle"></i>Fehler beim Laden. Bitte erneut versuchen.<br><br><button class="quiz-gen-btn" onclick="generateQuiz()" style="display:inline-flex;width:auto;padding:10px 20px">Nochmal versuchen</button></div>`;
+  }
+}
+
+function renderQuizQuestion() {
+  const area = document.getElementById('quiz-area');
+  const q = quizState.questions[quizState.current];
+  if (!q) { renderQuizDone(); return; }
+
+  const idx = quizState.current;
+  const total = quizState.questions.length;
+
+  area.innerHTML = `
+    <button class="quiz-gen-btn" id="quiz-gen-btn" onclick="generateQuiz()">
+      <i class="ti ti-sparkles"></i> Neue Fragen generieren
+    </button>
+    <div class="quiz-card" id="quiz-card-${idx}">
+      <div class="quiz-question">${q.q}</div>
+      <div class="quiz-meta">
+        <span class="quiz-cat-badge">${q.cat||''}</span>
+        <span>Frage ${idx+1} / ${total}</span>
+      </div>
+      <div class="quiz-options" id="quiz-opts">
+        ${q.opts.map((o,i) => `<button class="quiz-opt" id="qopt-${i}" onclick="answerQuiz(${i})">${o}</button>`).join('')}
+      </div>
+      <div class="quiz-explanation" id="quiz-expl">${q.explanation}</div>
+      <button class="quiz-next-btn" id="quiz-next" onclick="nextQuizQ()">
+        ${idx+1 < total ? 'Nächste Frage →' : 'Ergebnis anzeigen →'}
+      </button>
+    </div>`;
+}
+
+function answerQuiz(chosen) {
+  const q = quizState.questions[quizState.current];
+  const correct = q.correct;
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.disabled = true);
+
+  if (chosen === correct) {
+    opts[chosen].classList.add('correct');
+    quizState.score++;
+    quizState.streak++;
+  } else {
+    opts[chosen].classList.add('wrong');
+    opts[correct].classList.add('reveal');
+    quizState.streak = 0;
+  }
+  quizState.total++;
+  persistQuiz();
+  updateQuizScore();
+
+  document.getElementById('quiz-expl').classList.add('show');
+  document.getElementById('quiz-next').classList.add('show');
+}
+
+function nextQuizQ() {
+  quizState.current++;
+  if (quizState.current >= quizState.questions.length) {
+    renderQuizDone();
+  } else {
+    renderQuizQuestion();
+  }
+}
+
+function renderQuizDone() {
+  const right = quizState.questions.filter((_,i) => {
+    // count from current session — approximation
+    return true;
+  }).length;
+  const area = document.getElementById('quiz-area');
+  const n = quizState.questions.length;
+  area.innerHTML = `
+    <div style="text-align:center;padding:28px 20px;">
+      <div style="font-size:48px;margin-bottom:12px">${quizState.score>=n*0.8?'🏆':quizState.score>=n*0.5?'👍':'💪'}</div>
+      <div style="font-size:20px;font-weight:500;margin-bottom:6px">Quiz beendet!</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:20px">Gesamt: <strong>${quizState.score}/${quizState.total}</strong> richtig · Streak: <strong>${quizState.streak}</strong></div>
+      <button class="quiz-gen-btn" onclick="generateQuiz()" style="max-width:280px;margin:0 auto;">
+        <i class="ti ti-refresh"></i> Neue Runde starten
+      </button>
+    </div>`;
+}
+
+function updateQuizScore() {
+  document.getElementById('quiz-score-pill').textContent = quizState.score + ' / ' + quizState.total + ' richtig';
+  document.getElementById('quiz-streak-val').textContent = quizState.streak;
+}
+
+function persistQuiz() {
+  S.quiz = { score: quizState.score, total: quizState.total, streak: quizState.streak };
+  persist();
 }
 
 /* ── BOOT ── */

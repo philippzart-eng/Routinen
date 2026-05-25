@@ -615,8 +615,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
         <span class="quiz-count-label">Fragen:</span>
         <button class="quiz-count-btn active" data-n="5" onclick="setQuizCount(5,this)">5</button>
         <button class="quiz-count-btn" data-n="10" onclick="setQuizCount(10,this)">10</button>
-        <button class="quiz-count-btn" data-n="15" onclick="setQuizCount(15,this)">15</button>
         <button class="quiz-count-btn" data-n="20" onclick="setQuizCount(20,this)">20</button>
+        <button class="quiz-count-btn" data-n="30" onclick="setQuizCount(30,this)">30</button>
+        <button class="quiz-count-btn" data-n="50" onclick="setQuizCount(50,this)">50</button>
       </div>
     </div>
     <div class="quiz-scroll">
@@ -1170,6 +1171,9 @@ function setQuizCount(n, btn) {
   quizState.count = n;
   document.querySelectorAll('.quiz-count-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  const genBtn = document.getElementById('quiz-gen-btn');
+  if (genBtn) genBtn.innerHTML = `<i class="ti ti-sparkles"></i> ${n} neue Fragen generieren`;
+  if (quizState.activeCat) renderQuizStart();
 }
 function selectQuizCat(id, btn) {
   document.querySelectorAll('.quiz-cat').forEach(b => b.classList.remove('active'));
@@ -1177,9 +1181,14 @@ function selectQuizCat(id, btn) {
   quizState.activeCat = id;
   quizState.questions = [];
   quizState.current = 0;
+  renderQuizStart();
+}
+
+function renderQuizStart() {
+  const n = quizState.count || 5;
   document.getElementById('quiz-area').innerHTML = `
     <button class="quiz-gen-btn" id="quiz-gen-btn" onclick="generateQuiz()">
-      <i class="ti ti-sparkles"></i> <span id="quiz-gen-label">5 neue Fragen generieren</span>
+      <i class="ti ti-sparkles"></i> ${n} neue Fragen generieren
     </button>
     <div class="quiz-empty"><i class="ti ti-help-circle"></i>Klick auf den Button um zu starten!</div>`;
 }
@@ -1191,11 +1200,9 @@ async function generateQuiz() {
   const btn = document.getElementById('quiz-gen-btn');
   if (btn) btn.disabled = true;
 
+  const n = quizState.count || 5;
   const area = document.getElementById('quiz-area');
   area.innerHTML = `<div class="quiz-loading"><i class="ti ti-loader-2"></i>Generiere ${n} Fragen…</div>`;
-  document.querySelectorAll('[id="quiz-gen-label"]').forEach(el => el.textContent = n + ' neue Fragen generieren');
-
-  const n = quizState.count || 5;
   const prompt = `QUIZ-KATEGORIE: ${QUIZ_CAT_PROMPTS[cat]}
 
 Erstelle ${n} Multiple-Choice-Quizfragen zu dieser Kategorie. Themen wie auf taschenhirn.de: konkrete Fakten, Zahlen, Daten, Persönlichkeiten.
@@ -1224,7 +1231,7 @@ Regeln: correct = Index (0-3) der richtigen Antwort. Fragen auf Deutsch. Mittels
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
-        max_tokens: Math.max(1500, n * 350),
+        max_tokens: Math.max(1500, n * 400),
         messages: [{ role: 'user', content: prompt }]
       })
     });

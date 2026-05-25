@@ -411,6 +411,15 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 @keyframes spin{to{transform:rotate(360deg)}}
 .quiz-streak{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
 .quiz-streak-val{font-weight:500;color:var(--quiz);}
+
+.quiz-count-row{display:flex;align-items:center;gap:8px;margin-top:10px;}
+.quiz-count-label{font-size:12px;color:var(--muted);white-space:nowrap;}
+.quiz-count-btn{
+  width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border);
+  background:var(--bg);color:var(--muted);font-family:var(--font);font-size:13px;
+  font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;
+}
+.quiz-count-btn.active{background:var(--quiz);color:#fff;border-color:var(--quiz);}
 .quiz-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.7;}
 .quiz-empty i{font-size:40px;display:block;margin-bottom:10px;opacity:.4;}
 </style>
@@ -602,6 +611,13 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
         </div>
       </div>
       <div class="quiz-cats" id="quiz-cats"></div>
+      <div class="quiz-count-row">
+        <span class="quiz-count-label">Fragen:</span>
+        <button class="quiz-count-btn active" data-n="5" onclick="setQuizCount(5,this)">5</button>
+        <button class="quiz-count-btn" data-n="10" onclick="setQuizCount(10,this)">10</button>
+        <button class="quiz-count-btn" data-n="15" onclick="setQuizCount(15,this)">15</button>
+        <button class="quiz-count-btn" data-n="20" onclick="setQuizCount(20,this)">20</button>
+      </div>
     </div>
     <div class="quiz-scroll">
       <div class="quiz-area" id="quiz-area">
@@ -1125,6 +1141,7 @@ let quizState = {
   total: 0,
   streak: 0,
   loading: false,
+  count: 5,
 };
 
 function initQuiz() {
@@ -1148,6 +1165,12 @@ function initQuiz() {
   }
 }
 
+
+function setQuizCount(n, btn) {
+  quizState.count = n;
+  document.querySelectorAll('.quiz-count-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
 function selectQuizCat(id, btn) {
   document.querySelectorAll('.quiz-cat').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -1156,7 +1179,7 @@ function selectQuizCat(id, btn) {
   quizState.current = 0;
   document.getElementById('quiz-area').innerHTML = `
     <button class="quiz-gen-btn" id="quiz-gen-btn" onclick="generateQuiz()">
-      <i class="ti ti-sparkles"></i> 5 neue Fragen generieren
+      <i class="ti ti-sparkles"></i> <span id="quiz-gen-label">5 neue Fragen generieren</span>
     </button>
     <div class="quiz-empty"><i class="ti ti-help-circle"></i>Klick auf den Button um zu starten!</div>`;
 }
@@ -1169,11 +1192,13 @@ async function generateQuiz() {
   if (btn) btn.disabled = true;
 
   const area = document.getElementById('quiz-area');
-  area.innerHTML = `<div class="quiz-loading"><i class="ti ti-loader-2"></i>Generiere neue Fragen…</div>`;
+  area.innerHTML = `<div class="quiz-loading"><i class="ti ti-loader-2"></i>Generiere ${n} Fragen…</div>`;
+  document.querySelectorAll('[id="quiz-gen-label"]').forEach(el => el.textContent = n + ' neue Fragen generieren');
 
+  const n = quizState.count || 5;
   const prompt = `QUIZ-KATEGORIE: ${QUIZ_CAT_PROMPTS[cat]}
 
-Erstelle 5 Multiple-Choice-Quizfragen zu dieser Kategorie. Themen wie auf taschenhirn.de: konkrete Fakten, Zahlen, Daten, Persönlichkeiten.
+Erstelle ${n} Multiple-Choice-Quizfragen zu dieser Kategorie. Themen wie auf taschenhirn.de: konkrete Fakten, Zahlen, Daten, Persönlichkeiten.
 
 Antworte NUR mit diesem exakten JSON-Format (kein Markdown, keine Erklärung):
 [
@@ -1199,7 +1224,7 @@ Regeln: correct = Index (0-3) der richtigen Antwort. Fragen auf Deutsch. Mittels
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
-        max_tokens: 1500,
+        max_tokens: Math.max(1500, n * 350),
         messages: [{ role: 'user', content: prompt }]
       })
     });

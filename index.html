@@ -719,18 +719,31 @@ async function callAPI(coach, userText) {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-calls': 'true'
+        'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:1000, system, messages})
     });
     const data = await res.json();
-    if (data.error) return `Fehler: ${data.error.message}`;
+    if (data.error) {
+      // Remove the user message we just added since it failed
+      S[coach].history.pop();
+      const t = data.error.type || '';
+      const m = data.error.message || '';
+      if (t === 'authentication_error' || res.status === 401) {
+        return `⚠️ API Key ungültig oder abgelaufen.\n\nBitte prüfe deinen Key unter console.anthropic.com und aktualisiere ihn im Profil (Stift-Symbol oben rechts).`;
+      }
+      if (t === 'insufficient_quota' || res.status === 429) {
+        return `⚠️ API-Limit erreicht oder kein Guthaben mehr.\n\nBitte prüfe dein Guthaben unter console.anthropic.com.`;
+      }
+      return `⚠️ API-Fehler (${res.status}): ${m}`;
+    }
     const reply = data.content?.[0]?.text || 'Keine Antwort.';
     S[coach].history.push({role:'coach', content:reply});
     persist();
     return reply;
   } catch(e) {
-    return 'Verbindungsfehler. Bitte Internetverbindung prüfen.';
+    S[coach].history.pop();
+    return `⚠️ Netzwerkfehler: ${e.message}\n\nMögliche Ursachen:\n• Kein Internet\n• Browser blockiert die Anfrage (CORS)\n• Falscher API Key Format\n\nTipp: Öffne die Browser-Konsole (F12 → Console) für Details.`;
   }
 }
 

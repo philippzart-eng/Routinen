@@ -992,12 +992,19 @@ Format (immer EXAKT so, am Ende deiner Nachricht):
 [/WORKOUT]
 
 Regeln:
-- date = Datum für das Workout im Format YYYY-MM-DD (heute = ${today.split(',')[1]?.trim() ? new Date().toISOString().split('T')[0] : new Date().toISOString().split('T')[0]})
+- date = ZWINGEND das Datum für das Workout im Format YYYY-MM-DD.
+  → Wenn du ein Workout für HEUTE planst: date = ${getTodayISO()}
+  → Wenn du ein Workout für MORGEN planst: date = ${getTomorrowISO()}
+  → Wenn du ein Workout für übermorgen planst: date = ${getDateOffsetISO(2)}
+  → Wenn der Nutzer einen anderen Tag nennt: rechne das passende Datum aus
 - title = kurze Bezeichnung (z.B. "Brust/Trizeps", "Push", "Beine")
 - exercises = JEDE Übung die du erwähnst, mit name und sets
-- VALIDES JSON, keine Zeilenumbrüche im JSON, Anführungszeichen escapen falls nötig
+- VALIDES JSON, keine Zeilenumbrüche im JSON
 - Diesen Block IMMER anhängen wenn du Übungen nennst
-- AUSNAHME: Bei Rest Days, Fragen ohne Trainings-Vorschlag, Diskussionen → KEIN Block`
+- AUSNAHME: Bei Rest Days, Fragen ohne Trainings-Vorschlag, Diskussionen → KEIN Block
+
+WICHTIG: Wenn die Frage z.B. "Was mach ich morgen?" lautet, verwende date = ${getTomorrowISO()} (nicht heute!).
+Wenn die Frage "Plane mir Brust für Mittwoch" lautet, rechne das nächste Mittwoch-Datum aus.`
   },
   wissen:{
     emoji:'🧠',avatar:'📚',color:'#0F6E56',
@@ -1062,6 +1069,8 @@ const S = {
 /* ── UTILS ── */
 function getToday(){return new Date().toLocaleDateString('de-DE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});}
 function getTodayISO(){return new Date().toISOString().split('T')[0];}
+function getTomorrowISO(){return new Date(Date.now()+86400000).toISOString().split('T')[0];}
+function getDateOffsetISO(days){return new Date(Date.now()+days*86400000).toISOString().split('T')[0];}
 function toggleEye(id,btn){const el=document.getElementById(id);el.type=el.type==='password'?'text':'password';btn.innerHTML=el.type==='password'?'<i class="ti ti-eye"></i>':'<i class="ti ti-eye-off"></i>';}
 function persist(){try{localStorage.setItem('rc_v4',JSON.stringify(S));}catch(e){}}
 function load(){try{const r=localStorage.getItem('rc_v4');if(!r)return;const d=JSON.parse(r);Object.assign(S,d);}catch(e){}}

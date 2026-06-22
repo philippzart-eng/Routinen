@@ -420,6 +420,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
   font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;
 }
 .quiz-count-btn.active{background:var(--quiz);color:#fff;border-color:var(--quiz);}
+
+.compress-hint{font-size:10.5px;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 10px;margin:8px 12px 0;display:flex;align-items:center;gap:6px;}
+.compress-hint i{font-size:13px;color:var(--quiz);}
 .quiz-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.7;}
 .quiz-empty i{font-size:40px;display:block;margin-bottom:10px;opacity:.4;}
 </style>
@@ -860,7 +863,19 @@ function initApp(){
     if(S[c].history?.length){
       S[c].started=true;
       const w=document.getElementById('welcome-'+c);if(w)w.remove();
-      S[c].history.forEach(h=>addMsg(c,h.role,h.content));
+      // Show compression hint if summary exists
+      const hasSummary = S[c].history.some(h => h.role === 'summary');
+      if (hasSummary) {
+        const msgs = document.getElementById('msgs-'+c);
+        const hint = document.createElement('div');
+        hint.className = 'compress-hint';
+        hint.innerHTML = '<i class="ti ti-archive"></i> Frühere Nachrichten wurden zusammengefasst (spart Tokens)';
+        msgs.appendChild(hint);
+      }
+      S[c].history.forEach(h => {
+        if (h.role === 'summary') return; // don't render summary in UI
+        addMsg(c, h.role, h.content);
+      });
       setupQuick(c);
     }
   });
@@ -962,10 +977,78 @@ function setupQuick(coach){
   });
 }
 
+// Threshold: when to start compressing — keeps recent N pairs, summarizes the rest
+const COMPRESS_THRESHOLD = 20;  // start compressing after 20 messages
+const KEEP_RECENT = 8;          // keep this many most recent messages
+
+async function compressHistory(coach) {
+  const h = S[coach].history;
+  if (h.length < COMPRESS_THRESHOLD) return;
+
+  // Find existing summary index (if any) and the older messages to compress
+  const summaryIdx = h.findIndex(m => m.role === 'summary');
+  const startCompress = summaryIdx >= 0 ? summaryIdx + 1 : 0;
+  const endCompress = h.length - KEEP_RECENT;
+  if (endCompress - startCompress < 4) return; // not enough to compress yet
+
+  const toCompress = h.slice(startCompress, endCompress);
+  const previousSummary = summaryIdx >= 0 ? h[summaryIdx].content : '';
+
+  const conversationText = toCompress.map(m =>
+    (m.role === 'user' ? 'Nutzer: ' : 'Coach: ') + m.content
+  ).join('\n\n');
+
+  const compressPrompt = `Erstelle eine kompakte Zusammenfassung (max 200 Wörter) der folgenden Coach-Unterhaltung. Behalte: konkrete Trainingseinheiten/Lerninhalte, abgeschlossene Sessions, Daten, persönliche Details, aktuelle Fortschritte und Ziele.
+
+${previousSummary ? 'BISHERIGE ZUSAMMENFASSUNG:\n' + previousSummary + '\n\nNEUE NACHRICHTEN:\n' : ''}${conversationText}
+
+Schreibe NUR die Zusammenfassung, ohne Einleitung.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',  // Use cheaper Haiku for compression
+        max_tokens: 500,
+        messages: [{ role: 'user', content: compressPrompt }]
+      })
+    });
+    const data = await res.json();
+    if (data.error || !data.content) return;
+    const summary = data.content[0].text.trim();
+
+    // Rebuild history: [summary] + recent messages (visible ones stay shown in UI via display flag)
+    const recent = h.slice(endCompress);
+    S[coach].history = [{role:'summary', content: summary, hidden: false}, ...recent];
+    S[coach].compressedAt = Date.now();
+    persist();
+  } catch(e) {
+    // Compression failed silently — just keep going with full history
+    console.warn('Compression failed:', e);
+  }
+}
+
 async function callAPI(coach,userText){
   const p=S[coach].profile||{};
   S[coach].history.push({role:'user',content:userText});
-  const messages=S[coach].history.map(h=>({role:h.role==='coach'?'assistant':'user',content:h.content}));
+
+  // Build messages array — convert summary role to a synthetic user/assistant pair
+  const messages = [];
+  S[coach].history.forEach(h => {
+    if (h.role === 'summary') {
+      messages.push({role:'user', content:'[Zusammenfassung der bisherigen Unterhaltung]'});
+      messages.push({role:'assistant', content: h.content});
+    } else {
+      messages.push({role: h.role==='coach' ? 'assistant' : 'user', content: h.content});
+    }
+  });
+
   try{
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
@@ -976,12 +1059,26 @@ async function callAPI(coach,userText){
     if(data.error){
       S[coach].history.pop();
       if(res.status===401)return'⚠️ API Key ungültig. Bitte im Profil aktualisieren.';
-      if(res.status===429)return'⚠️ API-Limit erreicht. Bitte Guthaben prüfen.';
+      if(res.status===429){
+        const msg=(data.error.message||'').toLowerCase();
+        const type=data.error.type||'';
+        if(type==='rate_limit_error'||msg.includes('rate limit')){
+          return'⏳ Zu viele Anfragen in kurzer Zeit (Rate Limit).\n\nBitte 30–60 Sekunden warten und nochmal versuchen.\n\n(Das ist KEIN Guthaben-Problem!)';
+        }
+        if(msg.includes('credit')||msg.includes('balance')||msg.includes('quota')){
+          return'⚠️ Guthaben aufgebraucht.\n\nBitte unter console.anthropic.com → Plans & Billing aufladen.';
+        }
+        return`⏳ Limit erreicht (429): ${data.error.message}\n\nMeistens reicht es ~1 Minute zu warten.`;
+      }
+      if(res.status===529)return'⏳ Server überlastet (529). Bitte gleich nochmal versuchen.';
       return`⚠️ Fehler (${res.status}): ${data.error.message}`;
     }
     const reply=data.content?.[0]?.text||'Keine Antwort.';
     S[coach].history.push({role:'coach',content:reply});
-    persist();return reply;
+    persist();
+    // Trigger compression in background (non-blocking)
+    compressHistory(coach);
+    return reply;
   }catch(e){
     S[coach].history.pop();
     return`⚠️ Netzwerkfehler: ${e.message}`;

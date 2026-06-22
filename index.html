@@ -911,7 +911,36 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
   </div>
 </div>
 
+<!-- WORKOUT EDITOR -->
+<div class="workout-modal" id="workout-modal">
+  <div class="workout-sheet">
+    <div class="modal-handle"></div>
+    <h3 id="workout-modal-title">Workout planen</h3>
+    <label class="modal-label">Was?</label>
+    <input type="text" id="workout-title" placeholder="z.B. Brust/Trizeps">
+    <div class="preset-chips" id="preset-chips"></div>
+    <label class="modal-label" style="margin-top:12px;">Details (optional)</label>
+    <textarea id="workout-desc" placeholder="z.B. Bankdrücken 4×8 @80kg, Dips 3×10, Trizepsdrücken 3×12"></textarea>
+    <div class="workout-actions">
+      <button class="workout-cancel" onclick="closeWorkoutModal()">Abbrechen</button>
+      <button class="workout-save" onclick="saveWorkout()">Speichern</button>
+    </div>
+  </div>
+</div>
+
 <script>
+// Safe DOM helpers — never throw on missing elements
+function $(id) { return document.getElementById(id); }
+function safeText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
+function safeHTML(id, html) { const el = document.getElementById(id); if (el) el.innerHTML = html; }
+function safeClass(id, op, cls) { const el = document.getElementById(id); if (el) el.classList[op](cls); }
+
+// Catch any uncaught errors and log them visibly
+window.addEventListener('error', function(e) {
+  console.error('App error:', e.message, 'at', e.filename + ':' + e.lineno);
+});
+
+
 const RULES = [
   {title:"Feste Aufstehzeit",      desc:"Jeden Morgen gleich aufstehen — kein Snooze."},
   {title:"Handy-freie erste Stunde",desc:"Morgen gehört dir. Keine Benachrichtigungen bis der Tag gestartet ist."},
@@ -953,20 +982,22 @@ ANTWORT-LÄNGE (WICHTIG):
 - Muskelgruppen-Rotation: min. 48h Pause pro Gruppe.
 - Antworte auf Deutsch.
 
-WORKOUT-BLOCK (PFLICHT bei jedem Tagesplan):
-Wenn du ein konkretes Workout vorschlägst, füge AM ENDE deiner Antwort einen Block in genau diesem Format an (auf neuer Zeile, KEIN Markdown):
+WORKOUT-BLOCK — ABSOLUT VERPFLICHTEND:
+Bei JEDER Antwort die konkrete Übungen enthält MUSST du am Ende einen Workout-Block anhängen. Das ist ein Pflicht-Element, kein optionales.
+
+Format (immer EXAKT so, am Ende deiner Nachricht):
 
 [WORKOUT]
-{"title":"Brust/Trizeps","exercises":[{"name":"Bankdrücken","sets":"4×8 @80kg"},{"name":"Dips","sets":"3×10"}]}
+{"date":"YYYY-MM-DD","title":"Muskelgruppe","exercises":[{"name":"Übung 1","sets":"4×8 @80kg"},{"name":"Übung 2","sets":"3×10"}]}
 [/WORKOUT]
 
 Regeln:
-- title = Muskelgruppe/Fokus (kurz)
-- exercises = Array mit name + sets (z.B. "4×8 @80kg" oder "3×12")
-- Nur valides JSON, KEINE Zeilenumbrüche IM JSON
-- NUR bei konkreten Workout-Vorschlägen für heute oder einen Tag
-- Bei Rest-Days, Fragen oder Diskussionen: KEIN Block
-- Format vor dem Block: dein normaler Tagesplan-Text`
+- date = Datum für das Workout im Format YYYY-MM-DD (heute = ${today.split(',')[1]?.trim() ? new Date().toISOString().split('T')[0] : new Date().toISOString().split('T')[0]})
+- title = kurze Bezeichnung (z.B. "Brust/Trizeps", "Push", "Beine")
+- exercises = JEDE Übung die du erwähnst, mit name und sets
+- VALIDES JSON, keine Zeilenumbrüche im JSON, Anführungszeichen escapen falls nötig
+- Diesen Block IMMER anhängen wenn du Übungen nennst
+- AUSNAHME: Bei Rest Days, Fragen ohne Trainings-Vorschlag, Diskussionen → KEIN Block`
   },
   wissen:{
     emoji:'🧠',avatar:'📚',color:'#0F6E56',
@@ -1047,9 +1078,12 @@ function doSetup(){
 
 /* ── INIT ── */
 function initApp(){
-  document.getElementById('topbar-date').textContent=getToday();
-  document.getElementById('motiv-date').textContent=getToday();
-  document.getElementById('je-meta-date').textContent=getTodayISO();
+  const tbd=document.getElementById('topbar-date');
+  if(tbd) tbd.textContent=getToday();
+  const md=document.getElementById('motiv-date');
+  if(md) md.textContent=getToday();
+  const jmd=document.getElementById('je-meta-date');
+  if(jmd) jmd.textContent=getTodayISO();
   renderRules();
   renderJournal();
   initQuiz();
@@ -1078,8 +1112,10 @@ function initApp(){
   });
   // rotate daily quote
   const q=QUOTES[new Date().getDate()%QUOTES.length];
-  document.getElementById('motiv-quote-text').textContent='„'+q.text+'"';
-  document.getElementById('motiv-quote-author').textContent='— '+q.author;
+  const qt=document.getElementById('motiv-quote-text');
+  const qa=document.getElementById('motiv-quote-author');
+  if (qt) qt.textContent='„'+q.text+'"';
+  if (qa) qa.textContent='— '+q.author;
 }
 
 function updateSub(coach){
@@ -1146,8 +1182,9 @@ function updateChip(coach){
 
 /* ── CHAT ── */
 function addMsg(coach,role,text){
-  const w=document.getElementById('welcome-'+coach);if(w)w.remove();
   const msgs=document.getElementById('msgs-'+coach);
+  if (!msgs) { console.warn('msgs container missing for', coach); return; }
+  const w=document.getElementById('welcome-'+coach);if(w)w.remove();
   const C=COACHES[coach];
   const wrap=document.createElement('div');wrap.className='msg '+role;wrap.setAttribute('data-coach',coach);
   const av=document.createElement('div');av.className='msg-av';
@@ -1187,79 +1224,80 @@ function addMsg(coach,role,text){
 }
 
 function createImportCard(workout) {
+  // Auto-import immediately! Determine target date
+  const targetDate = workout.date && /^\d{4}-\d{2}-\d{2}$/.test(workout.date)
+    ? workout.date
+    : new Date().toISOString().split('T')[0];
+
+  // Check if already imported (avoid duplicates on re-render)
+  const existing = (S.workouts && S.workouts[targetDate]) || [];
+  const alreadyImported = existing.some(w =>
+    w.title === workout.title &&
+    JSON.stringify((w.exercises||[]).map(e => e.name)) === JSON.stringify((workout.exercises||[]).map(e => e.name))
+  );
+
+  if (!alreadyImported) {
+    autoImportWorkout(workout, targetDate);
+  }
+
+  // Display confirmation card
   const card = document.createElement('div');
   card.className = 'workout-import-card';
   const exList = (workout.exercises || []).map(e =>
     `<li>${e.name}${e.sets ? ' — <span style="color:var(--muted)">'+e.sets+'</span>' : ''}</li>`
   ).join('');
 
-  // Build date options (today + next 6 days)
-  const today = new Date();
-  let dateOpts = '';
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(today.getTime() + i*86400000);
-    const iso = d.toISOString().split('T')[0];
-    const label = i === 0 ? 'Heute' : i === 1 ? 'Morgen' : d.toLocaleDateString('de-DE',{weekday:'short',day:'numeric',month:'short'});
-    dateOpts += `<option value="${iso}">${label}</option>`;
-  }
-
-  const wid = 'imp-'+Date.now()+Math.random().toString(36).slice(2,7);
+  const dateLabel = formatDateLabel(targetDate);
   card.innerHTML = `
-    <div class="workout-import-title"><i class="ti ti-calendar-plus"></i> Workout für Kalender</div>
-    <div class="workout-import-list"><strong>${workout.title}</strong><ul>${exList}</ul></div>
-    <div class="workout-import-actions">
-      <select class="workout-date-select" id="${wid}-date">${dateOpts}</select>
-      <button class="workout-import-btn" id="${wid}-btn">
-        <i class="ti ti-plus" style="font-size:13px"></i> In Kalender
-      </button>
-    </div>`;
-
-  setTimeout(() => {
-    const btn = document.getElementById(wid+'-btn');
-    const sel = document.getElementById(wid+'-date');
-    if (btn && sel) {
-      btn.onclick = () => importWorkoutToCalendar(workout, sel.value, btn);
-    }
-  }, 50);
+    <div class="workout-import-title">
+      <i class="ti ti-calendar-check"></i> ${alreadyImported ? 'Bereits im Kalender' : 'In Kalender eingetragen'} — ${dateLabel}
+    </div>
+    <div class="workout-import-list"><strong>${workout.title}</strong><ul>${exList}</ul></div>`;
 
   return card;
 }
 
-function importWorkoutToCalendar(workout, dateISO, btn) {
+function formatDateLabel(iso) {
+  const todayISO = new Date().toISOString().split('T')[0];
+  const tmrISO = new Date(Date.now()+86400000).toISOString().split('T')[0];
+  if (iso === todayISO) return 'heute';
+  if (iso === tmrISO) return 'morgen';
+  const d = new Date(iso);
+  return d.toLocaleDateString('de-DE',{weekday:'short',day:'numeric',month:'short'});
+}
+
+function autoImportWorkout(workout, dateISO) {
   if (!S.workouts) S.workouts = {};
   if (!S.workouts[dateISO]) S.workouts[dateISO] = [];
 
-  const newWorkout = {
-    id: Date.now()+'',
+  S.workouts[dateISO].push({
+    id: Date.now()+'_'+Math.random().toString(36).slice(2,7),
     title: workout.title,
     desc: '',
     done: false,
     created: Date.now(),
+    fromCoach: true,
     exercises: (workout.exercises || []).map((e, i) => ({
-      id: Date.now()+'_'+i,
+      id: Date.now()+'_'+i+'_'+Math.random().toString(36).slice(2,5),
       name: e.name,
       sets: e.sets || '',
       done: false
     })),
-  };
+  });
 
-  S.workouts[dateISO].push(newWorkout);
   persist();
 
-  // Update button visually
-  if (btn) {
-    btn.innerHTML = '<i class="ti ti-check" style="font-size:13px"></i> Hinzugefügt';
-    btn.disabled = true;
-  }
-
-  // Refresh calendar if visible
+  // Refresh calendar if it's the current view
   if (typeof renderKalGrid === 'function') {
     renderKalGrid();
-    if (kalState.selectedDate === dateISO) renderKalDay();
+    if (kalState && kalState.selectedDate === dateISO) renderKalDay();
   }
 }
+
+
 function showTyping(coach){
   const msgs=document.getElementById('msgs-'+coach);
+  if (!msgs) return;
   const C=COACHES[coach];
   const div=document.createElement('div');div.className='msg coach';div.id='typing-'+coach;
   div.innerHTML=`<div class="msg-av" style="background:${C.color}22">${C.avatar}</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
@@ -1267,7 +1305,9 @@ function showTyping(coach){
 }
 function hideTyping(coach){const el=document.getElementById('typing-'+coach);if(el)el.remove();}
 function setupQuick(coach){
-  const a=document.getElementById('quick-'+coach);a.innerHTML='';a.style.display='flex';
+  const a=document.getElementById('quick-'+coach);
+  if (!a) return;
+  a.innerHTML='';a.style.display='flex';
   COACHES[coach].quick.forEach(l=>{
     const b=document.createElement('button');b.className='qbtn';b.textContent=l;
     b.onclick=()=>{document.getElementById('input-'+coach).value=l;sendMsg(coach);};
@@ -1416,15 +1456,18 @@ async function sendMsg(coach){
 function clearChat(coach){
   if(!confirm(`${COACHES[coach].emoji} Chat zurücksetzen?`))return;
   S[coach].history=[];S[coach].started=false;
-  const msgs=document.getElementById('msgs-'+coach);msgs.innerHTML='';
-  const qa=document.getElementById('quick-'+coach);qa.innerHTML='';qa.style.display='none';
+  const msgs=document.getElementById('msgs-'+coach);
+  if (msgs) msgs.innerHTML='';
+  const qa=document.getElementById('quick-'+coach);
+  if (qa) { qa.innerHTML=''; qa.style.display='none'; }
   const C=COACHES[coach];
   const desc={sport:'Richte dein Profil ein — ich zeige dir täglich was heute ansteht.',wissen:'Richte dein Profil ein — ich sage dir was du lernen oder wiederholen solltest.',sprachen:'Richte dein Profil ein — ich koordiniere deine Sprachen-Rotation.'};
   const ico={sport:'🏋️',wissen:'📚',sprachen:'🗣️'};
   const ttl={sport:'Sport-Coach',wissen:'Wissen-Coach',sprachen:'Sprachen-Coach'};
   const w=document.createElement('div');w.className='welcome';w.id='welcome-'+coach;
   w.innerHTML=`<div class="welcome-icon">${ico[coach]}</div><h2>${ttl[coach]}</h2><p>${desc[coach]}</p><button class="welcome-btn" style="background:${C.color}" onclick="openModal('${coach}')">Profil einrichten</button>`;
-  msgs.appendChild(w);persist();
+  if (msgs) msgs.appendChild(w);
+  persist();
 }
 
 function handleKey(e,coach){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg(coach);}}
@@ -1436,7 +1479,9 @@ function getTodayDoneKey(){return 'rules_'+getTodayISO();}
 function renderRules(){
   const key=getTodayDoneKey();
   const done=S.rules[key]||[];
-  const list=document.getElementById('rules-list');list.innerHTML='';
+  const list=document.getElementById('rules-list');
+  if (!list) return;
+  list.innerHTML='';
   RULES.forEach((r,i)=>{
     const isDone=done.includes(i);
     const card=document.createElement('div');
@@ -1463,14 +1508,17 @@ function toggleRule(i){
 }
 
 function updateProgress(n){
-  document.getElementById('motiv-count').textContent=n+' / 10';
-  document.getElementById('motiv-fill').style.width=(n*10)+'%';
+  const c=document.getElementById('motiv-count');
+  const f=document.getElementById('motiv-fill');
+  if (c) c.textContent=n+' / 10';
+  if (f) f.style.width=(n*10)+'%';
 }
 
 /* ── JOURNAL ── */
 function renderJournal(){
   const entries=document.getElementById('journal-entries');
   const empty=document.getElementById('journal-empty');
+  if (!entries || !empty) return;
   entries.innerHTML='';
   const j=[...(S.journal||[])].sort((a,b)=>b.created-a.created);
   if(!j.length){empty.style.display='flex';return;}
@@ -1583,6 +1631,7 @@ let quizState = {
 
 function initQuiz() {
   const cats = document.getElementById('quiz-cats');
+  if (!cats) return;
   cats.innerHTML = '';
   QUIZ_CATS.forEach(c => {
     const btn = document.createElement('button');
@@ -1763,8 +1812,10 @@ function renderQuizDone() {
 }
 
 function updateQuizScore() {
-  document.getElementById('quiz-score-pill').textContent = quizState.score + ' / ' + quizState.total + ' richtig';
-  document.getElementById('quiz-streak-val').textContent = quizState.streak;
+  const p = document.getElementById('quiz-score-pill');
+  const s = document.getElementById('quiz-streak-val');
+  if (p) p.textContent = quizState.score + ' / ' + quizState.total + ' richtig';
+  if (s) s.textContent = quizState.streak;
 }
 
 function persistQuiz() {
@@ -1843,6 +1894,7 @@ function initKalender() {
   renderKalDay();
   // preset chips
   const chipsEl = document.getElementById('preset-chips');
+  if (!chipsEl) return;
   chipsEl.innerHTML = '';
   WORKOUT_PRESETS.forEach(p => {
     const c = document.createElement('button');
@@ -1855,6 +1907,7 @@ function initKalender() {
 
 function renderKalGrid() {
   const grid = document.getElementById('kal-grid');
+  if (!grid) return;
   grid.innerHTML = '';
   const monthNames = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
   document.getElementById('kal-month-label').textContent = monthNames[kalState.month] + ' ' + kalState.year;
@@ -1913,6 +1966,7 @@ function renderKalGrid() {
 
 function renderKalDay() {
   const detail = document.getElementById('kal-day-detail');
+  if (!detail) return;
   const dateISO = kalState.selectedDate;
   const d = new Date(dateISO);
   const dayName = d.toLocaleDateString('de-DE', {weekday:'long'});
@@ -2128,31 +2182,28 @@ function delWorkout(dateISO, id) {
 }
 
 /* ── BOOT ── */
-load();
-const savedKey=localStorage.getItem('rc_apikey');
-if(savedKey&&savedKey.startsWith('sk-ant-')){
-  apiKey=savedKey;
-  document.getElementById('setup-screen').classList.add('hidden');
-  document.getElementById('app').style.display='flex';
-  initApp();
+try {
+  load();
+  const savedKey = (function(){
+    try { return localStorage.getItem('rc_apikey'); } catch(e) { return null; }
+  })();
+  if (savedKey && savedKey.startsWith('sk-ant-')) {
+    apiKey = savedKey;
+    const setupEl = document.getElementById('setup-screen');
+    const appEl = document.getElementById('app');
+    if (setupEl) setupEl.classList.add('hidden');
+    if (appEl) appEl.style.display = 'flex';
+    initApp();
+  }
+} catch(e) {
+  console.error('Boot error:', e);
+  // Show error to user instead of blank screen
+  const errEl = document.createElement('div');
+  errEl.style.cssText = 'position:fixed;inset:0;background:#fff;color:#000;padding:20px;font-family:monospace;font-size:12px;z-index:9999;overflow:auto;';
+  errEl.textContent = 'App-Startfehler: ' + e.message + '\n\n' + (e.stack || '');
+  document.body.appendChild(errEl);
 }
 </script>
 
-<!-- WORKOUT EDITOR -->
-<div class="workout-modal" id="workout-modal">
-  <div class="workout-sheet">
-    <div class="modal-handle"></div>
-    <h3 id="workout-modal-title">Workout planen</h3>
-    <label class="modal-label">Was?</label>
-    <input type="text" id="workout-title" placeholder="z.B. Brust/Trizeps">
-    <div class="preset-chips" id="preset-chips"></div>
-    <label class="modal-label" style="margin-top:12px;">Details (optional)</label>
-    <textarea id="workout-desc" placeholder="z.B. Bankdrücken 4×8 @80kg, Dips 3×10, Trizepsdrücken 3×12"></textarea>
-    <div class="workout-actions">
-      <button class="workout-cancel" onclick="closeWorkoutModal()">Abbrechen</button>
-      <button class="workout-save" onclick="saveWorkout()">Speichern</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>

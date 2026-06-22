@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Routine Coach">
+<title>Routine Coach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --sport:#534AB7;--sport-l:#EEEDFE;
+  --wissen:#0F6E56;--wissen-l:#E1F5EE;
+  --sprache:#993C1D;--sprache-l:#FAECE7;
+  --motiv:#B07D2A;--motiv-l:#FDF6E3;
+  --journal:#2A6B8A;--journal-l:#E6F4FA;
+  --bg:#F7F6F2;--surface:#FFFFFF;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --text:#1A1A1A;--muted:#6B6A65;--hint:#AAA9A3;
+  --font:'DM Sans',sans-serif;--serif:'DM Serif Display',serif;
+  --quiz:#2A6B8A;--quiz-l:#E6F4FA;
+  --kal:#7A4FA8;--kal-l:#F1EAFA;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --tab-h:58px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#0F0F0D;--surface:#1C1C19;
+    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);
+    --text:#F0EFE9;--muted:#888880;--hint:#555550;
+    --sport-l:#1E1B40;--wissen-l:#0A2920;--sprache-l:#2A150C;
+    --motiv-l:#2A220A;--journal-l:#0A1E28;
+  }
+}
+html,body{height:100%;height:100dvh;overflow:hidden;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;flex-direction:column;-webkit-text-size-adjust:100%;}
+
+/* ── SETUP SCREEN ── */
+.setup-screen{
+  position:fixed;inset:0;z-index:400;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:32px 28px calc(32px + var(--safe-bottom));
+  gap:14px;text-align:center;
+}
+.setup-screen.hidden{display:none;}
+.setup-logo-wrap{margin-bottom:6px;}
+.logo-svg{width:72px;height:72px;}
+.setup-screen h1{font-family:var(--serif);font-size:26px;font-weight:400;letter-spacing:-.01em;}
+.setup-screen p{font-size:13.5px;color:var(--muted);line-height:1.7;max-width:310px;}
+.setup-screen a{color:var(--sport);text-decoration:none;}
+.key-wrap{width:100%;max-width:360px;position:relative;}
+.key-wrap input{
+  width:100%;border:1.5px solid var(--border2);border-radius:12px;
+  padding:12px 44px 12px 14px;font-size:14px;font-family:'DM Mono',monospace;
+  background:var(--surface);color:var(--text);outline:none;
+  transition:border-color .15s;-webkit-appearance:none;
+}
+.key-wrap input:focus{border-color:var(--sport);}
+.eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;padding:4px;}
+.setup-btn{
+  width:100%;max-width:360px;padding:14px;border:none;border-radius:12px;
+  background:var(--sport);color:#fff;font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;
+}
+.setup-err{font-size:12.5px;color:#E24B4A;display:none;}
+.setup-err.show{display:block;}
+.setup-hint{font-size:12px;color:var(--muted);max-width:310px;line-height:1.6;}
+
+/* ── MAIN LAYOUT ── */
+.app{display:flex;flex-direction:column;height:100dvh;}
+
+/* ── TOP BAR ── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:calc(var(--safe-top) + 10px) 16px 10px;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  flex-shrink:0;gap:10px;
+}
+.topbar-logo{display:flex;align-items:center;gap:8px;}
+.topbar-logo svg{width:28px;height:28px;}
+.topbar-title{font-family:var(--serif);font-size:18px;font-weight:400;letter-spacing:-.01em;}
+.topbar-date{font-size:11.5px;color:var(--muted);font-family:'DM Mono',monospace;white-space:nowrap;}
+
+/* ── BOTTOM TABS ── */
+.bottom-tabs{
+  display:flex;
+  background:var(--surface);border-top:1px solid var(--border);
+  flex-shrink:0;
+  padding-bottom:var(--safe-bottom);
+  height:calc(var(--tab-h) + var(--safe-bottom));
+}
+.btab{
+  flex:1;padding:8px 4px 6px;border:none;background:none;cursor:pointer;
+  font-family:var(--font);font-size:10px;font-weight:400;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  position:relative;transition:color .15s;
+}
+.btab i{font-size:22px;}
+.btab.active{color:var(--text);font-weight:500;}
+.btab.active[data-tab="sport"]   {color:var(--sport);}
+.btab.active[data-tab="wissen"]  {color:var(--wissen);}
+.btab.active[data-tab="sprachen"]{color:var(--sprache);}
+.btab.active[data-tab="motiv"]   {color:var(--motiv);}
+.btab.active[data-tab="journal"] {color:var(--journal);}
+
+/* ── PANELS ── */
+.panel{display:none;flex-direction:column;flex:1;min-height:0;overflow:hidden;}
+.panel.active{display:flex;}
+
+/* ── COACH HEADER ── */
+.coach-hdr{
+  padding:11px 14px 9px;background:var(--surface);
+  border-bottom:1px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.coach-hdr-left{display:flex;align-items:center;gap:8px;}
+.coach-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.coach-title{font-size:15px;font-weight:500;}
+.coach-sub{font-size:11px;color:var(--muted);}
+.hdr-btns{display:flex;gap:2px;}
+.hbtn{background:none;border:none;cursor:pointer;color:var(--muted);font-size:19px;padding:5px;border-radius:8px;}
+.hbtn:hover{background:var(--bg);}
+
+/* ── PROFILE BAR ── */
+.profile-bar{
+  padding:6px 12px;background:var(--bg);
+  border-bottom:1px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;gap:6px;min-height:36px;
+}
+.pchip{
+  font-size:11.5px;padding:4px 10px;border-radius:20px;
+  border:1px solid var(--border);background:var(--surface);color:var(--muted);
+  cursor:pointer;font-family:var(--font);display:flex;align-items:center;gap:4px;
+  transition:all .15s;max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.pchip.set{font-weight:500;}
+.pchip.set[data-coach="sport"]   {color:var(--sport);border-color:var(--sport);}
+.pchip.set[data-coach="wissen"]  {color:var(--wissen);border-color:var(--wissen);}
+.pchip.set[data-coach="sprachen"]{color:var(--sprache);border-color:var(--sprache);}
+
+/* ── TODAY CARD ── */
+.today-card{
+  margin:10px 12px 0;border-radius:12px;padding:11px 14px;
+  border:1px solid var(--border);background:var(--surface);
+  font-size:13px;line-height:1.6;flex-shrink:0;
+}
+.today-card-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px;}
+.today-card-text{color:var(--text);font-weight:400;}
+.today-card.sport-card  {border-left:3px solid var(--sport);}
+.today-card.wissen-card {border-left:3px solid var(--wissen);}
+.today-card.sprachen-card{border-left:3px solid var(--sprache);}
+
+/* ── MESSAGES ── */
+.messages{
+  flex:1;overflow-y:auto;padding:12px;
+  display:flex;flex-direction:column;gap:10px;
+  scroll-behavior:smooth;-webkit-overflow-scrolling:touch;
+}
+.messages::-webkit-scrollbar{width:3px;}
+.messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.msg{display:flex;gap:8px;max-width:90%;animation:fadeUp .2s ease;}
+.msg.user{align-self:flex-end;flex-direction:row-reverse;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.msg-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:2px;}
+.msg-bubble{padding:8px 12px;border-radius:16px;font-size:14px;line-height:1.65;white-space:pre-wrap;}
+.msg.coach .msg-bubble{background:var(--surface);border:1px solid var(--border);border-radius:4px 16px 16px 16px;color:var(--text);}
+.msg.user  .msg-bubble{border-radius:16px 4px 16px 16px;color:#fff;}
+.msg.user[data-coach="sport"]    .msg-bubble{background:var(--sport);}
+.msg.user[data-coach="wissen"]   .msg-bubble{background:var(--wissen);}
+.msg.user[data-coach="sprachen"] .msg-bubble{background:var(--sprache);}
+.typing-dots{display:flex;gap:4px;align-items:center;padding:3px 0;}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:blink 1.2s infinite;}
+.typing-dots span:nth-child(2){animation-delay:.2s;}
+.typing-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,60%,100%{opacity:.3;transform:scale(1)}30%{opacity:1;transform:scale(1.2)}}
+
+/* ── QUICK BTNS ── */
+.quick-area{padding:6px 12px 4px;background:var(--surface);border-top:1px solid var(--border);display:none;gap:5px;flex-wrap:wrap;}
+.qbtn{font-size:12px;padding:5px 11px;border:1px solid var(--border);border-radius:20px;background:var(--bg);cursor:pointer;color:var(--muted);font-family:var(--font);white-space:nowrap;transition:all .12s;}
+.qbtn:active{background:var(--surface);}
+
+/* ── INPUT ROW ── */
+.input-row{
+  display:flex;gap:8px;padding:9px 12px calc(9px);
+  background:var(--surface);border-top:1px solid var(--border);
+  flex-shrink:0;align-items:flex-end;
+}
+.input-row textarea{
+  flex:1;border:1px solid var(--border2);border-radius:12px;
+  padding:9px 13px;font-size:15px;font-family:var(--font);
+  resize:none;min-height:38px;max-height:110px;
+  background:var(--bg);color:var(--text);outline:none;line-height:1.5;
+  transition:border-color .15s;-webkit-appearance:none;
+}
+.send-btn{width:38px;height:38px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s,transform .1s;}
+.send-btn:active{transform:scale(.92);}
+.send-btn:disabled{opacity:.3;cursor:not-allowed;}
+.send-btn i{color:#fff;font-size:17px;}
+
+/* ── WELCOME ── */
+.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;text-align:center;gap:8px;}
+.welcome-icon{font-size:40px;margin-bottom:4px;}
+.welcome h2{font-size:16px;font-weight:500;}
+.welcome p{font-size:13px;color:var(--muted);line-height:1.7;max-width:270px;}
+.welcome-btn{margin-top:8px;padding:10px 22px;border:none;border-radius:22px;color:#fff;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;}
+
+/* ── MOTIVATIONSSEITE ── */
+.motiv-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.motiv-hero{
+  padding:28px 20px 20px;text-align:center;
+  background:linear-gradient(180deg,var(--motiv-l) 0%,var(--bg) 100%);
+}
+.motiv-hero-icon{font-size:48px;margin-bottom:8px;}
+.motiv-hero h2{font-family:var(--serif);font-size:24px;font-weight:400;letter-spacing:-.01em;color:var(--text);}
+.motiv-hero p{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;}
+.motiv-date{font-size:11px;color:var(--motiv);font-family:'DM Mono',monospace;margin-top:8px;}
+.rules-list{padding:16px 14px 24px;display:flex;flex-direction:column;gap:10px;}
+.rule-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:13px 14px;display:flex;align-items:flex-start;gap:12px;
+  transition:all .15s;cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+.rule-card.done{background:var(--motiv-l);border-color:var(--motiv);}
+.rule-num{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--motiv-l);color:var(--motiv);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:500;flex-shrink:0;
+  border:1px solid var(--motiv);transition:all .15s;
+}
+.rule-card.done .rule-num{background:var(--motiv);color:#fff;}
+.rule-body{flex:1;}
+.rule-title{font-size:14px;font-weight:500;line-height:1.4;}
+.rule-desc{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5;}
+.rule-check{font-size:18px;color:var(--motiv);opacity:0;transition:opacity .15s;}
+.rule-card.done .rule-check{opacity:1;}
+.motiv-progress{
+  margin:0 14px 4px;padding:12px 14px;background:var(--surface);
+  border:1px solid var(--border);border-radius:12px;
+}
+.motiv-progress-label{font-size:12px;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between;}
+.progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--motiv);border-radius:3px;transition:width .3s;}
+.motiv-quote{
+  margin:10px 14px 0;padding:14px 16px;
+  border-left:3px solid var(--motiv);background:var(--motiv-l);
+  border-radius:0 10px 10px 0;
+}
+.motiv-quote p{font-family:var(--serif);font-size:15px;line-height:1.6;color:var(--text);}
+.motiv-quote span{font-size:11px;color:var(--muted);margin-top:4px;display:block;}
+
+/* ── JOURNAL ── */
+.journal-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.journal-hdr{
+  padding:14px 14px 10px;background:var(--surface);
+  border-bottom:1px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.journal-hdr-title{font-size:15px;font-weight:500;}
+.journal-new-btn{
+  font-size:12.5px;padding:6px 14px;border-radius:20px;border:none;
+  background:var(--journal);color:#fff;font-family:var(--font);cursor:pointer;
+  display:flex;align-items:center;gap:5px;
+}
+.journal-entries{padding:10px 12px 24px;display:flex;flex-direction:column;gap:10px;}
+.journal-entry{
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;cursor:pointer;transition:border-color .15s;
+}
+.journal-entry:hover{border-color:var(--border2);}
+.je-header{padding:11px 14px 8px;display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
+.je-date{font-size:12px;font-weight:500;color:var(--journal);}
+.je-weekday{font-size:11px;color:var(--muted);}
+.je-mood{font-size:18px;}
+.je-preview{padding:0 14px 12px;font-size:13px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.je-tags{padding:0 14px 11px;display:flex;gap:5px;flex-wrap:wrap;}
+.je-tag{font-size:11px;padding:3px 9px;border-radius:20px;background:var(--journal-l);color:var(--journal);}
+.journal-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;gap:8px;color:var(--muted);}
+.journal-empty i{font-size:40px;opacity:.4;}
+.journal-empty p{font-size:13px;line-height:1.7;max-width:250px;}
+
+/* ── JOURNAL EDITOR ── */
+.journal-editor{
+  position:fixed;inset:0;z-index:300;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform .3s ease;
+}
+.journal-editor.open{transform:none;}
+.je-toolbar{
+  padding:calc(var(--safe-top) + 12px) 14px 12px;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;
+}
+.je-toolbar-title{font-size:15px;font-weight:500;}
+.je-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:20px;padding:4px;}
+.je-save-btn{background:var(--journal);color:#fff;border:none;border-radius:10px;padding:7px 16px;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;}
+.je-meta{padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.je-meta-date{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;}
+.mood-picker{display:flex;gap:6px;}
+.mood-opt{font-size:22px;cursor:pointer;opacity:.4;transition:all .15s;border:none;background:none;padding:2px;}
+.mood-opt.selected{opacity:1;transform:scale(1.2);}
+.je-body{flex:1;overflow-y:auto;padding:16px 14px;}
+.je-textarea{
+  width:100%;min-height:200px;border:none;background:transparent;
+  font-family:var(--font);font-size:15px;line-height:1.8;color:var(--text);
+  outline:none;resize:none;-webkit-appearance:none;
+}
+.je-section{margin-bottom:20px;}
+.je-section-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;display:block;}
+.je-prompts{display:flex;flex-direction:column;gap:6px;}
+.je-prompt-btn{
+  text-align:left;padding:9px 12px;border:1px solid var(--border);border-radius:10px;
+  background:var(--surface);color:var(--muted);font-family:var(--font);font-size:13px;cursor:pointer;
+}
+.je-prompt-btn:active{background:var(--bg);}
+
+/* ── BOTTOM SHEET MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:flex-end;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-sheet{
+  background:var(--surface);border-radius:20px 20px 0 0;
+  padding:20px 18px calc(20px + var(--safe-bottom));
+  width:100%;max-width:600px;max-height:92dvh;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  animation:slideUp .25s ease;
+}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+.modal-handle{width:36px;height:4px;border-radius:2px;background:var(--border);margin:0 auto 18px;}
+.modal-title{font-size:16px;font-weight:500;margin-bottom:14px;}
+.modal-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:14px;margin-bottom:5px;display:block;}
+.modal-sheet textarea,.modal-sheet input[type=date],.modal-sheet input[type=password]{
+  width:100%;border:1px solid var(--border2);border-radius:10px;
+  padding:9px 12px;font-size:14px;font-family:var(--font);
+  background:var(--bg);color:var(--text);resize:vertical;
+  outline:none;transition:border-color .15s;-webkit-appearance:none;
+}
+.modal-sheet textarea{min-height:66px;}
+.modal-actions{display:flex;gap:8px;margin-top:20px;}
+.btn-save{flex:1;padding:12px;border:none;border-radius:12px;color:#fff;font-family:var(--font);font-size:14px;font-weight:500;cursor:pointer;}
+.btn-cancel{padding:12px 16px;border:1px solid var(--border);border-radius:12px;background:none;color:var(--muted);font-family:var(--font);font-size:14px;cursor:pointer;}
+.key-row{margin-top:12px;padding:11px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.key-row-info{font-size:12px;color:var(--muted);}
+.key-row-info strong{color:var(--text);font-weight:500;display:block;margin-bottom:1px;}
+.key-change-btn{font-size:12px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer;font-family:var(--font);white-space:nowrap;}
+
+/* ── QUIZ ── */
+.quiz-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.quiz-hero{
+  padding:22px 16px 14px;background:var(--surface);
+  border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.quiz-hero-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;}
+.quiz-hero-title{font-size:15px;font-weight:500;}
+.quiz-score-pill{font-size:12px;padding:4px 12px;border-radius:20px;background:var(--quiz-l);color:var(--quiz);font-weight:500;}
+.quiz-cats{display:flex;gap:6px;flex-wrap:wrap;}
+.quiz-cat{
+  font-size:11.5px;padding:5px 12px;border-radius:20px;
+  border:1px solid var(--border);background:var(--bg);color:var(--muted);
+  cursor:pointer;font-family:var(--font);transition:all .15s;white-space:nowrap;
+}
+.quiz-cat.active{background:var(--quiz);color:#fff;border-color:var(--quiz);}
+.quiz-area{padding:14px 14px 24px;}
+.quiz-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;margin-bottom:12px;
+}
+.quiz-question{padding:16px 16px 12px;font-size:15px;font-weight:500;line-height:1.5;color:var(--text);}
+.quiz-meta{padding:0 16px 10px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.quiz-cat-badge{padding:2px 8px;border-radius:10px;background:var(--quiz-l);color:var(--quiz);font-size:11px;}
+.quiz-options{padding:0 12px 12px;display:flex;flex-direction:column;gap:7px;}
+.quiz-opt{
+  padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);
+  background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;
+  text-align:left;cursor:pointer;transition:all .15s;line-height:1.4;
+}
+.quiz-opt:active{transform:scale(.98);}
+.quiz-opt.correct{background:#E1F5EE;border-color:#0F6E56;color:#0F6E56;}
+.quiz-opt.wrong  {background:#FAECE7;border-color:#993C1D;color:#993C1D;}
+.quiz-opt.reveal {background:var(--quiz-l);border-color:var(--quiz);color:var(--quiz);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-explanation{
+  margin:0 12px 12px;padding:10px 13px;border-radius:10px;
+  background:var(--quiz-l);border:1px solid var(--quiz);
+  font-size:13px;line-height:1.6;color:var(--text);display:none;
+}
+.quiz-explanation.show{display:block;}
+.quiz-next-btn{
+  display:block;width:calc(100% - 24px);margin:0 12px 14px;
+  padding:11px;border:none;border-radius:12px;
+  background:var(--quiz);color:#fff;font-family:var(--font);font-size:14px;font-weight:500;
+  cursor:pointer;display:none;
+}
+.quiz-next-btn.show{display:block;}
+.quiz-gen-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:13px;border:none;border-radius:14px;
+  background:var(--quiz);color:#fff;font-family:var(--font);font-size:14px;font-weight:500;
+  cursor:pointer;margin-bottom:14px;
+}
+.quiz-gen-btn:disabled{opacity:.5;cursor:not-allowed;}
+.quiz-loading{text-align:center;padding:32px 20px;color:var(--muted);font-size:13px;}
+.quiz-loading i{font-size:32px;display:block;margin-bottom:8px;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.quiz-streak{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
+.quiz-streak-val{font-weight:500;color:var(--quiz);}
+
+.quiz-count-row{display:flex;align-items:center;gap:8px;margin-top:10px;}
+.quiz-count-label{font-size:12px;color:var(--muted);white-space:nowrap;}
+.quiz-count-btn{
+  width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border);
+  background:var(--bg);color:var(--muted);font-family:var(--font);font-size:13px;
+  font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;
+}
+.quiz-count-btn.active{background:var(--quiz);color:#fff;border-color:var(--quiz);}
+
+.compress-hint{font-size:10.5px;color:var(--muted);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 10px;margin:8px 12px 0;display:flex;align-items:center;gap:6px;}
+.compress-hint i{font-size:13px;color:var(--quiz);}
+
+/* ── KALENDER ── */
+.kal-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.kal-hdr{
+  padding:12px 14px 10px;background:var(--surface);
+  border-bottom:1px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.kal-hdr-title{font-size:15px;font-weight:500;display:flex;align-items:center;gap:8px;}
+.kal-nav{display:flex;align-items:center;gap:4px;}
+.kal-nav-btn{
+  width:32px;height:32px;border-radius:50%;border:none;background:var(--bg);
+  color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+}
+.kal-nav-btn:active{background:var(--border);}
+.kal-month{font-size:14px;font-weight:500;min-width:130px;text-align:center;}
+.kal-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:4px;
+  padding:12px 10px;background:var(--surface);border-bottom:1px solid var(--border);
+}
+.kal-weekday{
+  font-size:10px;text-transform:uppercase;color:var(--muted);
+  text-align:center;padding:4px 0;letter-spacing:.05em;font-weight:500;
+}
+.kal-day{
+  aspect-ratio:1;border-radius:8px;border:1px solid transparent;
+  background:var(--bg);display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-start;padding:4px 2px;cursor:pointer;
+  font-size:12px;color:var(--text);transition:all .12s;position:relative;
+  -webkit-tap-highlight-color:transparent;
+}
+.kal-day:active{transform:scale(.94);}
+.kal-day.other-month{color:var(--hint);background:transparent;}
+.kal-day.today{border-color:var(--kal);font-weight:600;color:var(--kal);}
+.kal-day.has-workout{background:var(--kal-l);}
+.kal-day.has-done{background:var(--wissen-l);}
+.kal-day-num{font-size:12px;line-height:1.2;}
+.kal-day-dots{display:flex;gap:2px;margin-top:auto;padding-bottom:2px;}
+.kal-day-dot{width:5px;height:5px;border-radius:50%;background:var(--kal);}
+.kal-day-dot.done{background:var(--wissen);}
+
+.kal-day-detail{padding:12px 14px 24px;}
+.kal-detail-date{font-size:12px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;}
+.kal-detail-title{font-family:var(--serif);font-size:22px;font-weight:400;margin-bottom:14px;}
+.workout-list{display:flex;flex-direction:column;gap:8px;}
+.workout-item{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:11px 13px;display:flex;align-items:flex-start;gap:10px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.workout-item.done{background:var(--wissen-l);border-color:var(--wissen);}
+.workout-check-box{
+  width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+  transition:all .15s;
+}
+.workout-item.done .workout-check-box{background:var(--wissen);border-color:var(--wissen);color:#fff;}
+.workout-body{flex:1;min-width:0;}
+.workout-title{font-size:14px;font-weight:500;line-height:1.4;}
+.workout-desc{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.55;white-space:pre-wrap;}
+.workout-item.done .workout-title{text-decoration:line-through;color:var(--muted);}
+.workout-del{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;font-size:16px;flex-shrink:0;}
+.workout-add-btn{
+  width:100%;padding:11px;border:1.5px dashed var(--border2);border-radius:12px;
+  background:transparent;color:var(--muted);font-family:var(--font);font-size:13px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:8px;
+}
+.workout-add-btn:active{background:var(--bg);}
+.kal-empty{text-align:center;padding:24px 16px;color:var(--muted);font-size:13px;}
+
+
+/* Exercise tracking inside workout */
+.workout-item.expanded{flex-direction:column;align-items:stretch;}
+.workout-item-row{display:flex;align-items:flex-start;gap:10px;width:100%;}
+.workout-expand-btn{
+  background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;
+  font-size:16px;flex-shrink:0;transition:transform .15s;
+}
+.workout-expand-btn.open{transform:rotate(180deg);}
+.exercises-area{margin-top:10px;border-top:1px solid var(--border);padding-top:10px;display:none;}
+.exercises-area.open{display:block;}
+.exercise-item{
+  background:var(--bg);border-radius:10px;padding:8px 10px;margin-bottom:6px;
+  display:flex;align-items:center;gap:8px;
+}
+.exercise-check{
+  width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;
+  transition:all .15s;
+}
+.exercise-check.done{background:var(--wissen);border-color:var(--wissen);color:#fff;}
+.exercise-body{flex:1;min-width:0;}
+.exercise-name{font-size:13px;font-weight:500;line-height:1.3;}
+.exercise-name.done{text-decoration:line-through;color:var(--muted);}
+.exercise-sets{font-size:11.5px;color:var(--muted);margin-top:1px;}
+.exercise-del{background:none;border:none;color:var(--muted);cursor:pointer;padding:3px;font-size:14px;}
+.exercise-add-row{
+  display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;
+}
+.exercise-add-row input{
+  border:1px solid var(--border2);border-radius:8px;
+  padding:7px 10px;font-size:13px;font-family:var(--font);
+  background:var(--surface);color:var(--text);outline:none;-webkit-appearance:none;
+  flex:1;min-width:0;
+}
+.exercise-name-input{flex:2 !important;min-width:120px;}
+.exercise-sets-input{flex:1 !important;min-width:80px;}
+.exercise-add-btn{
+  padding:7px 12px;border:none;border-radius:8px;background:var(--kal);color:#fff;
+  font-family:var(--font);font-size:12px;cursor:pointer;font-weight:500;flex-shrink:0;
+}
+.exercise-progress{font-size:11px;color:var(--kal);margin-top:4px;font-weight:500;}
+/* Workout editor */
+.workout-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:250;align-items:flex-end;justify-content:center;}
+.workout-modal.open{display:flex;}
+.workout-sheet{
+  background:var(--surface);border-radius:20px 20px 0 0;
+  padding:18px 16px calc(20px + var(--safe-bottom));
+  width:100%;max-width:600px;max-height:88dvh;
+  overflow-y:auto;animation:slideUp .25s ease;
+}
+.workout-sheet h3{font-size:16px;font-weight:500;margin-bottom:14px;}
+.workout-sheet input[type=text]{
+  width:100%;border:1px solid var(--border2);border-radius:10px;
+  padding:10px 12px;font-size:15px;font-family:var(--font);
+  background:var(--bg);color:var(--text);outline:none;-webkit-appearance:none;
+}
+.workout-sheet textarea{
+  width:100%;border:1px solid var(--border2);border-radius:10px;
+  padding:10px 12px;font-size:14px;font-family:var(--font);
+  background:var(--bg);color:var(--text);outline:none;min-height:90px;resize:vertical;
+  -webkit-appearance:none;
+}
+.preset-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
+.preset-chip{
+  font-size:11.5px;padding:5px 10px;border-radius:14px;
+  border:1px solid var(--border);background:var(--bg);color:var(--muted);
+  cursor:pointer;font-family:var(--font);
+}
+.workout-actions{display:flex;gap:8px;margin-top:16px;}
+.workout-save{flex:1;padding:11px;border:none;border-radius:11px;background:var(--kal);color:#fff;font-family:var(--font);font-size:14px;font-weight:500;cursor:pointer;}
+.workout-cancel{padding:11px 16px;border:1px solid var(--border);border-radius:11px;background:none;color:var(--muted);font-family:var(--font);font-size:14px;cursor:pointer;}
+.quiz-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.7;}
+.quiz-empty i{font-size:40px;display:block;margin-bottom:10px;opacity:.4;}
+
+.workout-import-card{
+  margin-top:8px;border:1px solid var(--sport);border-radius:12px;
+  background:var(--sport-l);padding:11px 13px;
+}
+.workout-import-title{font-size:13px;font-weight:500;color:var(--sport);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.workout-import-list{font-size:12px;color:var(--text);line-height:1.6;margin-bottom:9px;}
+.workout-import-list ul{margin:0;padding-left:18px;}
+.workout-import-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.workout-import-btn{
+  background:var(--sport);color:#fff;border:none;border-radius:10px;
+  padding:7px 12px;font-family:var(--font);font-size:12px;font-weight:500;
+  cursor:pointer;display:flex;align-items:center;gap:4px;
+}
+.workout-import-btn:disabled{opacity:.5;cursor:not-allowed;background:var(--muted);}
+.workout-import-btn.outline{background:none;color:var(--sport);border:1px solid var(--sport);}
+.workout-date-select{
+  font-size:12px;padding:6px 10px;border:1px solid var(--sport);
+  border-radius:10px;background:var(--surface);color:var(--text);
+  font-family:var(--font);outline:none;-webkit-appearance:none;
+}
+
+</style>
+</head>
+<body>
+
+<!-- SETUP -->
+<div class="setup-screen" id="setup-screen">
+  <div class="setup-logo-wrap">
+    <svg class="logo-svg" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="72" height="72" rx="18" fill="#534AB7"/>
+      <circle cx="36" cy="28" r="10" fill="white" opacity=".15"/>
+      <circle cx="36" cy="28" r="6" fill="white"/>
+      <path d="M20 50 Q36 38 52 50" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".6"/>
+      <path d="M24 56 Q36 46 48 56" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" opacity=".35"/>
+      <circle cx="22" cy="44" r="3" fill="#AFA9EC"/>
+      <circle cx="50" cy="44" r="3" fill="#5DCAA5"/>
+      <circle cx="36" cy="42" r="3" fill="#F0997B"/>
+    </svg>
+  </div>
+  <h1>Routine Coach</h1>
+  <p>Dein persönlicher Coach für Sport, Wissen und Sprachen — powered by Claude AI.</p>
+  <div class="key-wrap">
+    <input type="password" id="setup-key" placeholder="sk-ant-api03-…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <button class="eye-btn" onclick="toggleEye('setup-key',this)"><i class="ti ti-eye"></i></button>
+  </div>
+  <div class="setup-err" id="setup-err">Bitte einen gültigen API Key eingeben (beginnt mit sk-ant-)</div>
+  <button class="setup-btn" onclick="doSetup()">Starten →</button>
+  <p class="setup-hint">API Key: <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys.<br>Empfehlung: Spending Limit auf 5–10 $/Monat setzen.</p>
+</div>
+
+<!-- APP -->
+<div class="app" id="app" style="display:none">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-logo">
+      <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="18" fill="#534AB7"/>
+        <circle cx="36" cy="28" r="10" fill="white" opacity=".15"/>
+        <circle cx="36" cy="28" r="6" fill="white"/>
+        <path d="M20 50 Q36 38 52 50" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".6"/>
+        <circle cx="22" cy="44" r="3" fill="#AFA9EC"/>
+        <circle cx="50" cy="44" r="3" fill="#5DCAA5"/>
+        <circle cx="36" cy="42" r="3" fill="#F0997B"/>
+      </svg>
+      <span class="topbar-title">Routine Coach</span>
+    </div>
+    <span class="topbar-date" id="topbar-date"></span>
+  </div>
+
+  <!-- SPORT PANEL -->
+  <div class="panel active" id="panel-sport">
+    <div class="coach-hdr">
+      <div class="coach-hdr-left">
+        <div class="coach-icon" style="background:var(--sport-l)">💪</div>
+        <div><div class="coach-title">Sport-Coach</div><div class="coach-sub" id="sub-sport">Lade Profil…</div></div>
+      </div>
+      <div class="hdr-btns">
+        <button class="hbtn" onclick="openModal('sport')" title="Profil"><i class="ti ti-user-circle"></i></button>
+        <button class="hbtn" onclick="clearChat('sport')" title="Reset"><i class="ti ti-refresh"></i></button>
+      </div>
+    </div>
+    <div class="profile-bar">
+      <button class="pchip" data-coach="sport" id="chip-sport" onclick="openModal('sport')"><i class="ti ti-plus" style="font-size:12px"></i> Profil einrichten</button>
+    </div>
+    <div class="messages" id="msgs-sport">
+      <div class="welcome" id="welcome-sport">
+        <div class="welcome-icon">🏋️</div>
+        <h2>Sport-Coach</h2>
+        <p>Richte dein Profil ein — ich zeige dir dann jeden Morgen direkt was heute ansteht.</p>
+        <button class="welcome-btn" style="background:var(--sport)" onclick="openModal('sport')">Profil einrichten</button>
+      </div>
+    </div>
+    <div class="quick-area" id="quick-sport"></div>
+    <div class="input-row">
+      <textarea id="input-sport" placeholder="Frag deinen Sport-Coach…" rows="1" onkeydown="handleKey(event,'sport')" oninput="autoResize(this)"></textarea>
+      <button class="send-btn" style="background:var(--sport)" onclick="sendMsg('sport')" id="btn-sport"><i class="ti ti-send"></i></button>
+    </div>
+  </div>
+
+  <!-- WISSEN PANEL -->
+  <div class="panel" id="panel-wissen">
+    <div class="coach-hdr">
+      <div class="coach-hdr-left">
+        <div class="coach-icon" style="background:var(--wissen-l)">🧠</div>
+        <div><div class="coach-title">Wissen-Coach</div><div class="coach-sub" id="sub-wissen">Lade Profil…</div></div>
+      </div>
+      <div class="hdr-btns">
+        <button class="hbtn" onclick="openModal('wissen')" title="Profil"><i class="ti ti-user-circle"></i></button>
+        <button class="hbtn" onclick="clearChat('wissen')" title="Reset"><i class="ti ti-refresh"></i></button>
+      </div>
+    </div>
+    <div class="profile-bar">
+      <button class="pchip" data-coach="wissen" id="chip-wissen" onclick="openModal('wissen')"><i class="ti ti-plus" style="font-size:12px"></i> Profil einrichten</button>
+    </div>
+    <div class="messages" id="msgs-wissen">
+      <div class="welcome" id="welcome-wissen">
+        <div class="welcome-icon">📚</div>
+        <h2>Wissen-Coach</h2>
+        <p>Richte dein Profil ein — ich sage dir täglich was du lesen oder wiederholen solltest.</p>
+        <button class="welcome-btn" style="background:var(--wissen)" onclick="openModal('wissen')">Profil einrichten</button>
+      </div>
+    </div>
+    <div class="quick-area" id="quick-wissen"></div>
+    <div class="input-row">
+      <textarea id="input-wissen" placeholder="Frag deinen Wissen-Coach…" rows="1" onkeydown="handleKey(event,'wissen')" oninput="autoResize(this)"></textarea>
+      <button class="send-btn" style="background:var(--wissen)" onclick="sendMsg('wissen')" id="btn-wissen"><i class="ti ti-send"></i></button>
+    </div>
+  </div>
+
+  <!-- SPRACHEN PANEL -->
+  <div class="panel" id="panel-sprachen">
+    <div class="coach-hdr">
+      <div class="coach-hdr-left">
+        <div class="coach-icon" style="background:var(--sprache-l)">🌍</div>
+        <div><div class="coach-title">Sprachen-Coach</div><div class="coach-sub" id="sub-sprachen">Lade Profil…</div></div>
+      </div>
+      <div class="hdr-btns">
+        <button class="hbtn" onclick="openModal('sprachen')" title="Profil"><i class="ti ti-user-circle"></i></button>
+        <button class="hbtn" onclick="clearChat('sprachen')" title="Reset"><i class="ti ti-refresh"></i></button>
+      </div>
+    </div>
+    <div class="profile-bar">
+      <button class="pchip" data-coach="sprachen" id="chip-sprachen" onclick="openModal('sprachen')"><i class="ti ti-plus" style="font-size:12px"></i> Profil einrichten</button>
+    </div>
+    <div class="messages" id="msgs-sprachen">
+      <div class="welcome" id="welcome-sprachen">
+        <div class="welcome-icon">🗣️</div>
+        <h2>Sprachen-Coach</h2>
+        <p>Richte dein Profil ein — ich koordiniere deine Sprachen-Rotation und übe direkt mit dir.</p>
+        <button class="welcome-btn" style="background:var(--sprache)" onclick="openModal('sprachen')">Profil einrichten</button>
+      </div>
+    </div>
+    <div class="quick-area" id="quick-sprachen"></div>
+    <div class="input-row">
+      <textarea id="input-sprachen" placeholder="Frag deinen Sprachen-Coach…" rows="1" onkeydown="handleKey(event,'sprachen')" oninput="autoResize(this)"></textarea>
+      <button class="send-btn" style="background:var(--sprache)" onclick="sendMsg('sprachen')" id="btn-sprachen"><i class="ti ti-send"></i></button>
+    </div>
+  </div>
+
+  <!-- MOTIVATIONS PANEL -->
+  <div class="panel" id="panel-motiv">
+    <div class="motiv-scroll">
+      <div class="motiv-hero">
+        <div class="motiv-hero-icon">🌅</div>
+        <h2>Meine 10 Regeln</h2>
+        <p>Tippe eine Regel an wenn du sie heute erfüllt hast.</p>
+        <div class="motiv-date" id="motiv-date"></div>
+      </div>
+      <div class="motiv-progress" id="motiv-progress">
+        <div class="motiv-progress-label">
+          <span>Heute erfüllt</span><span id="motiv-count">0 / 10</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="motiv-fill" style="width:0%"></div></div>
+      </div>
+      <div class="motiv-quote">
+        <p id="motiv-quote-text">„Disziplin ist die Brücke zwischen Zielen und Errungenschaften."</p>
+        <span id="motiv-quote-author">— Jim Rohn</span>
+      </div>
+      <div class="rules-list" id="rules-list"></div>
+    </div>
+  </div>
+
+  <!-- JOURNAL PANEL -->
+  <div class="panel" id="panel-journal">
+    <div class="journal-hdr">
+      <span class="journal-hdr-title">📓 Tagebuch</span>
+      <button class="journal-new-btn" onclick="openEditor()"><i class="ti ti-plus"></i> Neuer Eintrag</button>
+    </div>
+    <div class="journal-scroll">
+      <div class="journal-entries" id="journal-entries"></div>
+      <div class="journal-empty" id="journal-empty" style="display:none">
+        <i class="ti ti-notebook"></i>
+        <p>Noch keine Einträge. Starte mit deinem ersten Tagebucheintrag für heute.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- QUIZ PANEL -->
+  <div class="panel" id="panel-quiz">
+    <div class="quiz-hero">
+      <div class="quiz-hero-row">
+        <span class="quiz-hero-title">🧩 Quiz</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="quiz-streak"><i class="ti ti-flame" style="font-size:14px;color:var(--quiz)"></i> Streak: <span class="quiz-streak-val" id="quiz-streak-val">0</span></div>
+          <span class="quiz-score-pill" id="quiz-score-pill">0 / 0 richtig</span>
+        </div>
+      </div>
+      <div class="quiz-cats" id="quiz-cats"></div>
+      <div class="quiz-count-row">
+        <span class="quiz-count-label">Fragen:</span>
+        <button class="quiz-count-btn active" data-n="5" onclick="setQuizCount(5,this)">5</button>
+        <button class="quiz-count-btn" data-n="10" onclick="setQuizCount(10,this)">10</button>
+        <button class="quiz-count-btn" data-n="20" onclick="setQuizCount(20,this)">20</button>
+        <button class="quiz-count-btn" data-n="30" onclick="setQuizCount(30,this)">30</button>
+        <button class="quiz-count-btn" data-n="50" onclick="setQuizCount(50,this)">50</button>
+      </div>
+    </div>
+    <div class="quiz-scroll">
+      <div class="quiz-area" id="quiz-area">
+        <div class="quiz-empty" id="quiz-empty">
+          <i class="ti ti-brain"></i>
+          Wähle eine Kategorie und starte dein Quiz.<br>Claude generiert jedes Mal neue Fragen!
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- KALENDER PANEL -->
+  <div class="panel" id="panel-kalender">
+    <div class="kal-hdr">
+      <span class="kal-hdr-title">📅 Workout-Kalender</span>
+      <div class="kal-nav">
+        <button class="kal-nav-btn" onclick="changeMonth(-1)"><i class="ti ti-chevron-left"></i></button>
+        <span class="kal-month" id="kal-month-label"></span>
+        <button class="kal-nav-btn" onclick="changeMonth(1)"><i class="ti ti-chevron-right"></i></button>
+      </div>
+    </div>
+    <div class="kal-scroll">
+      <div class="kal-grid" id="kal-grid"></div>
+      <div class="kal-day-detail" id="kal-day-detail"></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM TABS -->
+  <div class="bottom-tabs">
+    <button class="btab active" data-tab="sport" onclick="switchTab('sport')"><i class="ti ti-barbell"></i>Sport</button>
+    <button class="btab" data-tab="wissen" onclick="switchTab('wissen')"><i class="ti ti-brain"></i>Wissen</button>
+    <button class="btab" data-tab="sprachen" onclick="switchTab('sprachen')"><i class="ti ti-language"></i>Sprachen</button>
+    <button class="btab" data-tab="motiv" onclick="switchTab('motiv')"><i class="ti ti-flame"></i>Regeln</button>
+    <button class="btab" data-tab="kalender" onclick="switchTab('kalender')"><i class="ti ti-calendar"></i>Kalender</button>
+    <button class="btab" data-tab="quiz" onclick="switchTab('quiz')"><i class="ti ti-help-circle"></i>Quiz</button>
+    <button class="btab" data-tab="journal" onclick="switchTab('journal')"><i class="ti ti-notebook"></i>Tagebuch</button>
+  </div>
+</div>
+
+<!-- JOURNAL EDITOR -->
+<div class="journal-editor" id="journal-editor">
+  <div class="je-toolbar">
+    <button class="je-close" onclick="closeEditor()"><i class="ti ti-x"></i></button>
+    <span class="je-toolbar-title" id="je-toolbar-title">Neuer Eintrag</span>
+    <button class="je-save-btn" onclick="saveEntry()">Speichern</button>
+  </div>
+  <div class="je-meta">
+    <span class="je-meta-date" id="je-meta-date"></span>
+    <div class="mood-picker">
+      <button class="mood-opt" data-mood="😊" onclick="selectMood(this)">😊</button>
+      <button class="mood-opt" data-mood="😐" onclick="selectMood(this)">😐</button>
+      <button class="mood-opt" data-mood="😔" onclick="selectMood(this)">😔</button>
+      <button class="mood-opt" data-mood="⚡" onclick="selectMood(this)">⚡</button>
+      <button class="mood-opt" data-mood="😴" onclick="selectMood(this)">😴</button>
+    </div>
+  </div>
+  <div class="je-body">
+    <div class="je-section">
+      <span class="je-section-label">Freier Text</span>
+      <textarea class="je-textarea" id="je-text" placeholder="Was beschäftigt dich heute? Was war gut, was nicht?"></textarea>
+    </div>
+    <div class="je-section">
+      <span class="je-section-label">Reflexionsfragen</span>
+      <div class="je-prompts">
+        <button class="je-prompt-btn" onclick="addPrompt('Was war heute mein größter Erfolg?')">💪 Was war heute mein größter Erfolg?</button>
+        <button class="je-prompt-btn" onclick="addPrompt('Wofür bin ich heute dankbar?')">🙏 Wofür bin ich heute dankbar?</button>
+        <button class="je-prompt-btn" onclick="addPrompt('Was nehme ich morgen mit?')">🌅 Was nehme ich morgen mit?</button>
+        <button class="je-prompt-btn" onclick="addPrompt('Was hätte ich heute besser machen können?')">🔍 Was hätte ich heute besser machen können?</button>
+        <button class="je-prompt-btn" onclick="addPrompt('Wie habe ich mich heute gefühlt und warum?')">💭 Wie habe ich mich heute gefühlt und warum?</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-title">Profil</div>
+    <label class="modal-label">Aktueller Stand / Level</label>
+    <textarea id="pf-level" placeholder="z.B. 5x/Woche Training, letztes Workout war Brust/Trizeps…"></textarea>
+    <label class="modal-label">Meine Ziele</label>
+    <textarea id="pf-goals" placeholder="z.B. Muskelmasse aufbauen, Spanisch B2, Kapitel 47/481…"></textarea>
+    <label class="modal-label">Tools / Details / Einschränkungen</label>
+    <textarea id="pf-details" placeholder="z.B. Gym, kein Knieproblem, Clozemaster täglich, NotebookLM…"></textarea>
+    <label class="modal-label">Datum der letzten Session</label>
+    <input type="date" id="pf-lastdate">
+    <label class="modal-label">Was war die letzte Session?</label>
+    <textarea id="pf-lastsession" placeholder="z.B. Bankdrücken 4×8 @80kg — oder Kapitel 47 — oder 30min Spanisch"></textarea>
+    <div class="key-row">
+      <div class="key-row-info">
+        <strong>API Key</strong>
+        <span id="key-display">nicht gesetzt</span>
+      </div>
+      <button class="key-change-btn" onclick="showKeyField()">Ändern</button>
+    </div>
+    <div id="key-field-area" style="display:none;margin-top:8px;">
+      <div class="key-wrap" style="width:100%">
+        <input type="password" id="modal-key" placeholder="sk-ant-api03-…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <button class="eye-btn" onclick="toggleEye('modal-key',this)"><i class="ti ti-eye"></i></button>
+      </div>
+    </div>
+
+    <div class="key-row" style="margin-top:8px;">
+      <div class="key-row-info">
+        <strong>Backup</strong>
+        <span>Alle Daten als Datei sichern</span>
+      </div>
+      <div style="display:flex;gap:5px;">
+        <button class="key-change-btn" onclick="exportData()" title="Backup speichern"><i class="ti ti-download" style="font-size:13px"></i> Export</button>
+        <button class="key-change-btn" onclick="document.getElementById('import-file').click()" title="Backup wiederherstellen"><i class="ti ti-upload" style="font-size:13px"></i> Import</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
+      <button class="btn-save" id="modal-save" onclick="saveProfile()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const RULES = [
+  {title:"Feste Aufstehzeit",      desc:"Jeden Morgen gleich aufstehen — kein Snooze."},
+  {title:"Handy-freie erste Stunde",desc:"Morgen gehört dir. Keine Benachrichtigungen bis der Tag gestartet ist."},
+  {title:"Täglich bewegen",        desc:"Sport, Spaziergang oder Stretching — jeden Tag mindestens etwas."},
+  {title:"Echtes Essen, bewusst essen", desc:"Keine schnellen Mahlzeiten nebenbei, kein Junk."},
+  {title:"Täglich lernen",         desc:"Sprachen, Lesen oder Wissen — mindestens 20 Minuten."},
+  {title:"Ausreichend schlafen",   desc:"Feste Schlafenszeit. 7–8 Stunden sind nicht verhandelbar."},
+  {title:"Eine Sache zur Zeit",    desc:"Kein Multitasking. Bewusst fokussiert bleiben."},
+  {title:"Täglich in die Natur",   desc:"Frische Luft, auch kurz — als Reset für Kopf und Körper."},
+  {title:"Abend reflektieren",     desc:"Kurz innehalten: Was war gut? Was nehme ich mit?"},
+  {title:"Dankbarkeit pflegen",    desc:"Jeden Tag einen Moment bewusst wertschätzen."},
+];
+
+const QUOTES = [
+  {text:"Disziplin ist die Brücke zwischen Zielen und Errungenschaften.",author:"Jim Rohn"},
+  {text:"Wir sind, was wir wiederholt tun. Hervorragend zu sein ist daher keine Handlung, sondern eine Gewohnheit.",author:"Aristoteles"},
+  {text:"Der Unterschied zwischen wer du bist und wer du sein willst, liegt in dem was du täglich tust.",author:"unbekannt"},
+  {text:"Kleine tägliche Verbesserungen führen zu beeindruckenden Ergebnissen im Laufe der Zeit.",author:"Robin Sharma"},
+  {text:"Ruhe ist keine Schwäche — sie ist die Kraft, die alles trägt.",author:"unbekannt"},
+  {text:"Das Geheimnis des Fortschritts ist, anzufangen.",author:"Mark Twain"},
+  {text:"Kümmere dich um deinen Körper — es ist der einzige Ort, an dem du leben musst.",author:"Jim Rohn"},
+];
+
+const COACHES = {
+  sport:{
+    emoji:'💪',avatar:'🏋️',color:'#534AB7',icon:'ti-barbell',
+    title:'💪 Sport-Profil',
+    quick:['Was steht heute an?','Letztes Training war gestern','✓ Training erledigt','Wochenplan zeigen'],
+    system:(p,today)=>`Du bist ein persönlicher Sport-Coach. Heute ist ${today}.
+
+NUTZERPROFIL:
+Stand: ${p.level||'–'} | Ziele: ${p.goals||'–'} | Details: ${p.details||'–'}
+Letzte Session: ${p.lastdate?p.lastdate+' — '+(p.lastsession||''):'unbekannt'}
+
+ANTWORT-LÄNGE (WICHTIG):
+- Default: KURZ. Max 120 Wörter. Direkt, ohne Fülltext oder Motivationsfloskeln.
+- AUSFÜHRLICH NUR wenn explizit angefragt: "Wochenplan", "ausführlich", "erklär", "warum", "Trainingsprogramm", "Periodisierung" o.ä. → dann strukturiert und so detailliert wie nötig (max 600 Wörter).
+- Folgefragen: 1-3 Sätze.
+- Muskelgruppen-Rotation: min. 48h Pause pro Gruppe.
+- Antworte auf Deutsch.
+
+WORKOUT-BLOCK (PFLICHT bei jedem Tagesplan):
+Wenn du ein konkretes Workout vorschlägst, füge AM ENDE deiner Antwort einen Block in genau diesem Format an (auf neuer Zeile, KEIN Markdown):
+
+[WORKOUT]
+{"title":"Brust/Trizeps","exercises":[{"name":"Bankdrücken","sets":"4×8 @80kg"},{"name":"Dips","sets":"3×10"}]}
+[/WORKOUT]
+
+Regeln:
+- title = Muskelgruppe/Fokus (kurz)
+- exercises = Array mit name + sets (z.B. "4×8 @80kg" oder "3×12")
+- Nur valides JSON, KEINE Zeilenumbrüche IM JSON
+- NUR bei konkreten Workout-Vorschlägen für heute oder einen Tag
+- Bei Rest-Days, Fragen oder Diskussionen: KEIN Block
+- Format vor dem Block: dein normaler Tagesplan-Text`
+  },
+  wissen:{
+    emoji:'🧠',avatar:'📚',color:'#0F6E56',
+    title:'🧠 Wissen-Profil',
+    quick:['Was lerne ich heute?','Quiz-Frage!','✓ Session erledigt','Lernplan zeigen'],
+    system:(p,today)=>`Du bist ein persönlicher Allgemeinwissen-Coach. Heute ist ${today}.
+
+NUTZERPROFIL:
+Stand: ${p.level||'–'} | Ziele: ${p.goals||'–'} | Tools: ${p.details||'–'}
+Letzte Session: ${p.lastdate?p.lastdate+' — '+(p.lastsession||''):'unbekannt'}
+
+ANTWORT-LÄNGE (WICHTIG):
+- Default: KURZ. Max 120 Wörter. Direkt, ohne Einleitungen.
+- AUSFÜHRLICH NUR wenn explizit angefragt: "Wochenplan", "Lernplan", "ausführlich", "erklär", "fasse zusammen", "Hintergrund" o.ä. → dann strukturiert und so detailliert wie nötig (max 600 Wörter).
+- Beim Morning-Plan immer dieses Format:
+  Tage seit letzter Session: X
+  Heute: [Konkretes Thema/Kapitel]
+  Aufgaben:
+  • Lesen: [was]
+  • Wiederholung: [was]
+- Bei Quizfragen: nur die Frage, keine Einleitung.
+- Folgefragen: 1-3 Sätze.
+- Antworte auf Deutsch.`
+  },
+  sprachen:{
+    emoji:'🌍',avatar:'🗣️',color:'#993C1D',
+    title:'🌍 Sprachen-Profil',
+    quick:['Welche Sprache heute?','Schnell-Übung starten','✓ Session erledigt','Alle Sprachen'],
+    system:(p,today)=>`Du bist ein persönlicher Sprachen-Coach. Heute ist ${today}.
+
+NUTZERPROFIL:
+Stand: ${p.level||'–'} | Ziele: ${p.goals||'–'} | Tools: ${p.details||'–'}
+Letzte Session: ${p.lastdate?p.lastdate+' — '+(p.lastsession||''):'unbekannt'}
+
+ANTWORT-LÄNGE (WICHTIG):
+- Default: KURZ. Max 120 Wörter. Direkt, ohne Einleitungen.
+- AUSFÜHRLICH NUR wenn explizit angefragt: "Wochenplan", "alle Sprachen", "ausführlich", "erklär", "Grammatik" o.ä. → dann strukturiert (max 600 Wörter).
+- Beim Morning-Plan immer dieses Format:
+  Tage seit letzter Session: X
+  Heute: [Sprache] — [Fokus]
+  Übung:
+  [Konkrete Aufgabe, max 3 Zeilen]
+- Folgefragen: 1-3 Sätze.
+- Übungen direkt in der Zielsprache, knappe deutsche Anweisungen drumherum.`
+  }
+};
+
+let apiKey = '';
+let currentModal = null;
+let currentEntryId = null;
+let selectedMood = '';
+
+const S = {
+  sport:   {profile:null,history:[],started:false},
+  wissen:  {profile:null,history:[],started:false},
+  sprachen:{profile:null,history:[],started:false},
+  rules:   {},   // {YYYY-MM-DD: [0,1,3,...]} indices done today
+  journal: [],   // [{id,date,mood,text,created}]
+  workouts:{},   // {YYYY-MM-DD: [{id,title,desc,done}]}
+};
+
+/* ── UTILS ── */
+function getToday(){return new Date().toLocaleDateString('de-DE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});}
+function getTodayISO(){return new Date().toISOString().split('T')[0];}
+function toggleEye(id,btn){const el=document.getElementById(id);el.type=el.type==='password'?'text':'password';btn.innerHTML=el.type==='password'?'<i class="ti ti-eye"></i>':'<i class="ti ti-eye-off"></i>';}
+function persist(){try{localStorage.setItem('rc_v4',JSON.stringify(S));}catch(e){}}
+function load(){try{const r=localStorage.getItem('rc_v4');if(!r)return;const d=JSON.parse(r);Object.assign(S,d);}catch(e){}}
+
+/* ── SETUP ── */
+function doSetup(){
+  const v=document.getElementById('setup-key').value.trim();
+  if(!v.startsWith('sk-ant-')){document.getElementById('setup-err').classList.add('show');return;}
+  apiKey=v;localStorage.setItem('rc_apikey',v);
+  document.getElementById('setup-screen').classList.add('hidden');
+  document.getElementById('app').style.display='flex';
+  initApp();
+}
+
+/* ── INIT ── */
+function initApp(){
+  document.getElementById('topbar-date').textContent=getToday();
+  document.getElementById('motiv-date').textContent=getToday();
+  document.getElementById('je-meta-date').textContent=getTodayISO();
+  renderRules();
+  renderJournal();
+  initQuiz();
+  initKalender();
+  ['sport','wissen','sprachen'].forEach(c=>{
+    updateSub(c);
+    if(S[c].profile)updateChip(c);
+    if(S[c].history?.length){
+      S[c].started=true;
+      const w=document.getElementById('welcome-'+c);if(w)w.remove();
+      // Show compression hint if summary exists
+      const hasSummary = S[c].history.some(h => h.role === 'summary');
+      if (hasSummary) {
+        const msgs = document.getElementById('msgs-'+c);
+        const hint = document.createElement('div');
+        hint.className = 'compress-hint';
+        hint.innerHTML = '<i class="ti ti-archive"></i> Frühere Nachrichten wurden zusammengefasst (spart Tokens)';
+        msgs.appendChild(hint);
+      }
+      S[c].history.forEach(h => {
+        if (h.role === 'summary') return; // don't render summary in UI
+        addMsg(c, h.role, h.content);
+      });
+      setupQuick(c);
+    }
+  });
+  // rotate daily quote
+  const q=QUOTES[new Date().getDate()%QUOTES.length];
+  document.getElementById('motiv-quote-text').textContent='„'+q.text+'"';
+  document.getElementById('motiv-quote-author').textContent='— '+q.author;
+}
+
+function updateSub(coach){
+  const p=S[coach].profile;
+  const el=document.getElementById('sub-'+coach);
+  if(!el)return;
+  if(!p){el.textContent='Profil einrichten';return;}
+  const d=p.lastdate;
+  if(d){
+    const days=Math.floor((new Date()-new Date(d))/(86400000));
+    el.textContent=days===0?'Letzte Session: heute':`Letzte Session: vor ${days} Tag${days!==1?'en':''}`;
+  } else {el.textContent=p.goals||'Profil gesetzt';}
+}
+
+/* ── TABS ── */
+function switchTab(tab){
+  document.querySelectorAll('.btab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`.btab[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+
+/* ── PROFILE MODAL ── */
+function openModal(coach){
+  currentModal=coach;
+  const p=S[coach].profile||{};
+  document.getElementById('pf-level').value=p.level||'';
+  document.getElementById('pf-goals').value=p.goals||'';
+  document.getElementById('pf-details').value=p.details||'';
+  document.getElementById('pf-lastdate').value=p.lastdate||getTodayISO();
+  document.getElementById('pf-lastsession').value=p.lastsession||'';
+  document.getElementById('modal-title').textContent=COACHES[coach].title;
+  document.getElementById('modal-save').style.background=COACHES[coach].color;
+  document.getElementById('key-display').textContent=apiKey?'••••••'+apiKey.slice(-6):'nicht gesetzt';
+  document.getElementById('key-field-area').style.display='none';
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function handleOverlayClick(e){if(e.target===document.getElementById('modal'))closeModal();}
+function showKeyField(){document.getElementById('key-field-area').style.display='block';document.getElementById('modal-key').value=apiKey;}
+
+function saveProfile(){
+  const c=currentModal;
+  const nk=document.getElementById('modal-key').value.trim();
+  if(nk&&nk.startsWith('sk-ant-')){apiKey=nk;localStorage.setItem('rc_apikey',nk);}
+  S[c].profile={
+    level:document.getElementById('pf-level').value.trim(),
+    goals:document.getElementById('pf-goals').value.trim(),
+    details:document.getElementById('pf-details').value.trim(),
+    lastdate:document.getElementById('pf-lastdate').value,
+    lastsession:document.getElementById('pf-lastsession').value.trim(),
+  };
+  persist();updateChip(c);updateSub(c);closeModal();
+  if(!S[c].started)kickoff(c);
+}
+
+function updateChip(coach){
+  const p=S[coach].profile;const chip=document.getElementById('chip-'+coach);
+  if(!chip||!p)return;
+  const l=p.goals||p.level||'';
+  chip.innerHTML=`<i class="ti ti-check" style="font-size:12px"></i> ${l.substring(0,28)}${l.length>28?'…':''}`;
+  chip.classList.add('set');
+}
+
+/* ── CHAT ── */
+function addMsg(coach,role,text){
+  const w=document.getElementById('welcome-'+coach);if(w)w.remove();
+  const msgs=document.getElementById('msgs-'+coach);
+  const C=COACHES[coach];
+  const wrap=document.createElement('div');wrap.className='msg '+role;wrap.setAttribute('data-coach',coach);
+  const av=document.createElement('div');av.className='msg-av';
+  av.style.background=role==='coach'?C.color+'22':C.color;
+  av.textContent=role==='coach'?C.avatar:'👤';
+  const bubble=document.createElement('div');bubble.className='msg-bubble';
+
+  // Parse [WORKOUT]...[/WORKOUT] block from coach messages (sport only)
+  let workoutData = null;
+  let cleanText = text;
+  if (role === 'coach' && coach === 'sport') {
+    const startTag = '[WORKOUT]';
+    const endTag = '[/WORKOUT]';
+    const startIdx = text.indexOf(startTag);
+    const endIdx = text.indexOf(endTag);
+    if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+      const jsonStr = text.substring(startIdx + startTag.length, endIdx).trim();
+      try {
+        workoutData = JSON.parse(jsonStr);
+        cleanText = (text.substring(0, startIdx) + text.substring(endIdx + endTag.length)).trim();
+      } catch(e) { console.warn('Workout JSON parse failed:', e, jsonStr); }
+    }
+  }
+
+  bubble.textContent = cleanText;
+  wrap.appendChild(av);
+  wrap.appendChild(bubble);
+
+  // Append import card if workout data was parsed
+  if (workoutData && workoutData.title) {
+    const importEl = createImportCard(workoutData);
+    bubble.appendChild(importEl);
+  }
+
+  msgs.appendChild(wrap);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function createImportCard(workout) {
+  const card = document.createElement('div');
+  card.className = 'workout-import-card';
+  const exList = (workout.exercises || []).map(e =>
+    `<li>${e.name}${e.sets ? ' — <span style="color:var(--muted)">'+e.sets+'</span>' : ''}</li>`
+  ).join('');
+
+  // Build date options (today + next 6 days)
+  const today = new Date();
+  let dateOpts = '';
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today.getTime() + i*86400000);
+    const iso = d.toISOString().split('T')[0];
+    const label = i === 0 ? 'Heute' : i === 1 ? 'Morgen' : d.toLocaleDateString('de-DE',{weekday:'short',day:'numeric',month:'short'});
+    dateOpts += `<option value="${iso}">${label}</option>`;
+  }
+
+  const wid = 'imp-'+Date.now()+Math.random().toString(36).slice(2,7);
+  card.innerHTML = `
+    <div class="workout-import-title"><i class="ti ti-calendar-plus"></i> Workout für Kalender</div>
+    <div class="workout-import-list"><strong>${workout.title}</strong><ul>${exList}</ul></div>
+    <div class="workout-import-actions">
+      <select class="workout-date-select" id="${wid}-date">${dateOpts}</select>
+      <button class="workout-import-btn" id="${wid}-btn">
+        <i class="ti ti-plus" style="font-size:13px"></i> In Kalender
+      </button>
+    </div>`;
+
+  setTimeout(() => {
+    const btn = document.getElementById(wid+'-btn');
+    const sel = document.getElementById(wid+'-date');
+    if (btn && sel) {
+      btn.onclick = () => importWorkoutToCalendar(workout, sel.value, btn);
+    }
+  }, 50);
+
+  return card;
+}
+
+function importWorkoutToCalendar(workout, dateISO, btn) {
+  if (!S.workouts) S.workouts = {};
+  if (!S.workouts[dateISO]) S.workouts[dateISO] = [];
+
+  const newWorkout = {
+    id: Date.now()+'',
+    title: workout.title,
+    desc: '',
+    done: false,
+    created: Date.now(),
+    exercises: (workout.exercises || []).map((e, i) => ({
+      id: Date.now()+'_'+i,
+      name: e.name,
+      sets: e.sets || '',
+      done: false
+    })),
+  };
+
+  S.workouts[dateISO].push(newWorkout);
+  persist();
+
+  // Update button visually
+  if (btn) {
+    btn.innerHTML = '<i class="ti ti-check" style="font-size:13px"></i> Hinzugefügt';
+    btn.disabled = true;
+  }
+
+  // Refresh calendar if visible
+  if (typeof renderKalGrid === 'function') {
+    renderKalGrid();
+    if (kalState.selectedDate === dateISO) renderKalDay();
+  }
+}
+function showTyping(coach){
+  const msgs=document.getElementById('msgs-'+coach);
+  const C=COACHES[coach];
+  const div=document.createElement('div');div.className='msg coach';div.id='typing-'+coach;
+  div.innerHTML=`<div class="msg-av" style="background:${C.color}22">${C.avatar}</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+function hideTyping(coach){const el=document.getElementById('typing-'+coach);if(el)el.remove();}
+function setupQuick(coach){
+  const a=document.getElementById('quick-'+coach);a.innerHTML='';a.style.display='flex';
+  COACHES[coach].quick.forEach(l=>{
+    const b=document.createElement('button');b.className='qbtn';b.textContent=l;
+    b.onclick=()=>{document.getElementById('input-'+coach).value=l;sendMsg(coach);};
+    a.appendChild(b);
+  });
+}
+
+// Threshold: when to start compressing — keeps recent N pairs, summarizes the rest
+const COMPRESS_THRESHOLD = 14;  // start compressing after 14 messages
+const KEEP_RECENT = 6;          // keep this many most recent messages
+
+async function compressHistory(coach) {
+  const h = S[coach].history;
+  if (h.length < COMPRESS_THRESHOLD) return;
+
+  // Find existing summary index (if any) and the older messages to compress
+  const summaryIdx = h.findIndex(m => m.role === 'summary');
+  const startCompress = summaryIdx >= 0 ? summaryIdx + 1 : 0;
+  const endCompress = h.length - KEEP_RECENT;
+  if (endCompress - startCompress < 4) return; // not enough to compress yet
+
+  const toCompress = h.slice(startCompress, endCompress);
+  const previousSummary = summaryIdx >= 0 ? h[summaryIdx].content : '';
+
+  const conversationText = toCompress.map(m =>
+    (m.role === 'user' ? 'Nutzer: ' : 'Coach: ') + m.content
+  ).join('\n\n');
+
+  const compressPrompt = `Erstelle eine kompakte Zusammenfassung (max 200 Wörter) der folgenden Coach-Unterhaltung. Behalte: konkrete Trainingseinheiten/Lerninhalte, abgeschlossene Sessions, Daten, persönliche Details, aktuelle Fortschritte und Ziele.
+
+${previousSummary ? 'BISHERIGE ZUSAMMENFASSUNG:\n' + previousSummary + '\n\nNEUE NACHRICHTEN:\n' : ''}${conversationText}
+
+Schreibe NUR die Zusammenfassung, ohne Einleitung.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',  // Use cheaper Haiku for compression
+        max_tokens: 500,
+        messages: [{ role: 'user', content: compressPrompt }]
+      })
+    });
+    const data = await res.json();
+    if (data.error || !data.content) return;
+    const summary = data.content[0].text.trim();
+
+    // Rebuild history: [summary] + recent messages (visible ones stay shown in UI via display flag)
+    const recent = h.slice(endCompress);
+    S[coach].history = [{role:'summary', content: summary, hidden: false}, ...recent];
+    S[coach].compressedAt = Date.now();
+    persist();
+
+    // Show hint in live chat if not already shown
+    const msgs = document.getElementById('msgs-'+coach);
+    if (msgs && !msgs.querySelector('.compress-hint')) {
+      const hint = document.createElement('div');
+      hint.className = 'compress-hint';
+      hint.innerHTML = '<i class="ti ti-archive"></i> Frühere Nachrichten wurden zusammengefasst (spart Tokens)';
+      msgs.insertBefore(hint, msgs.firstChild);
+    }
+  } catch(e) {
+    // Compression failed silently — just keep going with full history
+    console.warn('Compression failed:', e);
+  }
+}
+
+async function callAPI(coach,userText){
+  const p=S[coach].profile||{};
+  S[coach].history.push({role:'user',content:userText});
+
+  // Build messages array — convert summary role to a synthetic user/assistant pair
+  const messages = [];
+  S[coach].history.forEach(h => {
+    if (h.role === 'summary') {
+      messages.push({role:'user', content:'[Zusammenfassung der bisherigen Unterhaltung]'});
+      messages.push({role:'assistant', content: h.content});
+    } else {
+      messages.push({role: h.role==='coach' ? 'assistant' : 'user', content: h.content});
+    }
+  });
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1200,system:COACHES[coach].system(p,getToday()),messages})
+    });
+    const data=await res.json();
+    if(data.error){
+      S[coach].history.pop();
+      if(res.status===401)return'⚠️ API Key ungültig. Bitte im Profil aktualisieren.';
+      if(res.status===429){
+        const msg=(data.error.message||'').toLowerCase();
+        const type=data.error.type||'';
+        if(type==='rate_limit_error'||msg.includes('rate limit')){
+          return'⏳ Zu viele Anfragen in kurzer Zeit (Rate Limit).\n\nBitte 30–60 Sekunden warten und nochmal versuchen.\n\n(Das ist KEIN Guthaben-Problem!)';
+        }
+        if(msg.includes('credit')||msg.includes('balance')||msg.includes('quota')){
+          return'⚠️ Guthaben aufgebraucht.\n\nBitte unter console.anthropic.com → Plans & Billing aufladen.';
+        }
+        return`⏳ Limit erreicht (429): ${data.error.message}\n\nMeistens reicht es ~1 Minute zu warten.`;
+      }
+      if(res.status===529)return'⏳ Server überlastet (529). Bitte gleich nochmal versuchen.';
+      return`⚠️ Fehler (${res.status}): ${data.error.message}`;
+    }
+    const reply=data.content?.[0]?.text||'Keine Antwort.';
+    S[coach].history.push({role:'coach',content:reply});
+    persist();
+    // Trigger compression in background (non-blocking)
+    compressHistory(coach);
+    return reply;
+  }catch(e){
+    S[coach].history.pop();
+    return`⚠️ Netzwerkfehler: ${e.message}`;
+  }
+}
+
+async function kickoff(coach){
+  S[coach].started=true;S[coach].history=[];
+  showTyping(coach);
+  const reply=await callAPI(coach,`Guten Morgen — gib mir meinen heutigen Plan im vorgegebenen Format. Direkt, ohne Fülltext.`);
+  hideTyping(coach);addMsg(coach,'coach',reply);setupQuick(coach);persist();
+}
+
+async function sendMsg(coach){
+  const inp=document.getElementById('input-'+coach);
+  const text=inp.value.trim();if(!text)return;
+  if(!S[coach].profile){openModal(coach);return;}
+  inp.value='';inp.style.height='auto';
+  addMsg(coach,'user',text);
+  document.getElementById('btn-'+coach).disabled=true;
+  if(!S[coach].started){S[coach].started=true;setupQuick(coach);}
+  showTyping(coach);
+  const reply=await callAPI(coach,text);
+  hideTyping(coach);addMsg(coach,'coach',reply);
+  document.getElementById('btn-'+coach).disabled=false;
+}
+
+function clearChat(coach){
+  if(!confirm(`${COACHES[coach].emoji} Chat zurücksetzen?`))return;
+  S[coach].history=[];S[coach].started=false;
+  const msgs=document.getElementById('msgs-'+coach);msgs.innerHTML='';
+  const qa=document.getElementById('quick-'+coach);qa.innerHTML='';qa.style.display='none';
+  const C=COACHES[coach];
+  const desc={sport:'Richte dein Profil ein — ich zeige dir täglich was heute ansteht.',wissen:'Richte dein Profil ein — ich sage dir was du lernen oder wiederholen solltest.',sprachen:'Richte dein Profil ein — ich koordiniere deine Sprachen-Rotation.'};
+  const ico={sport:'🏋️',wissen:'📚',sprachen:'🗣️'};
+  const ttl={sport:'Sport-Coach',wissen:'Wissen-Coach',sprachen:'Sprachen-Coach'};
+  const w=document.createElement('div');w.className='welcome';w.id='welcome-'+coach;
+  w.innerHTML=`<div class="welcome-icon">${ico[coach]}</div><h2>${ttl[coach]}</h2><p>${desc[coach]}</p><button class="welcome-btn" style="background:${C.color}" onclick="openModal('${coach}')">Profil einrichten</button>`;
+  msgs.appendChild(w);persist();
+}
+
+function handleKey(e,coach){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg(coach);}}
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,110)+'px';}
+
+/* ── RULES ── */
+function getTodayDoneKey(){return 'rules_'+getTodayISO();}
+
+function renderRules(){
+  const key=getTodayDoneKey();
+  const done=S.rules[key]||[];
+  const list=document.getElementById('rules-list');list.innerHTML='';
+  RULES.forEach((r,i)=>{
+    const isDone=done.includes(i);
+    const card=document.createElement('div');
+    card.className='rule-card'+(isDone?' done':'');
+    card.onclick=()=>toggleRule(i);
+    card.innerHTML=`
+      <div class="rule-num">${isDone?'✓':(i+1)}</div>
+      <div class="rule-body">
+        <div class="rule-title">${r.title}</div>
+        <div class="rule-desc">${r.desc}</div>
+      </div>
+      <div class="rule-check">✓</div>`;
+    list.appendChild(card);
+  });
+  updateProgress(done.length);
+}
+
+function toggleRule(i){
+  const key=getTodayDoneKey();
+  if(!S.rules[key])S.rules[key]=[];
+  const idx=S.rules[key].indexOf(i);
+  if(idx>-1)S.rules[key].splice(idx,1);else S.rules[key].push(i);
+  persist();renderRules();
+}
+
+function updateProgress(n){
+  document.getElementById('motiv-count').textContent=n+' / 10';
+  document.getElementById('motiv-fill').style.width=(n*10)+'%';
+}
+
+/* ── JOURNAL ── */
+function renderJournal(){
+  const entries=document.getElementById('journal-entries');
+  const empty=document.getElementById('journal-empty');
+  entries.innerHTML='';
+  const j=[...(S.journal||[])].sort((a,b)=>b.created-a.created);
+  if(!j.length){empty.style.display='flex';return;}
+  empty.style.display='none';
+  j.forEach(entry=>{
+    const div=document.createElement('div');div.className='journal-entry';
+    div.onclick=()=>openEditor(entry.id);
+    const d=new Date(entry.created);
+    const dateStr=d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
+    const dayStr=d.toLocaleDateString('de-DE',{weekday:'long'});
+    const preview=entry.text?entry.text.substring(0,100)+'…':'';
+    div.innerHTML=`
+      <div class="je-header">
+        <div><span class="je-date">${dateStr}</span> <span class="je-weekday">${dayStr}</span></div>
+        <span class="je-mood">${entry.mood||'📝'}</span>
+      </div>
+      ${preview?`<div class="je-preview">${preview}</div>`:''}
+      <div class="je-tags">${entry.tags?entry.tags.map(t=>`<span class="je-tag">${t}</span>`).join(''):''}</div>`;
+    entries.appendChild(div);
+  });
+}
+
+function openEditor(id){
+  currentEntryId=id||null;
+  selectedMood='';
+  document.querySelectorAll('.mood-opt').forEach(b=>b.classList.remove('selected'));
+  if(id){
+    const e=S.journal.find(j=>j.id===id);
+    if(e){
+      document.getElementById('je-text').value=e.text||'';
+      document.getElementById('je-meta-date').textContent=new Date(e.created).toLocaleDateString('de-DE');
+      document.getElementById('je-toolbar-title').textContent='Eintrag bearbeiten';
+      if(e.mood){selectedMood=e.mood;document.querySelectorAll('.mood-opt').forEach(b=>{if(b.dataset.mood===e.mood)b.classList.add('selected');});}
+    }
+  } else {
+    document.getElementById('je-text').value='';
+    document.getElementById('je-meta-date').textContent=new Date().toLocaleDateString('de-DE');
+    document.getElementById('je-toolbar-title').textContent='Neuer Eintrag';
+  }
+  document.getElementById('journal-editor').classList.add('open');
+}
+function closeEditor(){document.getElementById('journal-editor').classList.remove('open');}
+
+function selectMood(btn){
+  document.querySelectorAll('.mood-opt').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');selectedMood=btn.dataset.mood;
+}
+
+function addPrompt(text){
+  const ta=document.getElementById('je-text');
+  ta.value+=(ta.value?'\n\n':'')+text+'\n';
+  ta.focus();
+}
+
+function saveEntry(){
+  const text=document.getElementById('je-text').value.trim();
+  if(!text&&!selectedMood)return;
+  if(!S.journal)S.journal=[];
+  if(currentEntryId){
+    const e=S.journal.find(j=>j.id===currentEntryId);
+    if(e){e.text=text;e.mood=selectedMood;e.updated=Date.now();}
+  } else {
+    S.journal.push({id:Date.now()+'',text,mood:selectedMood,created:Date.now()});
+  }
+  persist();renderJournal();closeEditor();
+}
+
+
+/* ── QUIZ ── */
+const QUIZ_CATS = [
+  {id:'geo',    label:'🌍 Erde & Weltall'},
+  {id:'natur',  label:'🌿 Mensch & Natur'},
+  {id:'wiss',   label:'🔬 Wissenschaft'},
+  {id:'history',label:'📜 Geschichte'},
+  {id:'politik',label:'🏛️ Politik'},
+  {id:'lit',    label:'📖 Literatur'},
+  {id:'kunst',  label:'🎨 Kunst'},
+  {id:'musik',  label:'🎵 Klassik'},
+  {id:'rock',   label:'🎸 Rock & Pop'},
+  {id:'film',   label:'🎬 Film & TV'},
+  {id:'sport',  label:'⚽ Sport'},
+  {id:'allg',   label:'🧠 Allgemein'},
+];
+
+const QUIZ_CAT_PROMPTS = {
+  geo:    'Geografie, Länder, Hauptstädte, Kontinente, Ozeane, Berge, Flüsse, Planeten, Weltall',
+  natur:  'Menschlicher Körper, Tiere, Pflanzen, Biologie, Ökologie, Natur',
+  wiss:   'Wissenschaft, Technik, Physik, Chemie, Erfindungen, Entdecker, Mathematik',
+  history:'Weltgeschichte, Antike, Mittelalter, Neuzeit, Weltkriege, wichtige Persönlichkeiten',
+  politik:'Politik, Demokratie, Weltreligionen, internationale Organisationen, Staatsoberhäupter',
+  lit:    'Literatur, Philosophie, Schriftsteller, berühmte Werke, Mythologie',
+  kunst:  'Kunst, Malerei, Architektur, berühmte Künstler und Werke',
+  musik:  'Klassische Musik, Komponisten, Sinfonien, Opern',
+  rock:   'Rock, Pop, Musik, Bands, Musiker, Schlager, Hits',
+  film:   'Filme, Schauspieler, Regisseure, Oscars, Serien',
+  sport:  'Sport, Weltrekorde, Olympia, Fußball, bekannte Sportler',
+  allg:   'Allgemeinwissen, Sprichwörter, Maßeinheiten, Grammatik, Zahlen und Fakten',
+};
+
+let quizState = {
+  activeCat: null,
+  questions: [],
+  current: 0,
+  score: 0,
+  total: 0,
+  streak: 0,
+  loading: false,
+  count: 5,
+};
+
+function initQuiz() {
+  const cats = document.getElementById('quiz-cats');
+  cats.innerHTML = '';
+  QUIZ_CATS.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-cat';
+    btn.textContent = c.label;
+    btn.dataset.id = c.id;
+    btn.onclick = () => selectQuizCat(c.id, btn);
+    cats.appendChild(btn);
+  });
+  updateQuizScore();
+  // load saved state
+  if (S.quiz) {
+    quizState.score = S.quiz.score || 0;
+    quizState.total = S.quiz.total || 0;
+    quizState.streak = S.quiz.streak || 0;
+    updateQuizScore();
+  }
+}
+
+
+function setQuizCount(n, btn) {
+  quizState.count = n;
+  document.querySelectorAll('.quiz-count-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const genBtn = document.getElementById('quiz-gen-btn');
+  if (genBtn) genBtn.innerHTML = `<i class="ti ti-sparkles"></i> ${n} neue Fragen generieren`;
+  if (quizState.activeCat) renderQuizStart();
+}
+function selectQuizCat(id, btn) {
+  document.querySelectorAll('.quiz-cat').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  quizState.activeCat = id;
+  quizState.questions = [];
+  quizState.current = 0;
+  renderQuizStart();
+}
+
+function renderQuizStart() {
+  const n = quizState.count || 5;
+  document.getElementById('quiz-area').innerHTML = `
+    <button class="quiz-gen-btn" id="quiz-gen-btn" onclick="generateQuiz()">
+      <i class="ti ti-sparkles"></i> ${n} neue Fragen generieren
+    </button>
+    <div class="quiz-empty"><i class="ti ti-help-circle"></i>Klick auf den Button um zu starten!</div>`;
+}
+
+async function generateQuiz() {
+  if (!apiKey) { alert('Bitte zuerst API Key einrichten.'); return; }
+  const cat = quizState.activeCat;
+  if (!cat) return;
+  const btn = document.getElementById('quiz-gen-btn');
+  if (btn) btn.disabled = true;
+
+  const n = quizState.count || 5;
+  const area = document.getElementById('quiz-area');
+  area.innerHTML = `<div class="quiz-loading"><i class="ti ti-loader-2"></i>Generiere ${n} Fragen…</div>`;
+  const prompt = `QUIZ-KATEGORIE: ${QUIZ_CAT_PROMPTS[cat]}
+
+Erstelle ${n} Multiple-Choice-Quizfragen zu dieser Kategorie. Themen wie auf taschenhirn.de: konkrete Fakten, Zahlen, Daten, Persönlichkeiten.
+
+Antworte NUR mit diesem exakten JSON-Format (kein Markdown, keine Erklärung):
+[
+  {
+    "q": "Frage hier?",
+    "opts": ["Option A", "Option B", "Option C", "Option D"],
+    "correct": 0,
+    "explanation": "Kurze Erklärung warum die Antwort richtig ist.",
+    "cat": "Unterkategorie z.B. Geografie"
+  }
+]
+
+Regeln: correct = Index (0-3) der richtigen Antwort. Fragen auf Deutsch. Mittelschwer bis schwer. Keine trivialen Fragen. Abwechslungsreich.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: Math.max(1500, n * 400),
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    if (data.error) { area.innerHTML = `<div class="quiz-empty"><i class="ti ti-alert-circle"></i>Fehler: ${data.error.message}</div>`; return; }
+    const text = data.content[0].text.trim();
+    const clean = text.replace(/```json|```/g, '').trim();
+    const questions = JSON.parse(clean);
+    quizState.questions = questions;
+    quizState.current = 0;
+    renderQuizQuestion();
+  } catch(e) {
+    area.innerHTML = `<div class="quiz-empty"><i class="ti ti-alert-circle"></i>Fehler beim Laden. Bitte erneut versuchen.<br><br><button class="quiz-gen-btn" onclick="generateQuiz()" style="display:inline-flex;width:auto;padding:10px 20px">Nochmal versuchen</button></div>`;
+  }
+}
+
+function renderQuizQuestion() {
+  const area = document.getElementById('quiz-area');
+  const q = quizState.questions[quizState.current];
+  if (!q) { renderQuizDone(); return; }
+
+  const idx = quizState.current;
+  const total = quizState.questions.length;
+
+  area.innerHTML = `
+    <button class="quiz-gen-btn" id="quiz-gen-btn" onclick="generateQuiz()">
+      <i class="ti ti-sparkles"></i> Neue Fragen generieren
+    </button>
+    <div class="quiz-card" id="quiz-card-${idx}">
+      <div class="quiz-question">${q.q}</div>
+      <div class="quiz-meta">
+        <span class="quiz-cat-badge">${q.cat||''}</span>
+        <span>Frage ${idx+1} / ${total}</span>
+      </div>
+      <div class="quiz-options" id="quiz-opts">
+        ${q.opts.map((o,i) => `<button class="quiz-opt" id="qopt-${i}" onclick="answerQuiz(${i})">${o}</button>`).join('')}
+      </div>
+      <div class="quiz-explanation" id="quiz-expl">${q.explanation}</div>
+      <button class="quiz-next-btn" id="quiz-next" onclick="nextQuizQ()">
+        ${idx+1 < total ? 'Nächste Frage →' : 'Ergebnis anzeigen →'}
+      </button>
+    </div>`;
+}
+
+function answerQuiz(chosen) {
+  const q = quizState.questions[quizState.current];
+  const correct = q.correct;
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.disabled = true);
+
+  if (chosen === correct) {
+    opts[chosen].classList.add('correct');
+    quizState.score++;
+    quizState.streak++;
+  } else {
+    opts[chosen].classList.add('wrong');
+    opts[correct].classList.add('reveal');
+    quizState.streak = 0;
+  }
+  quizState.total++;
+  persistQuiz();
+  updateQuizScore();
+
+  document.getElementById('quiz-expl').classList.add('show');
+  document.getElementById('quiz-next').classList.add('show');
+}
+
+function nextQuizQ() {
+  quizState.current++;
+  if (quizState.current >= quizState.questions.length) {
+    renderQuizDone();
+  } else {
+    renderQuizQuestion();
+  }
+}
+
+function renderQuizDone() {
+  const right = quizState.questions.filter((_,i) => {
+    // count from current session — approximation
+    return true;
+  }).length;
+  const area = document.getElementById('quiz-area');
+  const n = quizState.questions.length;
+  area.innerHTML = `
+    <div style="text-align:center;padding:28px 20px;">
+      <div style="font-size:48px;margin-bottom:12px">${quizState.score>=n*0.8?'🏆':quizState.score>=n*0.5?'👍':'💪'}</div>
+      <div style="font-size:20px;font-weight:500;margin-bottom:6px">Quiz beendet!</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:20px">Gesamt: <strong>${quizState.score}/${quizState.total}</strong> richtig · Streak: <strong>${quizState.streak}</strong></div>
+      <button class="quiz-gen-btn" onclick="generateQuiz()" style="max-width:280px;margin:0 auto;">
+        <i class="ti ti-refresh"></i> Neue Runde starten
+      </button>
+    </div>`;
+}
+
+function updateQuizScore() {
+  document.getElementById('quiz-score-pill').textContent = quizState.score + ' / ' + quizState.total + ' richtig';
+  document.getElementById('quiz-streak-val').textContent = quizState.streak;
+}
+
+function persistQuiz() {
+  S.quiz = { score: quizState.score, total: quizState.total, streak: quizState.streak };
+  persist();
+}
+
+
+
+/* ── BACKUP ── */
+function exportData() {
+  const backup = {
+    version: 'rc_v4',
+    exported: new Date().toISOString(),
+    data: S,
+    apiKey: apiKey,
+  };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().split('T')[0];
+  a.href = url;
+  a.download = `routine-coach-backup-${date}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!confirm('Alle aktuellen Daten werden überschrieben. Fortfahren?')) {
+    event.target.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const backup = JSON.parse(e.target.result);
+      if (!backup.data) throw new Error('Ungültiges Backup-Format');
+      Object.keys(S).forEach(k => delete S[k]);
+      Object.assign(S, backup.data);
+      if (backup.apiKey && backup.apiKey.startsWith('sk-ant-')) {
+        apiKey = backup.apiKey;
+        localStorage.setItem('rc_apikey', apiKey);
+      }
+      persist();
+      alert('Backup erfolgreich wiederhergestellt! Die App lädt jetzt neu.');
+      location.reload();
+    } catch (err) {
+      alert('Fehler beim Import: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+
+/* ── KALENDER ── */
+const WORKOUT_PRESETS = [
+  'Brust/Trizeps','Rücken/Bizeps','Beine','Schultern',
+  'Push (Brust/Schulter/Trizeps)','Pull (Rücken/Bizeps)','Ganzkörper',
+  'Cardio (Laufen)','Cardio (Rad/Stepper)','Calisthenics','Mobility/Stretching','Rest Day'
+];
+
+let kalState = {
+  month: new Date().getMonth(),
+  year: new Date().getFullYear(),
+  selectedDate: new Date().toISOString().split('T')[0],
+  editingWorkoutId: null,
+};
+
+function initKalender() {
+  renderKalGrid();
+  renderKalDay();
+  // preset chips
+  const chipsEl = document.getElementById('preset-chips');
+  chipsEl.innerHTML = '';
+  WORKOUT_PRESETS.forEach(p => {
+    const c = document.createElement('button');
+    c.className = 'preset-chip';
+    c.textContent = p;
+    c.onclick = () => { document.getElementById('workout-title').value = p; };
+    chipsEl.appendChild(c);
+  });
+}
+
+function renderKalGrid() {
+  const grid = document.getElementById('kal-grid');
+  grid.innerHTML = '';
+  const monthNames = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  document.getElementById('kal-month-label').textContent = monthNames[kalState.month] + ' ' + kalState.year;
+
+  // Weekday headers (Mon first)
+  ['Mo','Di','Mi','Do','Fr','Sa','So'].forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'kal-weekday';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+
+  // First day of month (0=Sun -> shift to 0=Mon)
+  const firstDay = new Date(kalState.year, kalState.month, 1);
+  const firstWeekday = (firstDay.getDay() + 6) % 7;
+  const daysInMonth = new Date(kalState.year, kalState.month+1, 0).getDate();
+  const daysInPrevMonth = new Date(kalState.year, kalState.month, 0).getDate();
+  const todayISO = new Date().toISOString().split('T')[0];
+
+  // Previous month days
+  for (let i = firstWeekday-1; i >= 0; i--) {
+    const day = daysInPrevMonth - i;
+    const el = document.createElement('div');
+    el.className = 'kal-day other-month';
+    el.innerHTML = `<span class="kal-day-num">${day}</span>`;
+    grid.appendChild(el);
+  }
+
+  // Current month days
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateISO = `${kalState.year}-${String(kalState.month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const workouts = (S.workouts && S.workouts[dateISO]) || [];
+    const hasW = workouts.length > 0;
+    const allDone = hasW && workouts.every(w => w.done);
+    const el = document.createElement('div');
+    el.className = 'kal-day' + (dateISO===todayISO?' today':'') + (hasW?(allDone?' has-done':' has-workout'):'') + (dateISO===kalState.selectedDate?' selected':'');
+    let dotsHtml = '';
+    if (hasW) {
+      dotsHtml = '<div class="kal-day-dots">' + workouts.slice(0,3).map(w => `<div class="kal-day-dot${w.done?' done':''}"></div>`).join('') + '</div>';
+    }
+    el.innerHTML = `<span class="kal-day-num">${d}</span>${dotsHtml}`;
+    el.onclick = () => { kalState.selectedDate = dateISO; renderKalGrid(); renderKalDay(); };
+    grid.appendChild(el);
+  }
+
+  // Pad rest of last row with next-month days
+  const totalCells = firstWeekday + daysInMonth;
+  const padding = (7 - (totalCells % 7)) % 7;
+  for (let i = 1; i <= padding; i++) {
+    const el = document.createElement('div');
+    el.className = 'kal-day other-month';
+    el.innerHTML = `<span class="kal-day-num">${i}</span>`;
+    grid.appendChild(el);
+  }
+}
+
+function renderKalDay() {
+  const detail = document.getElementById('kal-day-detail');
+  const dateISO = kalState.selectedDate;
+  const d = new Date(dateISO);
+  const dayName = d.toLocaleDateString('de-DE', {weekday:'long'});
+  const dateStr = d.toLocaleDateString('de-DE', {day:'numeric', month:'long', year:'numeric'});
+  const todayISO = new Date().toISOString().split('T')[0];
+  const isToday = dateISO === todayISO;
+  const isPast = dateISO < todayISO;
+
+  const workouts = (S.workouts && S.workouts[dateISO]) || [];
+
+  let html = `<div class="kal-detail-date">${dayName}${isToday?' · heute':''}${isPast&&!isToday?' · vergangen':''}</div>`;
+  html += `<div class="kal-detail-title">${dateStr}</div>`;
+  html += '<div class="workout-list">';
+
+  if (workouts.length === 0) {
+    html += '<div class="kal-empty">Noch keine Workouts geplant.</div>';
+  } else {
+    workouts.forEach((w,i) => {
+      const exercises = w.exercises || [];
+      const isExpanded = kalState.expandedWorkouts && kalState.expandedWorkouts.has(w.id);
+      const doneEx = exercises.filter(e => e.done).length;
+      const allEx = exercises.length;
+      const progress = allEx > 0 ? `${doneEx}/${allEx} Übungen ✓` : '';
+
+      html += `
+        <div class="workout-item ${w.done?'done':''} ${isExpanded?'expanded':''}" id="workout-${w.id}">
+          <div class="workout-item-row">
+            <div class="workout-check-box" onclick="event.stopPropagation();toggleWorkout('${dateISO}','${w.id}')">${w.done?'<i class="ti ti-check" style="font-size:13px"></i>':''}</div>
+            <div class="workout-body" onclick="toggleExpand('${w.id}')">
+              <div class="workout-title">${w.title}</div>
+              ${w.desc?`<div class="workout-desc">${w.desc}</div>`:''}
+              ${progress?`<div class="exercise-progress">${progress}</div>`:''}
+            </div>
+            <button class="workout-expand-btn ${isExpanded?'open':''}" onclick="event.stopPropagation();toggleExpand('${w.id}')" title="Übungen"><i class="ti ti-chevron-down"></i></button>
+            <button class="workout-del" onclick="event.stopPropagation();editWorkout('${dateISO}','${w.id}')" title="Bearbeiten"><i class="ti ti-edit"></i></button>
+            <button class="workout-del" onclick="event.stopPropagation();delWorkout('${dateISO}','${w.id}')" title="Löschen"><i class="ti ti-trash"></i></button>
+          </div>
+          <div class="exercises-area ${isExpanded?'open':''}" id="exercises-${w.id}">
+            ${renderExercises(dateISO, w.id, exercises)}
+          </div>
+        </div>`;
+    });
+  }
+  html += '</div>';
+  html += `<button class="workout-add-btn" onclick="openWorkoutModal('${dateISO}')"><i class="ti ti-plus"></i> Workout hinzufügen</button>`;
+
+  detail.innerHTML = html;
+}
+
+function renderExercises(dateISO, workoutId, exercises) {
+  let html = '';
+  exercises.forEach(e => {
+    html += `
+      <div class="exercise-item">
+        <div class="exercise-check ${e.done?'done':''}" onclick="toggleExercise('${dateISO}','${workoutId}','${e.id}')">${e.done?'<i class="ti ti-check" style="font-size:12px"></i>':''}</div>
+        <div class="exercise-body">
+          <div class="exercise-name ${e.done?'done':''}">${e.name}</div>
+          ${e.sets?`<div class="exercise-sets">${e.sets}</div>`:''}
+        </div>
+        <button class="exercise-del" onclick="delExercise('${dateISO}','${workoutId}','${e.id}')"><i class="ti ti-x"></i></button>
+      </div>`;
+  });
+  html += `
+    <div class="exercise-add-row">
+      <input type="text" class="exercise-name-input" id="ex-name-${workoutId}" placeholder="Übung (z.B. Bankdrücken)" onkeydown="if(event.key==='Enter')addExercise('${dateISO}','${workoutId}')">
+      <input type="text" class="exercise-sets-input" id="ex-sets-${workoutId}" placeholder="z.B. 4×8 @80kg" onkeydown="if(event.key==='Enter')addExercise('${dateISO}','${workoutId}')">
+      <button class="exercise-add-btn" onclick="addExercise('${dateISO}','${workoutId}')">+</button>
+    </div>`;
+  return html;
+}
+
+function toggleExpand(workoutId) {
+  if (!kalState.expandedWorkouts) kalState.expandedWorkouts = new Set();
+  if (kalState.expandedWorkouts.has(workoutId)) kalState.expandedWorkouts.delete(workoutId);
+  else kalState.expandedWorkouts.add(workoutId);
+  renderKalDay();
+}
+
+function addExercise(dateISO, workoutId) {
+  const nameEl = document.getElementById('ex-name-'+workoutId);
+  const setsEl = document.getElementById('ex-sets-'+workoutId);
+  const name = nameEl.value.trim();
+  if (!name) { nameEl.focus(); return; }
+  const sets = setsEl.value.trim();
+  const w = S.workouts[dateISO].find(x => x.id === workoutId);
+  if (!w) return;
+  if (!w.exercises) w.exercises = [];
+  w.exercises.push({id:Date.now()+'', name, sets, done:false});
+  if (!kalState.expandedWorkouts) kalState.expandedWorkouts = new Set();
+  kalState.expandedWorkouts.add(workoutId);
+  persist();
+  renderKalGrid();
+  renderKalDay();
+  // refocus on next input
+  setTimeout(() => {
+    const newName = document.getElementById('ex-name-'+workoutId);
+    if (newName) newName.focus();
+  }, 50);
+}
+
+function toggleExercise(dateISO, workoutId, exerciseId) {
+  const w = S.workouts[dateISO].find(x => x.id === workoutId);
+  if (!w || !w.exercises) return;
+  const e = w.exercises.find(x => x.id === exerciseId);
+  if (!e) return;
+  e.done = !e.done;
+  // Auto-mark workout as done if all exercises done
+  if (w.exercises.length > 0 && w.exercises.every(x => x.done) && !w.done) {
+    w.done = true;
+    w.doneAt = Date.now();
+    if (S.sport && S.sport.profile) {
+      S.sport.profile.lastdate = dateISO;
+      const exSummary = w.exercises.map(ex => ex.name + (ex.sets?' '+ex.sets:'')).join(', ');
+      S.sport.profile.lastsession = w.title + ': ' + exSummary;
+      updateSub('sport');
+      updateChip('sport');
+    }
+  }
+  persist();
+  renderKalGrid();
+  renderKalDay();
+}
+
+function delExercise(dateISO, workoutId, exerciseId) {
+  const w = S.workouts[dateISO].find(x => x.id === workoutId);
+  if (!w || !w.exercises) return;
+  w.exercises = w.exercises.filter(x => x.id !== exerciseId);
+  persist();
+  renderKalDay();
+}
+
+function changeMonth(delta) {
+  kalState.month += delta;
+  if (kalState.month < 0) { kalState.month = 11; kalState.year--; }
+  if (kalState.month > 11) { kalState.month = 0; kalState.year++; }
+  renderKalGrid();
+}
+
+function openWorkoutModal(dateISO, workoutId) {
+  kalState.selectedDate = dateISO;
+  kalState.editingWorkoutId = workoutId || null;
+  if (workoutId && S.workouts[dateISO]) {
+    const w = S.workouts[dateISO].find(x => x.id === workoutId);
+    if (w) {
+      document.getElementById('workout-title').value = w.title;
+      document.getElementById('workout-desc').value = w.desc || '';
+      document.getElementById('workout-modal-title').textContent = 'Workout bearbeiten';
+    }
+  } else {
+    document.getElementById('workout-title').value = '';
+    document.getElementById('workout-desc').value = '';
+    document.getElementById('workout-modal-title').textContent = 'Workout planen';
+  }
+  document.getElementById('workout-modal').classList.add('open');
+}
+function closeWorkoutModal() { document.getElementById('workout-modal').classList.remove('open'); }
+
+function editWorkout(dateISO, id) { openWorkoutModal(dateISO, id); }
+
+function saveWorkout() {
+  const title = document.getElementById('workout-title').value.trim();
+  if (!title) return;
+  const desc = document.getElementById('workout-desc').value.trim();
+  const dateISO = kalState.selectedDate;
+  if (!S.workouts) S.workouts = {};
+  if (!S.workouts[dateISO]) S.workouts[dateISO] = [];
+
+  if (kalState.editingWorkoutId) {
+    const w = S.workouts[dateISO].find(x => x.id === kalState.editingWorkoutId);
+    if (w) { w.title = title; w.desc = desc; }
+  } else {
+    S.workouts[dateISO].push({
+      id: Date.now()+'',
+      title, desc,
+      done: false,
+      created: Date.now(),
+    });
+  }
+  persist();
+  closeWorkoutModal();
+  renderKalGrid();
+  renderKalDay();
+}
+
+function toggleWorkout(dateISO, id) {
+  if (!S.workouts || !S.workouts[dateISO]) return;
+  const w = S.workouts[dateISO].find(x => x.id === id);
+  if (!w) return;
+  w.done = !w.done;
+  if (w.done) {
+    w.doneAt = Date.now();
+    // Auto-update sport coach's last session
+    if (S.sport && S.sport.profile) {
+      S.sport.profile.lastdate = dateISO;
+      S.sport.profile.lastsession = w.title + (w.desc?': '+w.desc:'');
+      updateSub('sport');
+      updateChip('sport');
+    }
+  }
+  persist();
+  renderKalGrid();
+  renderKalDay();
+}
+
+function delWorkout(dateISO, id) {
+  if (!confirm('Workout löschen?')) return;
+  if (!S.workouts || !S.workouts[dateISO]) return;
+  S.workouts[dateISO] = S.workouts[dateISO].filter(x => x.id !== id);
+  if (S.workouts[dateISO].length === 0) delete S.workouts[dateISO];
+  persist();
+  renderKalGrid();
+  renderKalDay();
+}
+
+/* ── BOOT ── */
+load();
+const savedKey=localStorage.getItem('rc_apikey');
+if(savedKey&&savedKey.startsWith('sk-ant-')){
+  apiKey=savedKey;
+  document.getElementById('setup-screen').classList.add('hidden');
+  document.getElementById('app').style.display='flex';
+  initApp();
+}
+</script>
+
+<!-- WORKOUT EDITOR -->
+<div class="workout-modal" id="workout-modal">
+  <div class="workout-sheet">
+    <div class="modal-handle"></div>
+    <h3 id="workout-modal-title">Workout planen</h3>
+    <label class="modal-label">Was?</label>
+    <input type="text" id="workout-title" placeholder="z.B. Brust/Trizeps">
+    <div class="preset-chips" id="preset-chips"></div>
+    <label class="modal-label" style="margin-top:12px;">Details (optional)</label>
+    <textarea id="workout-desc" placeholder="z.B. Bankdrücken 4×8 @80kg, Dips 3×10, Trizepsdrücken 3×12"></textarea>
+    <div class="workout-actions">
+      <button class="workout-cancel" onclick="closeWorkoutModal()">Abbrechen</button>
+      <button class="workout-save" onclick="saveWorkout()">Speichern</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

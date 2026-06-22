@@ -927,14 +927,24 @@ Letzte Session: ${p.lastdate?p.lastdate+' — '+(p.lastsession||''):'unbekannt'}
 ANTWORT-LÄNGE (WICHTIG):
 - Default: KURZ. Max 120 Wörter. Direkt, ohne Fülltext oder Motivationsfloskeln.
 - AUSFÜHRLICH NUR wenn explizit angefragt: "Wochenplan", "ausführlich", "erklär", "warum", "Trainingsprogramm", "Periodisierung" o.ä. → dann strukturiert und so detailliert wie nötig (max 600 Wörter).
-- Beim Morning-Plan immer dieses Format:
-  Tage seit letztem Training: X
-  Heute: [Muskelgruppe/Fokus]
-  Übungen:
-  • Übung — Sätze × Wdh @ Gewicht
 - Folgefragen: 1-3 Sätze.
 - Muskelgruppen-Rotation: min. 48h Pause pro Gruppe.
-- Antworte auf Deutsch.`
+- Antworte auf Deutsch.
+
+WORKOUT-BLOCK (PFLICHT bei jedem Tagesplan):
+Wenn du ein konkretes Workout vorschlägst, füge AM ENDE deiner Antwort einen Block in genau diesem Format an (auf neuer Zeile, KEIN Markdown):
+
+[WORKOUT]
+{"title":"Brust/Trizeps","exercises":[{"name":"Bankdrücken","sets":"4×8 @80kg"},{"name":"Dips","sets":"3×10"}]}
+[/WORKOUT]
+
+Regeln:
+- title = Muskelgruppe/Fokus (kurz)
+- exercises = Array mit name + sets (z.B. "4×8 @80kg" oder "3×12")
+- Nur valides JSON, KEINE Zeilenumbrüche IM JSON
+- NUR bei konkreten Workout-Vorschlägen für heute oder einen Tag
+- Bei Rest-Days, Fragen oder Diskussionen: KEIN Block
+- Format vor dem Block: dein normaler Tagesplan-Text`
   },
   wissen:{
     emoji:'🧠',avatar:'📚',color:'#0F6E56',
@@ -1121,9 +1131,106 @@ function addMsg(coach,role,text){
   const av=document.createElement('div');av.className='msg-av';
   av.style.background=role==='coach'?C.color+'22':C.color;
   av.textContent=role==='coach'?C.avatar:'👤';
-  const bubble=document.createElement('div');bubble.className='msg-bubble';bubble.textContent=text;
-  wrap.appendChild(av);wrap.appendChild(bubble);msgs.appendChild(wrap);
+  const bubble=document.createElement('div');bubble.className='msg-bubble';
+
+  // Parse [WORKOUT]...[/WORKOUT] block from coach messages (sport only)
+  let workoutData = null;
+  let cleanText = text;
+  if (role === 'coach' && coach === 'sport') {
+    const match = text.match(/\[WORKOUT\]\s*([\s\S]*?)\s*\[\/WORKOUT\]/);
+    if (match) {
+      try {
+        workoutData = JSON.parse(match[1].trim());
+        cleanText = text.replace(/\[WORKOUT\][\s\S]*?\[\/WORKOUT\]/, '').trim();
+      } catch(e) { console.warn('Workout JSON parse failed:', e); }
+    }
+  }
+
+  bubble.textContent = cleanText;
+  wrap.appendChild(av);
+  wrap.appendChild(bubble);
+
+  // Append import card if workout data was parsed
+  if (workoutData && workoutData.title) {
+    const importEl = createImportCard(workoutData);
+    bubble.appendChild(importEl);
+  }
+
+  msgs.appendChild(wrap);
   msgs.scrollTop=msgs.scrollHeight;
+}
+
+function createImportCard(workout) {
+  const card = document.createElement('div');
+  card.className = 'workout-import-card';
+  const exList = (workout.exercises || []).map(e =>
+    `<li>${e.name}${e.sets ? ' — <span style="color:var(--muted)">'+e.sets+'</span>' : ''}</li>`
+  ).join('');
+
+  // Build date options (today + next 6 days)
+  const today = new Date();
+  let dateOpts = '';
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today.getTime() + i*86400000);
+    const iso = d.toISOString().split('T')[0];
+    const label = i === 0 ? 'Heute' : i === 1 ? 'Morgen' : d.toLocaleDateString('de-DE',{weekday:'short',day:'numeric',month:'short'});
+    dateOpts += `<option value="${iso}">${label}</option>`;
+  }
+
+  const wid = 'imp-'+Date.now()+Math.random().toString(36).slice(2,7);
+  card.innerHTML = `
+    <div class="workout-import-title"><i class="ti ti-calendar-plus"></i> Workout für Kalender</div>
+    <div class="workout-import-list"><strong>${workout.title}</strong><ul>${exList}</ul></div>
+    <div class="workout-import-actions">
+      <select class="workout-date-select" id="${wid}-date">${dateOpts}</select>
+      <button class="workout-import-btn" id="${wid}-btn">
+        <i class="ti ti-plus" style="font-size:13px"></i> In Kalender
+      </button>
+    </div>`;
+
+  setTimeout(() => {
+    const btn = document.getElementById(wid+'-btn');
+    const sel = document.getElementById(wid+'-date');
+    if (btn && sel) {
+      btn.onclick = () => importWorkoutToCalendar(workout, sel.value, btn);
+    }
+  }, 50);
+
+  return card;
+}
+
+function importWorkoutToCalendar(workout, dateISO, btn) {
+  if (!S.workouts) S.workouts = {};
+  if (!S.workouts[dateISO]) S.workouts[dateISO] = [];
+
+  const newWorkout = {
+    id: Date.now()+'',
+    title: workout.title,
+    desc: '',
+    done: false,
+    created: Date.now(),
+    exercises: (workout.exercises || []).map((e, i) => ({
+      id: Date.now()+'_'+i,
+      name: e.name,
+      sets: e.sets || '',
+      done: false
+    })),
+  };
+
+  S.workouts[dateISO].push(newWorkout);
+  persist();
+
+  // Update button visually
+  if (btn) {
+    btn.innerHTML = '<i class="ti ti-check" style="font-size:13px"></i> Hinzugefügt';
+    btn.disabled = true;
+  }
+
+  // Refresh calendar if visible
+  if (typeof renderKalGrid === 'function') {
+    renderKalGrid();
+    if (kalState.selectedDate === dateISO) renderKalDay();
+  }
 }
 function showTyping(coach){
   const msgs=document.getElementById('msgs-'+coach);
@@ -1639,6 +1746,28 @@ function persistQuiz() {
   persist();
 }
 
+
+
+.workout-import-card{
+  margin-top:8px;border:1px solid var(--sport);border-radius:12px;
+  background:var(--sport-l);padding:11px 13px;
+}
+.workout-import-title{font-size:13px;font-weight:500;color:var(--sport);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.workout-import-list{font-size:12px;color:var(--text);line-height:1.6;margin-bottom:9px;}
+.workout-import-list ul{margin:0;padding-left:18px;}
+.workout-import-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.workout-import-btn{
+  background:var(--sport);color:#fff;border:none;border-radius:10px;
+  padding:7px 12px;font-family:var(--font);font-size:12px;font-weight:500;
+  cursor:pointer;display:flex;align-items:center;gap:4px;
+}
+.workout-import-btn:disabled{opacity:.5;cursor:not-allowed;background:var(--muted);}
+.workout-import-btn.outline{background:none;color:var(--sport);border:1px solid var(--sport);}
+.workout-date-select{
+  font-size:12px;padding:6px 10px;border:1px solid var(--sport);
+  border-radius:10px;background:var(--surface);color:var(--text);
+  font-family:var(--font);outline:none;-webkit-appearance:none;
+}
 
 /* ── BACKUP ── */
 function exportData() {

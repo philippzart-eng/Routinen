@@ -570,6 +570,28 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 .workout-cancel{padding:11px 16px;border:1px solid var(--border);border-radius:11px;background:none;color:var(--muted);font-family:var(--font);font-size:14px;cursor:pointer;}
 .quiz-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.7;}
 .quiz-empty i{font-size:40px;display:block;margin-bottom:10px;opacity:.4;}
+
+.workout-import-card{
+  margin-top:8px;border:1px solid var(--sport);border-radius:12px;
+  background:var(--sport-l);padding:11px 13px;
+}
+.workout-import-title{font-size:13px;font-weight:500;color:var(--sport);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.workout-import-list{font-size:12px;color:var(--text);line-height:1.6;margin-bottom:9px;}
+.workout-import-list ul{margin:0;padding-left:18px;}
+.workout-import-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.workout-import-btn{
+  background:var(--sport);color:#fff;border:none;border-radius:10px;
+  padding:7px 12px;font-family:var(--font);font-size:12px;font-weight:500;
+  cursor:pointer;display:flex;align-items:center;gap:4px;
+}
+.workout-import-btn:disabled{opacity:.5;cursor:not-allowed;background:var(--muted);}
+.workout-import-btn.outline{background:none;color:var(--sport);border:1px solid var(--sport);}
+.workout-date-select{
+  font-size:12px;padding:6px 10px;border:1px solid var(--sport);
+  border-radius:10px;background:var(--surface);color:var(--text);
+  font-family:var(--font);outline:none;-webkit-appearance:none;
+}
+
 </style>
 </head>
 <body>
@@ -1137,12 +1159,16 @@ function addMsg(coach,role,text){
   let workoutData = null;
   let cleanText = text;
   if (role === 'coach' && coach === 'sport') {
-    const match = text.match(/\[WORKOUT\]\s*([\s\S]*?)\s*\[\/WORKOUT\]/);
-    if (match) {
+    const startTag = '[WORKOUT]';
+    const endTag = '[/WORKOUT]';
+    const startIdx = text.indexOf(startTag);
+    const endIdx = text.indexOf(endTag);
+    if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+      const jsonStr = text.substring(startIdx + startTag.length, endIdx).trim();
       try {
-        workoutData = JSON.parse(match[1].trim());
-        cleanText = text.replace(/\[WORKOUT\][\s\S]*?\[\/WORKOUT\]/, '').trim();
-      } catch(e) { console.warn('Workout JSON parse failed:', e); }
+        workoutData = JSON.parse(jsonStr);
+        cleanText = (text.substring(0, startIdx) + text.substring(endIdx + endTag.length)).trim();
+      } catch(e) { console.warn('Workout JSON parse failed:', e, jsonStr); }
     }
   }
 
@@ -1747,27 +1773,6 @@ function persistQuiz() {
 }
 
 
-
-.workout-import-card{
-  margin-top:8px;border:1px solid var(--sport);border-radius:12px;
-  background:var(--sport-l);padding:11px 13px;
-}
-.workout-import-title{font-size:13px;font-weight:500;color:var(--sport);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
-.workout-import-list{font-size:12px;color:var(--text);line-height:1.6;margin-bottom:9px;}
-.workout-import-list ul{margin:0;padding-left:18px;}
-.workout-import-actions{display:flex;gap:6px;flex-wrap:wrap;}
-.workout-import-btn{
-  background:var(--sport);color:#fff;border:none;border-radius:10px;
-  padding:7px 12px;font-family:var(--font);font-size:12px;font-weight:500;
-  cursor:pointer;display:flex;align-items:center;gap:4px;
-}
-.workout-import-btn:disabled{opacity:.5;cursor:not-allowed;background:var(--muted);}
-.workout-import-btn.outline{background:none;color:var(--sport);border:1px solid var(--sport);}
-.workout-date-select{
-  font-size:12px;padding:6px 10px;border:1px solid var(--sport);
-  border-radius:10px;background:var(--surface);color:var(--text);
-  font-family:var(--font);outline:none;-webkit-appearance:none;
-}
 
 /* ── BACKUP ── */
 function exportData() {
